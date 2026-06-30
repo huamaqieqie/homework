@@ -53,7 +53,6 @@ validate/loss_mse
 
 - `loss_mse`：预测 latent 和目标 latent 的均方误差。
 - `loss_future_l1`：预测 latent 和目标 latent 的平均绝对误差。
-- `pred_loss`：训练代码里实际参与总 loss 的原始预测项；当前实现通常和 `loss_mse` 数值相同或非常接近，因此不再单独画，避免曲线重复。
 
 怎么看：
 
