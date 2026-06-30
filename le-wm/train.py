@@ -4,7 +4,7 @@ from pathlib import Path
 
 from local_paths import configure_output_paths
 
-_output_root = configure_output_paths()
+configure_output_paths()
 
 import hydra
 import lightning as pl
@@ -217,7 +217,6 @@ def run(cfg):
         module=world_model,
         data=data_module,
         ckpt_path=ckpt_path if ckpt_path.exists() else None,
-        cache_dir=str(_output_root / ".cache" / "stable-pretraining"),
     )
 
     manager()

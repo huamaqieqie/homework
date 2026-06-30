@@ -7,6 +7,7 @@ def configure_output_paths():
     output_root = Path(os.environ.get("LEWM_OUTPUT_ROOT", repo_root / "outputs"))
 
     paths = {
+        "HOME": output_root / "home",
         "XDG_CACHE_HOME": output_root / ".cache",
         "XDG_CONFIG_HOME": output_root / ".config",
         "XDG_DATA_HOME": output_root / ".local",
