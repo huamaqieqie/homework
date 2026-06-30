@@ -10,6 +10,8 @@ def configure_output_paths():
         "XDG_CACHE_HOME": output_root / ".cache",
         "XDG_CONFIG_HOME": output_root / ".config",
         "XDG_DATA_HOME": output_root / ".local",
+        "STABLE_PRETRAINING_HOME": output_root / ".cache" / "stable-pretraining",
+        "STABLE_PRETRAINING_CACHE_DIR": output_root / ".cache" / "stable-pretraining",
         "PIP_CACHE_DIR": output_root / ".cache" / "pip",
         "UV_CACHE_DIR": output_root / ".cache" / "uv",
         "HF_HOME": output_root / ".cache" / "huggingface",
