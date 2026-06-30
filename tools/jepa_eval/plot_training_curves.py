@@ -230,27 +230,29 @@ def write_plots(log_path, out_dir):
     plots = [
         (
             "total_loss.png",
-            "Total Loss",
+            "Total Loss (Train / Val)",
             "loss",
-            ["fit/loss_total", "fit/loss", "train/loss_total", "train/loss"],
+            [
+                "fit/loss_total",
+                "fit/loss",
+                "train/loss_total",
+                "train/loss",
+                "validate/loss_total",
+                "validate/loss",
+                "validate/loss_epoch",
+            ],
         ),
         (
             "l1_mse_loss.png",
             "L1 / MSE Loss",
             "loss",
-            ["fit/loss_future_l1", "fit/loss_mse", "fit/pred_loss", "validate/loss_future_l1", "validate/loss_mse", "validate/pred_loss"],
+            ["fit/loss_future_l1", "fit/loss_mse", "validate/loss_future_l1", "validate/loss_mse"],
         ),
         (
             "cosine_loss.png",
             "Cosine Loss",
             "1 - cosine",
             ["fit/loss_future_cos", "validate/loss_future_cos"],
-        ),
-        (
-            "train_val_loss.png",
-            "Train / Val Loss",
-            "loss",
-            ["fit/loss_total", "fit/loss", "validate/loss_total", "validate/loss", "validate/loss_epoch"],
         ),
         (
             "latent_std.png",
