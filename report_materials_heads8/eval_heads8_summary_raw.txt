@@ -1,0 +1,2 @@
+1869611 valid starting points found for evaluation.
+{'success_rate': 100.0, 'episode_successes': array([ True,  True,  True,  True,  True]), 'seeds': None}

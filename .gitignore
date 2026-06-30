@@ -1,0 +1,78 @@
+
+# weights / checkpoints
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+stablewm_pusht/
+
+# videos
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# compressed large materials
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.rar
+*.7z
+
+# environments / caches
+.venv/
+venv/
+env/
+conda_env/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# experiment outputs
+outputs/
+wandb/
+
+# checkpoints / weights
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+stablewm_pusht/
+
+# videos
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# compressed files
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.rar
+*.7z
+
+# python / env / cache
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+ENV/
+conda_env/
+anaconda*/
+miniconda*/
+
+# experiment outputs
+outputs/
+**/outputs/
+wandb/

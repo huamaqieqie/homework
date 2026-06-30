@@ -1,0 +1,2609 @@
+20:07:06 | INFO  | atomic_chec~| [atomic_save] installed crash-safe checkpoint plugin (write to sibling .tmp + fsync + atomic rename)
+[2026-05-22 20:07:07,116][root][INFO] - Cached 'action' from '/manifoldai-training/johnny/challenge/lewm-tworooms/tworoom.h5'
+[2026-05-22 20:07:07,125][root][INFO] - Cached 'proprio' from '/manifoldai-training/johnny/challenge/lewm-tworooms/tworoom.h5'
+20:07:07 | INFO  | utils.py    | Created ViT-tiny from scratch with config: {'hidden_size': 192, 'num_hidden_layers': 12, 'num_attention_heads': 3, 'intermediate_size': 768, 'image_size': 224, 'patch_size': 14}
+20:07:07 | INFO  | module.py   | Setting up DataModule
+20:07:07 | INFO  | utils.py    | ── Module ────────────────────────────────────────
+20:07:07 | WARN  | module.py   | ! No hyperparameters provided - hyperparameter logging is disabled.
+20:07:07 | INFO  | module.py   |   Setting custom forward method.
+20:07:07 | INFO  | module.py   |   Setting attribute: self.model = <class 'jepa.JEPA'>
+20:07:07 | INFO  | module.py   |   Setting attribute: self.sigreg = <class 'module.SIGReg'>
+20:07:07 | INFO  | module.py   |   Setting attribute: self.optim = <class 'dict'>
+20:07:07 | INFO  | module.py   |   No metrics configuration provided - automatic metric tracking is disabled.
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lightning/fabric/connector.py:571: `precision=bf16` is supported for historical reasons but its usage is discouraged. Please set your precision to bf16-mixed instead!
+Using bfloat16 Automatic Mixed Precision (AMP)
+20:07:07 | INFO  | env_info.py |   EnvironmentDumpCallback initialized (filename=environment.json, async=True)
+20:07:07 | INFO  | utils.py    | ── HuggingFaceCheckpoint ─────────────────────────
+20:07:07 | INFO  | hf_models.py|   save_dir: <cyan>hf_exports</cyan>
+20:07:07 | INFO  | hf_models.py|   per_step: <cyan>False</cyan>  (False ⇒ overwrite single 'last/' subdir; True ⇒ keep step_N/)
+Adding 14 callbacks from entry point 'stablepretraining_callbacks': PrintProgressBar, ModuleRegistryCallback, LoggingCallback, EnvironmentDumpCallback, TrainerInfo, SklearnCheckpoint, WandbCheckpoint, TrackioCheckpoint, SwanLabCheckpoint, ModuleSummary, SLURMInfo, LogUnusedParametersOnce, HuggingFaceCheckpointCallback, HardwareMonitor
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/logger_connector.py:76: Starting from v1.9.0, `tensorboardX` has been removed as a dependency of the `lightning.pytorch` package, due to potential conflicts with other packages in the ML ecosystem. For this reason, `logger=True` will use `CSVLogger` as the default logger, unless the `tensorboard` or `tensorboardX` packages are found. Please `pip install lightning[extra]` or one of them to enable TensorBoard support by default
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+20:07:07 | INFO  | utils.py    | ── SIGTERM preempt handler — install ─────────────
+20:07:07 | INFO  | manager.py  |   SLURM_JOB_ID         = None
+20:07:07 | INFO  | manager.py  |   SLURM_RESTART_COUNT  = '0'
+20:07:07 | INFO  | manager.py  |   SLURM_PROCID         = '?'
+20:07:07 | INFO  | manager.py  |   SLURM_NODEID         = '?'
+20:07:07 | INFO  | manager.py  |   → not under SLURM (SLURM_JOB_ID unset); leaving SIGTERM handler as-is. Forwarding to submitit's USR signal would be a no-op since submitit isn't running upstream.
+20:07:07 | WARN  | manager.py  | User didn't specify seed, runs won't be exactly reproducible!
+20:07:07 | INFO  | manager.py  |   Manager init: ckpt_path=None, weights_only=True
+20:07:07 | INFO  | utils.py    | ── WorkingDirectory ──────────────────────────────
+20:07:07 | INFO  | manager.py  |   cwd: /data1/Johnny/challenge/wrf/homework/le-wm
+20:07:07 | INFO  | utils.py    | ── Seed ──────────────────────────────────────────
+20:07:07 | INFO  | manager.py  |   seed: None
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lightning/fabric/utilities/seed.py:44: No seed found, seed set to 0
+Seed set to 0
+20:07:07 | INFO  | utils.py    | ── RunDirectory ──────────────────────────────────
+20:07:07 | INFO  | manager.py  |   cache_dir = /data1/Johnny/challenge/wrf/.cache/stable-pretraining
+20:07:07 | INFO  | manager.py  |   ddp: launch_key=(single-process) rank=0 is_rank_zero=True
+20:07:07 | INFO  | utils.py    | ── RunDirectory: requeue probe ───────────────────
+20:07:07 | INFO  | manager.py  |   SLURM session key   = (no SLURM)
+20:07:07 | INFO  | manager.py  |   SLURM_RESTART_COUNT = 0
+20:07:07 | INFO  | manager.py  |   in_requeue          = False
+20:07:07 | INFO  | utils.py    | ── RunDirectory: fresh ───────────────────────────
+20:07:07 | INFO  | manager.py  |   no user ckpt_path — training from scratch / pretrained backbone.
+20:07:07 | INFO  | manager.py  |   created run_dir = /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842
+20:07:07 | INFO  | manager.py  |   wrote run_meta.json with run_id=eced5527d842
+20:07:07 | INFO  | manager.py  |   SLURM index = (no SLURM, skipped)
+20:07:07 | WARN  | manager.py  | ! cache_dir is set but the Trainer was passed as an already-instantiated object. Cannot override default_root_dir cleanly. Consider passing the trainer as a config dict instead.
+20:07:07 | WARN  | manager.py  | ! Hydra run.dir='outputs/2026-05-22/20-07-07' will be ignored for trainer outputs (cache_dir takes precedence).
+20:07:07 | WARN  | manager.py  | ! Hydra sweep.dir='multirun/2026-05-22/20-07-07' will be ignored for trainer outputs (cache_dir takes precedence).
+20:07:07 | INFO  | logger.py   | [RegistryLogger] run_id=eced5527d842 run_dir=/data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842 — sidecar.json + summary.json + metrics.csv will live here
+20:07:07 | INFO  | utils.py    | ── RegistryLogger ────────────────────────────────
+20:07:07 | INFO  | manager.py  |   run_dir: /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842
+20:07:07 | INFO  | manager.py  |   run_id:  eced5527d842
+20:07:07 | INFO  | utils.py    | ── CSVLogger ─────────────────────────────────────
+20:07:07 | INFO  | manager.py  |   root_dir: /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/
+20:07:07 | INFO  | manager.py  |   save_dir: /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842
+20:07:07 | INFO  | manager.py  |   log_dir: /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/
+20:07:07 | INFO  | utils.py    | ── SignalHandlers (after submitit setup (spt SIGTERM installed in __init__)) ──
+20:07:07 | INFO  | manager.py  |   SIGUSR1  → SIG_DFL (default OS action — terminate process)
+20:07:07 | INFO  | manager.py  |   SIGUSR2  → SIG_DFL (default OS action — terminate process)
+20:07:07 | INFO  | manager.py  |   SIGCONT  → SIG_DFL (default OS action — terminate process)
+20:07:07 | INFO  | manager.py  |   SIGTERM  → SIG_DFL (default OS action — terminate process)
+20:07:07 | INFO  | utils.py    | ── Callbacks ─────────────────────────────────────
+20:07:07 | INFO  | manager.py  |   count: 19
+20:07:07 | INFO  | utils.py    | ── CacheDirCheckpointing ─────────────────────────
+20:07:07 | INFO  | manager.py  |   Saving checkpoints to: /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints
+20:07:07 | WARN  | manager.py  |   Redirecting HuggingFaceCheckpointCallback from 'hf_exports' to '/data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/hf_exports' (cache_dir is active — prevents races on a shared cache)
+20:07:07 | INFO  | manager.py  |   Added requeue checkpoint (filename='last')
+20:07:07 | INFO  | utils.py    | ── LoadPath resolution ───────────────────────────
+20:07:07 | INFO  | manager.py  |   in_requeue = False
+20:07:07 | INFO  | manager.py  |   user ckpt_path = None
+20:07:07 | INFO  | manager.py  |   user weights_only = True
+20:07:07 | INFO  | manager.py  |   → no ckpt_path; training from scratch.
+20:07:07 | INFO  | utils.py    | ── TrainerFit ────────────────────────────────────
+20:07:07 | INFO  | manager.py  |   ckpt_path:     None
+20:07:07 | INFO  | manager.py  |   weights_only:  None
+20:07:07 | INFO  | utils.py    | ── SignalHandlers (before Trainer.fit() (handler installed in __init__)) ──
+20:07:07 | INFO  | manager.py  |   SIGUSR1  → SIG_DFL (default OS action — terminate process)
+20:07:07 | INFO  | manager.py  |   SIGUSR2  → SIG_DFL (default OS action — terminate process)
+20:07:07 | INFO  | manager.py  |   SIGCONT  → SIG_DFL (default OS action — terminate process)
+20:07:07 | INFO  | manager.py  |   SIGTERM  → SIG_DFL (default OS action — terminate process)
+20:07:07 | INFO  | manager.py  |   → entering Trainer.fit(); lightning's _SignalConnector will now register its own handlers. SIGTERM will become _HandlersCompose([_sigterm_notifier_fn, _sigterm_handler_fn, spt._handler]); USR-sig binding from submitit is preserved (lightning skips USR registration when one already exists).
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+You are using a CUDA device ('NVIDIA A800-SXM4-80GB') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/4
+[2026-05-22 20:07:16,939][root][INFO] - Cached 'action' from '/manifoldai-training/johnny/challenge/lewm-tworooms/tworoom.h5'
+[2026-05-22 20:07:16,949][root][INFO] - Cached 'proprio' from '/manifoldai-training/johnny/challenge/lewm-tworooms/tworoom.h5'
+[2026-05-22 20:07:16,956][root][INFO] - Cached 'action' from '/manifoldai-training/johnny/challenge/lewm-tworooms/tworoom.h5'
+[2026-05-22 20:07:16,965][root][INFO] - Cached 'proprio' from '/manifoldai-training/johnny/challenge/lewm-tworooms/tworoom.h5'
+[2026-05-22 20:07:17,253][root][INFO] - Cached 'action' from '/manifoldai-training/johnny/challenge/lewm-tworooms/tworoom.h5'
+[2026-05-22 20:07:17,264][root][INFO] - Cached 'proprio' from '/manifoldai-training/johnny/challenge/lewm-tworooms/tworoom.h5'
+Adding 14 callbacks from entry point 'stablepretraining_callbacks': PrintProgressBar, ModuleRegistryCallback, LoggingCallback, EnvironmentDumpCallback, TrainerInfo, SklearnCheckpoint, WandbCheckpoint, TrackioCheckpoint, SwanLabCheckpoint, ModuleSummary, SLURMInfo, LogUnusedParametersOnce, HuggingFaceCheckpointCallback, HardwareMonitor
+[rank: 1] Seed set to 0
+Adding 14 callbacks from entry point 'stablepretraining_callbacks': PrintProgressBar, ModuleRegistryCallback, LoggingCallback, EnvironmentDumpCallback, TrainerInfo, SklearnCheckpoint, WandbCheckpoint, TrackioCheckpoint, SwanLabCheckpoint, ModuleSummary, SLURMInfo, LogUnusedParametersOnce, HuggingFaceCheckpointCallback, HardwareMonitor
+[rank: 3] Seed set to 0
+Adding 14 callbacks from entry point 'stablepretraining_callbacks': PrintProgressBar, ModuleRegistryCallback, LoggingCallback, EnvironmentDumpCallback, TrainerInfo, SklearnCheckpoint, WandbCheckpoint, TrackioCheckpoint, SwanLabCheckpoint, ModuleSummary, SLURMInfo, LogUnusedParametersOnce, HuggingFaceCheckpointCallback, HardwareMonitor
+[rank: 2] Seed set to 0
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/4
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+20:08:18 | OK    | module.py   | ✓ dataset for fit loaded
+20:08:18 | INFO  | module.py   |   setup was done by user
+20:08:18 | INFO  | utils.py    | ── EnvironmentDump ───────────────────────────────
+20:08:18 | INFO  | env_info.py |   log_dir: /root/.cache/stable-pretraining
+20:08:18 | INFO  | env_info.py |   Running environment dump in background thread (non-blocking)
+20:08:18 | INFO  | env_info.py |   Collecting environment information...
+20:08:18 | OK    | env_info.py | ✓ Background thread started successfully
+20:08:18 | OK    | env_info.py | ✓ Python 3.10.12
+20:08:18 | INFO  | trainer_inf~|   linking trainer to DataModule
+20:08:18 | OK    | env_info.py | ✓ System: Linux 5.4.119-19-0009.11 (x86_64)
+20:08:18 | INFO  | utils.py    | ── Callbacks (in order) ──────────────────────────
+20:08:18 | INFO  | env_info.py |   Hostname: nb-1574109748394576640-c2fhgotb1szk
+20:08:18 | INFO  | utils.py    |     [ 0] SaveCkptCallback
+20:08:18 | INFO  | utils.py    |     [ 1] RichProgressBar
+20:08:18 | INFO  | utils.py    |     [ 2] RichModelSummary
+20:08:18 | INFO  | utils.py    |     [ 3] PrintProgressBar
+20:08:18 | INFO  | utils.py    |     [ 4] ModuleRegistryCallback
+20:08:18 | INFO  | utils.py    |     [ 5] LoggingCallback
+20:08:18 | INFO  | utils.py    |     [ 6] EnvironmentDumpCallback
+20:08:18 | INFO  | utils.py    |     [ 7] TrainerInfo
+20:08:18 | INFO  | utils.py    |     [ 8] SklearnCheckpoint
+20:08:18 | INFO  | utils.py    |     [ 9] WandbCheckpoint
+20:08:18 | INFO  | utils.py    |     [10] TrackioCheckpoint
+20:08:18 | INFO  | utils.py    |     [11] SwanLabCheckpoint
+20:08:18 | INFO  | utils.py    |     [12] ModuleSummary
+20:08:18 | INFO  | utils.py    |     [13] SLURMInfo
+20:08:18 | INFO  | utils.py    |     [14] LogUnusedParametersOnce
+20:08:18 | INFO  | utils.py    |     [15] HuggingFaceCheckpointCallback
+20:08:18 | INFO  | utils.py    |     [16] HardwareMonitor
+20:08:18 | INFO  | utils.py    |     [17] ModelCheckpoint
+20:08:18 | INFO  | utils.py    |     [18] _RunDirCallback
+20:08:18 | INFO  | utils.py    |     [19] ModelCheckpoint
+20:08:18 | INFO  | utils.py    |   ⚑ marks order-sensitive callbacks; see AGENTS.md → Callback ordering for the full rules.
+20:08:18 | INFO  | utils.py    | ── SklearnCheckpoint ─────────────────────────────
+20:08:18 | INFO  | checkpoint_~|   Sklearn Modules:
+20:08:18 | INFO  | checkpoint_~| 
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━┓
+┃ Module   ┃ Name   ┃ Type   ┃
+┣━━━━━━━━━━╋━━━━━━━━╋━━━━━━━━┫
+┗━━━━━━━━━━┻━━━━━━━━┻━━━━━━━━┛
+20:08:18 | INFO  | utils.py    | ── WandbCheckpoint ───────────────────────────────
+20:08:18 | INFO  | utils.py    | ── TrackioCheckpoint ─────────────────────────────
+20:08:18 | INFO  | utils.py    | ── SwanLabCheckpoint ─────────────────────────────
+20:08:18 | INFO  | utils.py    | ── PyTorch Modules ───────────────────────────────
+20:08:18 | WARN  | module.py   | ! You are calling self.parameters which also gives callbacks parameters, to remove them, pass `with_callbacks=False`
+20:08:18 | INFO  | trainer_inf~| \n+-----------------------------------------------------------------+----------------------+--------------------------+--------------------------+---------+
+| Module                                                          | Trainable parameters | Non Trainable parameters | Uninitialized parameters | Buffers |
++-----------------------------------------------------------------+----------------------+--------------------------+--------------------------+---------+
+|                                                                 |             18034478 |                        0 |                        0 |    8245 |
+| callbacks_modules                                               |                    0 |                        0 |                        0 |       0 |
+| callbacks_metrics                                               |                    0 |                        0 |                        0 |       0 |
+| model                                                           |             18034478 |                        0 |                        0 |    8194 |
+| model.encoder                                                   |              5501376 |                        0 |                        0 |       0 |
+| model.encoder.embeddings                                        |               162624 |                        0 |                        0 |       0 |
+| model.encoder.embeddings.patch_embeddings                       |               113088 |                        0 |                        0 |       0 |
+| model.encoder.embeddings.patch_embeddings.projection            |               113088 |                        0 |                        0 |       0 |
+| model.encoder.embeddings.dropout                                |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder                                           |              5338368 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer                                     |              5338368 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0                                   |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.attention                         |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.attention.attention               |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.attention.attention.query         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.attention.attention.key           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.attention.attention.value         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.attention.output                  |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.attention.output.dense            |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.attention.output.dropout          |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.intermediate                      |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.intermediate.dense                |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.intermediate.intermediate_act_fn  |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.output                            |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.output.dense                      |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.output.dropout                    |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.layernorm_before                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.0.layernorm_after                   |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1                                   |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.attention                         |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.attention.attention               |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.attention.attention.query         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.attention.attention.key           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.attention.attention.value         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.attention.output                  |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.attention.output.dense            |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.attention.output.dropout          |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.intermediate                      |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.intermediate.dense                |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.intermediate.intermediate_act_fn  |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.output                            |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.output.dense                      |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.output.dropout                    |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.layernorm_before                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.1.layernorm_after                   |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2                                   |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.attention                         |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.attention.attention               |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.attention.attention.query         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.attention.attention.key           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.attention.attention.value         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.attention.output                  |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.attention.output.dense            |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.attention.output.dropout          |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.intermediate                      |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.intermediate.dense                |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.intermediate.intermediate_act_fn  |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.output                            |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.output.dense                      |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.output.dropout                    |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.layernorm_before                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.2.layernorm_after                   |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3                                   |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.attention                         |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.attention.attention               |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.attention.attention.query         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.attention.attention.key           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.attention.attention.value         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.attention.output                  |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.attention.output.dense            |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.attention.output.dropout          |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.intermediate                      |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.intermediate.dense                |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.intermediate.intermediate_act_fn  |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.output                            |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.output.dense                      |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.output.dropout                    |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.layernorm_before                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.3.layernorm_after                   |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4                                   |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.attention                         |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.attention.attention               |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.attention.attention.query         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.attention.attention.key           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.attention.attention.value         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.attention.output                  |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.attention.output.dense            |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.attention.output.dropout          |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.intermediate                      |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.intermediate.dense                |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.intermediate.intermediate_act_fn  |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.output                            |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.output.dense                      |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.output.dropout                    |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.layernorm_before                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.4.layernorm_after                   |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5                                   |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.attention                         |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.attention.attention               |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.attention.attention.query         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.attention.attention.key           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.attention.attention.value         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.attention.output                  |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.attention.output.dense            |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.attention.output.dropout          |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.intermediate                      |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.intermediate.dense                |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.intermediate.intermediate_act_fn  |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.output                            |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.output.dense                      |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.output.dropout                    |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.layernorm_before                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.5.layernorm_after                   |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6                                   |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.attention                         |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.attention.attention               |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.attention.attention.query         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.attention.attention.key           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.attention.attention.value         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.attention.output                  |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.attention.output.dense            |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.attention.output.dropout          |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.intermediate                      |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.intermediate.dense                |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.intermediate.intermediate_act_fn  |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.output                            |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.output.dense                      |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.output.dropout                    |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.layernorm_before                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.6.layernorm_after                   |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7                                   |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.attention                         |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.attention.attention               |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.attention.attention.query         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.attention.attention.key           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.attention.attention.value         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.attention.output                  |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.attention.output.dense            |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.attention.output.dropout          |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.intermediate                      |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.intermediate.dense                |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.intermediate.intermediate_act_fn  |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.output                            |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.output.dense                      |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.output.dropout                    |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.layernorm_before                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.7.layernorm_after                   |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8                                   |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.attention                         |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.attention.attention               |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.attention.attention.query         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.attention.attention.key           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.attention.attention.value         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.attention.output                  |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.attention.output.dense            |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.attention.output.dropout          |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.intermediate                      |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.intermediate.dense                |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.intermediate.intermediate_act_fn  |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.output                            |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.output.dense                      |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.output.dropout                    |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.layernorm_before                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.8.layernorm_after                   |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9                                   |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.attention                         |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.attention.attention               |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.attention.attention.query         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.attention.attention.key           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.attention.attention.value         |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.attention.output                  |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.attention.output.dense            |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.attention.output.dropout          |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.intermediate                      |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.intermediate.dense                |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.intermediate.intermediate_act_fn  |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.output                            |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.output.dense                      |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.output.dropout                    |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.layernorm_before                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.9.layernorm_after                   |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10                                  |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.attention                        |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.attention.attention              |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.attention.attention.query        |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.attention.attention.key          |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.attention.attention.value        |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.attention.output                 |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.attention.output.dense           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.attention.output.dropout         |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.intermediate                     |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.intermediate.dense               |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.intermediate.intermediate_act_fn |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.output                           |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.output.dense                     |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.output.dropout                   |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.layernorm_before                 |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.10.layernorm_after                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11                                  |               444864 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.attention                        |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.attention.attention              |               111168 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.attention.attention.query        |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.attention.attention.key          |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.attention.attention.value        |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.attention.output                 |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.attention.output.dense           |                37056 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.attention.output.dropout         |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.intermediate                     |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.intermediate.dense               |               148224 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.intermediate.intermediate_act_fn |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.output                           |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.output.dense                     |               147648 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.output.dropout                   |                    0 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.layernorm_before                 |                  384 |                        0 |                        0 |       0 |
+| model.encoder.encoder.layer.11.layernorm_after                  |                  384 |                        0 |                        0 |       0 |
+| model.encoder.layernorm                                         |                  384 |                        0 |                        0 |       0 |
+| model.predictor                                                 |             10791360 |                        0 |                        0 |       0 |
+| model.predictor.dropout                                         |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer                                     |             10790784 |                        0 |                        0 |       0 |
+| model.predictor.transformer.norm                                |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers                              |             10790400 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0                            |              1798400 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.attn                       |               787008 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.attn.norm                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.attn.attend                |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.attn.to_qkv                |               589824 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.attn.to_out                |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.attn.to_out.0              |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.attn.to_out.1              |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.mlp                        |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.mlp.net                    |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.mlp.net.0                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.mlp.net.1                  |               395264 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.mlp.net.2                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.mlp.net.3                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.mlp.net.4                  |               393408 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.mlp.net.5                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.norm1                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.norm2                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.adaLN_modulation           |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.adaLN_modulation.0         |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.0.adaLN_modulation.1         |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1                            |              1798400 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.attn                       |               787008 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.attn.norm                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.attn.attend                |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.attn.to_qkv                |               589824 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.attn.to_out                |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.attn.to_out.0              |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.attn.to_out.1              |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.mlp                        |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.mlp.net                    |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.mlp.net.0                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.mlp.net.1                  |               395264 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.mlp.net.2                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.mlp.net.3                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.mlp.net.4                  |               393408 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.mlp.net.5                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.norm1                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.norm2                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.adaLN_modulation           |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.adaLN_modulation.0         |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.1.adaLN_modulation.1         |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2                            |              1798400 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.attn                       |               787008 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.attn.norm                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.attn.attend                |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.attn.to_qkv                |               589824 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.attn.to_out                |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.attn.to_out.0              |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.attn.to_out.1              |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.mlp                        |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.mlp.net                    |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.mlp.net.0                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.mlp.net.1                  |               395264 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.mlp.net.2                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.mlp.net.3                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.mlp.net.4                  |               393408 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.mlp.net.5                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.norm1                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.norm2                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.adaLN_modulation           |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.adaLN_modulation.0         |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.2.adaLN_modulation.1         |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3                            |              1798400 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.attn                       |               787008 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.attn.norm                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.attn.attend                |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.attn.to_qkv                |               589824 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.attn.to_out                |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.attn.to_out.0              |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.attn.to_out.1              |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.mlp                        |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.mlp.net                    |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.mlp.net.0                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.mlp.net.1                  |               395264 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.mlp.net.2                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.mlp.net.3                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.mlp.net.4                  |               393408 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.mlp.net.5                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.norm1                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.norm2                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.adaLN_modulation           |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.adaLN_modulation.0         |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.3.adaLN_modulation.1         |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4                            |              1798400 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.attn                       |               787008 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.attn.norm                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.attn.attend                |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.attn.to_qkv                |               589824 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.attn.to_out                |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.attn.to_out.0              |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.attn.to_out.1              |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.mlp                        |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.mlp.net                    |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.mlp.net.0                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.mlp.net.1                  |               395264 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.mlp.net.2                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.mlp.net.3                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.mlp.net.4                  |               393408 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.mlp.net.5                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.norm1                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.norm2                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.adaLN_modulation           |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.adaLN_modulation.0         |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.4.adaLN_modulation.1         |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5                            |              1798400 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.attn                       |               787008 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.attn.norm                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.attn.attend                |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.attn.to_qkv                |               589824 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.attn.to_out                |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.attn.to_out.0              |               196800 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.attn.to_out.1              |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.mlp                        |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.mlp.net                    |               789056 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.mlp.net.0                  |                  384 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.mlp.net.1                  |               395264 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.mlp.net.2                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.mlp.net.3                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.mlp.net.4                  |               393408 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.mlp.net.5                  |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.norm1                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.norm2                      |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.adaLN_modulation           |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.adaLN_modulation.0         |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.layers.5.adaLN_modulation.1         |               222336 |                        0 |                        0 |       0 |
+| model.predictor.transformer.input_proj                          |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.cond_proj                           |                    0 |                        0 |                        0 |       0 |
+| model.predictor.transformer.output_proj                         |                    0 |                        0 |                        0 |       0 |
+| model.action_encoder                                            |               156206 |                        0 |                        0 |       0 |
+| model.action_encoder.patch_embed                                |                  110 |                        0 |                        0 |       0 |
+| model.action_encoder.embed                                      |               156096 |                        0 |                        0 |       0 |
+| model.action_encoder.embed.0                                    |                 8448 |                        0 |                        0 |       0 |
+| model.action_encoder.embed.1                                    |                    0 |                        0 |                        0 |       0 |
+| model.action_encoder.embed.2                                    |               147648 |                        0 |                        0 |       0 |
+| model.projector                                                 |               792768 |                        0 |                        0 |    4097 |
+| model.projector.net                                             |               792768 |                        0 |                        0 |    4097 |
+| model.projector.net.0                                           |               395264 |                        0 |                        0 |       0 |
+| model.projector.net.1                                           |                 4096 |                        0 |                        0 |    4097 |
+| model.projector.net.2                                           |                    0 |                        0 |                        0 |       0 |
+| model.projector.net.3                                           |               393408 |                        0 |                        0 |       0 |
+| model.pred_proj                                                 |               792768 |                        0 |                        0 |    4097 |
+| model.pred_proj.net                                             |               792768 |                        0 |                        0 |    4097 |
+| model.pred_proj.net.0                                           |               395264 |                        0 |                        0 |       0 |
+| model.pred_proj.net.1                                           |                 4096 |                        0 |                        0 |    4097 |
+| model.pred_proj.net.2                                           |                    0 |                        0 |                        0 |       0 |
+| model.pred_proj.net.3                                           |               393408 |                        0 |                        0 |       0 |
+| sigreg                                                          |                    0 |                        0 |                        0 |      51 |
++-----------------------------------------------------------------+----------------------+--------------------------+--------------------------+---------+
+20:08:18 | INFO  | utils.py    | ── SLURM ─────────────────────────────────────────
+20:08:18 | INFO  | trainer_inf~|   Job ID: N/A
+20:08:18 | INFO  | trainer_inf~|   Task ID: N/A
+20:08:18 | INFO  | trainer_inf~|   Job Name: N/A
+20:08:18 | INFO  | trainer_inf~|   Nodes: N/A
+20:08:18 | INFO  | trainer_inf~|   Tasks: N/A
+20:08:18 | INFO  | trainer_inf~|   CPUs per node: N/A
+20:08:18 | INFO  | trainer_inf~|   CPUs per task: N/A
+20:08:18 | INFO  | trainer_inf~|   Memory per node: N/A
+20:08:18 | INFO  | trainer_inf~|   Memory per CPU: N/A
+20:08:18 | INFO  | trainer_inf~|   Time limit: N/A
+20:08:18 | INFO  | trainer_inf~|   Partition: N/A
+20:08:18 | INFO  | trainer_inf~|   Node List: N/A
+20:08:18 | INFO  | trainer_inf~|   Submit Directory: N/A
+20:08:18 | INFO  | utils.py    | ── HardwareMonitor ───────────────────────────────
+20:08:18 | INFO  | hardware_mo~|   interval: 10.0s
+20:08:18 | INFO  | hardware_mo~|   prefix:   'hardware/'
+20:08:18 | INFO  | hardware_mo~|   metrics:  cpu=True ram=True disk=True net=True gpu=True
+20:08:18 | INFO  | hardware_mo~|   per-rank: rank 0 only
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [4,5,6,7]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [4,5,6,7]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [4,5,6,7]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [4,5,6,7]
+20:08:18 | WARN  | hardware_mo~| HardwareMonitor: pynvml unavailable (ModuleNotFoundError("No module named 'pynvml'")); GPU metrics disabled.
+20:08:18 | INFO  | utils.py    | ── Optimizers ────────────────────────────────────
+20:08:18 | INFO  | module.py   |   Optimizer specified by Dict with keys ['model_opt']
+20:08:18 | INFO  | module.py   | 
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Optimizer   ┃ Pattern   ┃   Matched Modules ┃   Param Tensors ┃   Total Params ┃   RequiresGrad Tensors ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ model_opt   ┃ model     ┃               365 ┃             297 ┃       18034478 ┃                    297 ┃
+┗━━━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━┛
+20:08:18 | INFO  | lr_schedule~| 	User provided a dict
+Loading `train_dataloader` to estimate number of stepping batches.
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=30` in the `DataLoader` to improve performance.
+20:08:18 | INFO  | module.py   |   Configured optimizer 'model_opt' (modules=365, param_tensors=297, total_params=18034478) with LinearWarmupCosineAnnealingLR scheduler.
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lightning/pytorch/utilities/model_summary/model_summary.py:242: Precision bf16-mixed is not supported by the model summary.  Estimated model size in MB will not be accurate. Using 32 bits instead.
+┏━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name              ┃ Type       ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ callbacks_modules │ ModuleDict │      0 │ train │     0 │
+│ 1 │ callbacks_metrics │ ModuleDict │      0 │ train │     0 │
+│ 2 │ model             │ JEPA       │ 18.0 M │ train │     0 │
+│ 3 │ sigreg            │ SIGReg     │      0 │ train │     0 │
+└───┴───────────────────┴────────────┴────────┴───────┴───────┘
+Trainable params: 18.0 M                                                                                                                  
+Non-trainable params: 0                                                                                                                   
+Total params: 18.0 M                                                                                                                      
+Total estimated model params size (MB): 72.138                                                                                            
+Modules in train mode: 368                                                                                                                
+Modules in eval mode: 0                                                                                                                   
+Total FLOPs: 0                                                                                                                            
+20:08:18 | INFO  | logger.py   | [RegistryLogger] summary.json flushed (0 metrics, step=0, epoch=0) → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/summary.json
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=30` in the `DataLoader` to improve performance.
+20:08:18 | OK    | env_info.py | ✓ Packages: 185 packages collected in 0.31s
+20:08:19 | OK    | env_info.py | ✓ NVIDIA Driver: 535.129.03
+20:08:19 | OK    | env_info.py | ✓ Git: main @ c8a44170
+20:08:19 | INFO  | env_info.py |   Remote: https://github.com/lucas-maes/le-wm
+20:08:19 | WARN  | env_info.py | ! Working directory has uncommitted changes
+20:08:19 | OK    | env_info.py | ✓ Environment: 15 relevant variables captured
+20:08:19 | INFO  | env_info.py |   Serializing environment data...
+20:08:19 | INFO  | env_info.py |   File exists, using version 11: environment_v11.json
+20:08:19 | INFO  | env_info.py |   File exists, using version 11: requirements_frozen_v11.txt
+20:08:19 | INFO  | env_info.py |   Save directory: /root/.cache/stable-pretraining
+20:08:19 | INFO  | env_info.py |   Writing environment to temp file...
+20:08:19 | INFO  | env_info.py |   Moving to: environment_v11.json
+20:08:19 | OK    | env_info.py | ✓ Environment file saved (11.2 KB)
+20:08:19 | OK    | env_info.py | ✓ Requirements file saved (3.5 KB)
+20:08:21 | INFO  | trainer_inf~| \n+----------------------------+---------------------+
+|           Metric           |        Value        |
++----------------------------+---------------------+
+|       [0;34;40mvalidate/loss[0m        |  [0;32;40m5.184811115264893[0m  |
+|    [0;34;40mvalidate/loss_epoch[0m     |  [0;32;40m5.184811115264893[0m  |
+|     [0;34;40mvalidate/pred_loss[0m     | [0;32;40m0.09106096625328064[0m |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  | [0;32;40m0.09106096625328064[0m |
+|    [0;34;40mvalidate/sigreg_loss[0m    |         [0;32;40m56.5[0m        |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |         [0;32;40m56.5[0m        |
++----------------------------+---------------------+
+20:08:21 | WARN  | hf_models.py| ! No Hugging Face (PreTrainedModel) submodules found in LightningModule.
+20:08:21 | INFO  | utils.py    | ── Optimizers ────────────────────────────────────
+20:08:21 | INFO  | module.py   |   self.optimizers() gave us 1 optimizers
+20:08:21 | WARN  | module.py   | ! No clip val found for optimizer default_0
+20:08:21 | WARN  | module.py   | ! Will use the Trainer's value of 1.0
+20:08:21 | WARN  | module.py   | ! No clip algorithm found for optimizer default_0
+20:08:21 | WARN  | module.py   | ! Will use the Trainer's value of None
+20:08:21 | OK    | module.py   | ✓ Optimizer check complete:
++------------+-----------+----------------+-----------+-----------+
+| Opt. Index | Opt. name |      opt       | clip val. | clip alg. |
++------------+-----------+----------------+-----------+-----------+
+|     0      | default_0 | LightningAdamW |    1.0    |    None   |
++------------+-----------+----------------+-----------+-----------+
+20:08:22 | INFO  | utils.py    | ── LogUnusedParametersOnce ───────────────────────
+20:08:22 | INFO  | unused_para~|   registered hooks on 297 leaf parameters
+20:08:23 | OK    | unused_para~| ✓ all tracked parameters received gradients on the first backward pass
+20:08:23 | INFO  | unused_para~|   hooks removed, callback disabled
+[Epoch 0/15] step 50/1284 (0.6 it/s)
+[Epoch 0/15] step 50/1284 (0.6 it/s)
+[Epoch 0/15] step 50/1284 (0.6 it/s)
+[Epoch 0/15] step 50/1284 (0.6 it/s)
+[Epoch 0/15] step 100/1284 (0.6 it/s)
+[Epoch 0/15] step 100/1284 (0.6 it/s)
+[Epoch 0/15] step 100/1284 (0.6 it/s)
+[Epoch 0/15] step 100/1284 (0.6 it/s)
+[Epoch 0/15] step 150/1284 (0.6 it/s)
+[Epoch 0/15] step 150/1284 (0.6 it/s)
+[Epoch 0/15] step 150/1284 (0.6 it/s)
+[Epoch 0/15] step 150/1284 (0.6 it/s)
+[Epoch 0/15] step 200/1284 (0.6 it/s)
+[Epoch 0/15] step 200/1284 (0.6 it/s)
+[Epoch 0/15] step 200/1284 (0.6 it/s)
+[Epoch 0/15] step 200/1284 (0.6 it/s)
+[Epoch 0/15] step 250/1284 (0.6 it/s)
+[Epoch 0/15] step 250/1284 (0.6 it/s)
+[Epoch 0/15] step 250/1284 (0.6 it/s)
+[Epoch 0/15] step 250/1284 (0.6 it/s)
+[Epoch 0/15] step 300/1284 (0.6 it/s)
+[Epoch 0/15] step 300/1284 (0.6 it/s)
+[Epoch 0/15] step 300/1284 (0.6 it/s)
+[Epoch 0/15] step 300/1284 (0.6 it/s)
+[Epoch 0/15] step 350/1284 (0.6 it/s)
+[Epoch 0/15] step 350/1284 (0.6 it/s)
+[Epoch 0/15] step 350/1284 (0.6 it/s)
+[Epoch 0/15] step 350/1284 (0.6 it/s)
+[Epoch 0/15] step 400/1284 (0.6 it/s)
+[Epoch 0/15] step 400/1284 (0.6 it/s)
+[Epoch 0/15] step 400/1284 (0.6 it/s)
+[Epoch 0/15] step 400/1284 (0.6 it/s)
+[Epoch 0/15] step 450/1284 (0.6 it/s)
+[Epoch 0/15] step 450/1284 (0.6 it/s)
+[Epoch 0/15] step 450/1284 (0.6 it/s)
+[Epoch 0/15] step 450/1284 (0.6 it/s)
+[Epoch 0/15] step 500/1284 (0.6 it/s)
+[Epoch 0/15] step 500/1284 (0.6 it/s)
+[Epoch 0/15] step 500/1284 (0.6 it/s)
+[Epoch 0/15] step 500/1284 (0.6 it/s)
+[Epoch 0/15] step 550/1284 (0.6 it/s)
+[Epoch 0/15] step 550/1284 (0.6 it/s)
+[Epoch 0/15] step 550/1284 (0.6 it/s)
+[Epoch 0/15] step 550/1284 (0.6 it/s)
+[Epoch 0/15] step 600/1284 (0.6 it/s)
+[Epoch 0/15] step 600/1284 (0.6 it/s)
+[Epoch 0/15] step 600/1284 (0.6 it/s)
+[Epoch 0/15] step 600/1284 (0.6 it/s)
+[Epoch 0/15] step 650/1284 (0.6 it/s)
+[Epoch 0/15] step 650/1284 (0.6 it/s)
+[Epoch 0/15] step 650/1284 (0.6 it/s)
+[Epoch 0/15] step 650/1284 (0.6 it/s)
+[Epoch 0/15] step 700/1284 (0.6 it/s)
+[Epoch 0/15] step 700/1284 (0.6 it/s)
+[Epoch 0/15] step 700/1284 (0.6 it/s)
+[Epoch 0/15] step 700/1284 (0.6 it/s)
+[Epoch 0/15] step 750/1284 (0.6 it/s)
+[Epoch 0/15] step 750/1284 (0.6 it/s)
+[Epoch 0/15] step 750/1284 (0.6 it/s)
+[Epoch 0/15] step 750/1284 (0.6 it/s)
+[Epoch 0/15] step 800/1284 (0.6 it/s)
+[Epoch 0/15] step 800/1284 (0.6 it/s)
+[Epoch 0/15] step 800/1284 (0.6 it/s)
+[Epoch 0/15] step 800/1284 (0.6 it/s)
+[Epoch 0/15] step 850/1284 (0.6 it/s)
+[Epoch 0/15] step 850/1284 (0.6 it/s)
+[Epoch 0/15] step 850/1284 (0.6 it/s)
+[Epoch 0/15] step 850/1284 (0.6 it/s)
+[Epoch 0/15] step 900/1284 (0.6 it/s)
+[Epoch 0/15] step 900/1284 (0.6 it/s)
+[Epoch 0/15] step 900/1284 (0.6 it/s)
+[Epoch 0/15] step 900/1284 (0.6 it/s)
+[Epoch 0/15] step 950/1284 (0.6 it/s)
+[Epoch 0/15] step 950/1284 (0.6 it/s)
+[Epoch 0/15] step 950/1284 (0.6 it/s)
+[Epoch 0/15] step 950/1284 (0.6 it/s)
+[Epoch 0/15] step 1000/1284 (0.6 it/s)
+[Epoch 0/15] step 1000/1284 (0.6 it/s)
+[Epoch 0/15] step 1000/1284 (0.6 it/s)
+[Epoch 0/15] step 1000/1284 (0.6 it/s)
+[Epoch 0/15] step 1050/1284 (0.6 it/s)
+[Epoch 0/15] step 1050/1284 (0.6 it/s)
+[Epoch 0/15] step 1050/1284 (0.6 it/s)
+[Epoch 0/15] step 1050/1284 (0.6 it/s)
+[Epoch 0/15] step 1100/1284 (0.6 it/s)
+[Epoch 0/15] step 1100/1284 (0.6 it/s)
+[Epoch 0/15] step 1100/1284 (0.6 it/s)
+[Epoch 0/15] step 1100/1284 (0.6 it/s)
+[Epoch 0/15] step 1150/1284 (0.6 it/s)
+[Epoch 0/15] step 1150/1284 (0.6 it/s)
+[Epoch 0/15] step 1150/1284 (0.6 it/s)
+[Epoch 0/15] step 1150/1284 (0.6 it/s)
+[Epoch 0/15] step 1200/1284 (0.6 it/s)
+[Epoch 0/15] step 1200/1284 (0.6 it/s)
+[Epoch 0/15] step 1200/1284 (0.6 it/s)
+[Epoch 0/15] step 1200/1284 (0.6 it/s)
+[Epoch 0/15] step 1250/1284 (0.6 it/s)
+[Epoch 0/15] step 1250/1284 (0.6 it/s)
+[Epoch 0/15] step 1250/1284 (0.6 it/s)
+[Epoch 0/15] step 1250/1284 (0.6 it/s)
+[Epoch 0/15] done in 2398.6s
+[Epoch 0/15] done in 2398.6s
+[Epoch 0/15] done in 2398.6s
+20:48:19 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |   [0;32;40m0.3482830226421356[0m   |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.04896661266684532[0m   |
+|      [0;34;40mfit/sigreg_loss[0m       |       [0;32;40m3.32421875[0m       |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m6.900000095367432[0m    |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |          [0;32;40m0.0[0m           |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.15348127484321594[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0003686079871840775[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.0004395454889163375[0m  |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m75.39334106445312[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |          [0;32;40m4.0[0m           |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m4.9596474127611145e-05[0m |
+|       [0;34;40mvalidate/loss[0m        |   [0;32;40m7.591364860534668[0m    |
+|    [0;34;40mvalidate/loss_epoch[0m     |   [0;32;40m7.591364860534668[0m    |
+|     [0;34;40mvalidate/pred_loss[0m     |   [0;32;40m1.2217227220535278[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |   [0;32;40m1.2217227220535278[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m70.78129577636719[0m    |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m70.78129577636719[0m    |
++----------------------------+------------------------+
+20:48:21 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_1.pt 📦📦📦
+[Epoch 0/15] done in 2400.3s
+20:48:21 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+20:48:21 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=0-step=1284.ckpt
+20:48:21 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=0-step=1284.ckpt saved (206.8 MiB, serialise=0.20s write=0.18s rename=0.1ms)
+20:48:21 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+20:48:21 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+20:48:22 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.19s write=0.18s rename=0.0ms)
+[Epoch 1/15] step 50/1284 (0.6 it/s)
+[Epoch 1/15] step 50/1284 (0.6 it/s)
+[Epoch 1/15] step 50/1284 (0.6 it/s)
+[Epoch 1/15] step 50/1284 (0.6 it/s)
+[Epoch 1/15] step 100/1284 (0.6 it/s)
+[Epoch 1/15] step 100/1284 (0.6 it/s)
+[Epoch 1/15] step 100/1284 (0.6 it/s)
+[Epoch 1/15] step 100/1284 (0.6 it/s)
+[Epoch 1/15] step 150/1284 (0.6 it/s)
+[Epoch 1/15] step 150/1284 (0.6 it/s)
+[Epoch 1/15] step 150/1284 (0.6 it/s)
+[Epoch 1/15] step 150/1284 (0.6 it/s)
+[Epoch 1/15] step 200/1284 (0.6 it/s)
+[Epoch 1/15] step 200/1284 (0.6 it/s)
+[Epoch 1/15] step 200/1284 (0.6 it/s)
+[Epoch 1/15] step 200/1284 (0.6 it/s)
+[Epoch 1/15] step 250/1284 (0.6 it/s)
+[Epoch 1/15] step 250/1284 (0.6 it/s)
+[Epoch 1/15] step 250/1284 (0.6 it/s)
+[Epoch 1/15] step 250/1284 (0.6 it/s)
+[Epoch 1/15] step 300/1284 (0.6 it/s)
+[Epoch 1/15] step 300/1284 (0.6 it/s)
+[Epoch 1/15] step 300/1284 (0.6 it/s)
+[Epoch 1/15] step 300/1284 (0.6 it/s)
+[Epoch 1/15] step 350/1284 (0.6 it/s)
+[Epoch 1/15] step 350/1284 (0.6 it/s)
+[Epoch 1/15] step 350/1284 (0.6 it/s)
+[Epoch 1/15] step 350/1284 (0.6 it/s)
+[Epoch 1/15] step 400/1284 (0.6 it/s)
+[Epoch 1/15] step 400/1284 (0.6 it/s)
+[Epoch 1/15] step 400/1284 (0.6 it/s)
+[Epoch 1/15] step 400/1284 (0.6 it/s)
+[Epoch 1/15] step 450/1284 (0.6 it/s)
+[Epoch 1/15] step 450/1284 (0.6 it/s)
+[Epoch 1/15] step 450/1284 (0.6 it/s)
+[Epoch 1/15] step 450/1284 (0.6 it/s)
+[Epoch 1/15] step 500/1284 (0.6 it/s)
+[Epoch 1/15] step 500/1284 (0.6 it/s)
+[Epoch 1/15] step 500/1284 (0.6 it/s)
+[Epoch 1/15] step 500/1284 (0.6 it/s)
+[Epoch 1/15] step 550/1284 (0.6 it/s)
+[Epoch 1/15] step 550/1284 (0.6 it/s)
+[Epoch 1/15] step 550/1284 (0.6 it/s)
+[Epoch 1/15] step 550/1284 (0.6 it/s)
+[Epoch 1/15] step 600/1284 (0.6 it/s)
+[Epoch 1/15] step 600/1284 (0.6 it/s)
+[Epoch 1/15] step 600/1284 (0.6 it/s)
+[Epoch 1/15] step 600/1284 (0.6 it/s)
+[Epoch 1/15] step 650/1284 (0.6 it/s)
+[Epoch 1/15] step 650/1284 (0.6 it/s)
+[Epoch 1/15] step 650/1284 (0.6 it/s)
+[Epoch 1/15] step 650/1284 (0.6 it/s)
+[Epoch 1/15] step 700/1284 (0.6 it/s)
+[Epoch 1/15] step 700/1284 (0.6 it/s)
+[Epoch 1/15] step 700/1284 (0.6 it/s)
+[Epoch 1/15] step 700/1284 (0.6 it/s)
+[Epoch 1/15] step 750/1284 (0.6 it/s)
+[Epoch 1/15] step 750/1284 (0.6 it/s)
+[Epoch 1/15] step 750/1284 (0.6 it/s)
+[Epoch 1/15] step 750/1284 (0.6 it/s)
+[Epoch 1/15] step 800/1284 (0.6 it/s)
+[Epoch 1/15] step 800/1284 (0.6 it/s)
+[Epoch 1/15] step 800/1284 (0.6 it/s)
+[Epoch 1/15] step 800/1284 (0.6 it/s)
+[Epoch 1/15] step 850/1284 (0.6 it/s)
+[Epoch 1/15] step 850/1284 (0.6 it/s)
+[Epoch 1/15] step 850/1284 (0.6 it/s)
+[Epoch 1/15] step 850/1284 (0.6 it/s)
+[Epoch 1/15] step 900/1284 (0.6 it/s)
+[Epoch 1/15] step 900/1284 (0.6 it/s)
+[Epoch 1/15] step 900/1284 (0.6 it/s)
+[Epoch 1/15] step 900/1284 (0.6 it/s)
+[Epoch 1/15] step 950/1284 (0.6 it/s)
+[Epoch 1/15] step 950/1284 (0.6 it/s)
+[Epoch 1/15] step 950/1284 (0.6 it/s)
+[Epoch 1/15] step 950/1284 (0.6 it/s)
+[Epoch 1/15] step 1000/1284 (0.6 it/s)
+[Epoch 1/15] step 1000/1284 (0.6 it/s)
+[Epoch 1/15] step 1000/1284 (0.6 it/s)
+[Epoch 1/15] step 1000/1284 (0.6 it/s)
+[Epoch 1/15] step 1050/1284 (0.6 it/s)
+[Epoch 1/15] step 1050/1284 (0.6 it/s)
+[Epoch 1/15] step 1050/1284 (0.6 it/s)
+[Epoch 1/15] step 1050/1284 (0.6 it/s)
+[Epoch 1/15] step 1100/1284 (0.6 it/s)
+[Epoch 1/15] step 1100/1284 (0.6 it/s)
+[Epoch 1/15] step 1100/1284 (0.6 it/s)
+[Epoch 1/15] step 1100/1284 (0.6 it/s)
+[Epoch 1/15] step 1150/1284 (0.6 it/s)
+[Epoch 1/15] step 1150/1284 (0.6 it/s)
+[Epoch 1/15] step 1150/1284 (0.6 it/s)
+[Epoch 1/15] step 1150/1284 (0.6 it/s)
+[Epoch 1/15] step 1200/1284 (0.6 it/s)
+[Epoch 1/15] step 1200/1284 (0.6 it/s)
+[Epoch 1/15] step 1200/1284 (0.6 it/s)
+[Epoch 1/15] step 1200/1284 (0.6 it/s)
+[Epoch 1/15] step 1250/1284 (0.6 it/s)
+[Epoch 1/15] step 1250/1284 (0.6 it/s)
+[Epoch 1/15] step 1250/1284 (0.6 it/s)
+[Epoch 1/15] step 1250/1284 (0.6 it/s)
+[Epoch 1/15] done in 2417.0s
+[Epoch 1/15] done in 2417.0s
+[Epoch 1/15] done in 2417.0s
+21:28:39 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |   [0;32;40m0.2562778890132904[0m   |
+|       [0;34;40mfit/pred_loss[0m        |   [0;32;40m0.0360630564391613[0m   |
+|      [0;34;40mfit/sigreg_loss[0m       |       [0;32;40m2.4453125[0m        |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m6.900000095367432[0m    |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |          [0;32;40m0.0[0m           |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.21714092791080475[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0020232629030942917[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.0010876230662688613[0m  |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m77.71626281738281[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.199999809265137[0m    |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m4.8108791816048324e-05[0m |
+|       [0;34;40mvalidate/loss[0m        |   [0;32;40m2.6002938747406006[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |   [0;32;40m2.6002938747406006[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |   [0;32;40m0.4491789937019348[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |   [0;32;40m0.4491789937019348[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m23.89846420288086[0m    |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m23.89846420288086[0m    |
++----------------------------+------------------------+
+21:28:40 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_2.pt 📦📦📦
+[Epoch 1/15] done in 2418.4s
+21:28:40 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+21:28:40 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=1-step=2568.ckpt
+21:28:40 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=1-step=2568.ckpt saved (206.8 MiB, serialise=0.19s write=0.17s rename=0.0ms)
+21:28:40 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+21:28:40 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+21:28:41 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.19s write=0.19s rename=14.8ms)
+[Epoch 2/15] step 50/1284 (0.6 it/s)
+[Epoch 2/15] step 50/1284 (0.6 it/s)
+[Epoch 2/15] step 50/1284 (0.6 it/s)
+[Epoch 2/15] step 50/1284 (0.6 it/s)
+[Epoch 2/15] step 100/1284 (0.6 it/s)
+[Epoch 2/15] step 100/1284 (0.6 it/s)
+[Epoch 2/15] step 100/1284 (0.6 it/s)
+[Epoch 2/15] step 100/1284 (0.6 it/s)
+[Epoch 2/15] step 150/1284 (0.6 it/s)
+[Epoch 2/15] step 150/1284 (0.6 it/s)
+[Epoch 2/15] step 150/1284 (0.6 it/s)
+[Epoch 2/15] step 150/1284 (0.6 it/s)
+[Epoch 2/15] step 200/1284 (0.6 it/s)
+[Epoch 2/15] step 200/1284 (0.6 it/s)
+[Epoch 2/15] step 200/1284 (0.6 it/s)
+[Epoch 2/15] step 200/1284 (0.6 it/s)
+[Epoch 2/15] step 250/1284 (0.6 it/s)
+[Epoch 2/15] step 250/1284 (0.6 it/s)
+[Epoch 2/15] step 250/1284 (0.6 it/s)
+[Epoch 2/15] step 250/1284 (0.6 it/s)
+[Epoch 2/15] step 300/1284 (0.6 it/s)
+[Epoch 2/15] step 300/1284 (0.6 it/s)
+[Epoch 2/15] step 300/1284 (0.6 it/s)
+[Epoch 2/15] step 300/1284 (0.6 it/s)
+[Epoch 2/15] step 350/1284 (0.6 it/s)
+[Epoch 2/15] step 350/1284 (0.6 it/s)
+[Epoch 2/15] step 350/1284 (0.6 it/s)
+[Epoch 2/15] step 350/1284 (0.6 it/s)
+[Epoch 2/15] step 400/1284 (0.6 it/s)
+[Epoch 2/15] step 400/1284 (0.6 it/s)
+[Epoch 2/15] step 400/1284 (0.6 it/s)
+[Epoch 2/15] step 400/1284 (0.6 it/s)
+[Epoch 2/15] step 450/1284 (0.6 it/s)
+[Epoch 2/15] step 450/1284 (0.6 it/s)
+[Epoch 2/15] step 450/1284 (0.6 it/s)
+[Epoch 2/15] step 450/1284 (0.6 it/s)
+[Epoch 2/15] step 500/1284 (0.6 it/s)
+[Epoch 2/15] step 500/1284 (0.6 it/s)
+[Epoch 2/15] step 500/1284 (0.6 it/s)
+[Epoch 2/15] step 500/1284 (0.6 it/s)
+[Epoch 2/15] step 550/1284 (0.6 it/s)
+[Epoch 2/15] step 550/1284 (0.6 it/s)
+[Epoch 2/15] step 550/1284 (0.6 it/s)
+[Epoch 2/15] step 550/1284 (0.6 it/s)
+[Epoch 2/15] step 600/1284 (0.6 it/s)
+[Epoch 2/15] step 600/1284 (0.6 it/s)
+[Epoch 2/15] step 600/1284 (0.6 it/s)
+[Epoch 2/15] step 600/1284 (0.6 it/s)
+[Epoch 2/15] step 650/1284 (0.6 it/s)
+[Epoch 2/15] step 650/1284 (0.6 it/s)
+[Epoch 2/15] step 650/1284 (0.6 it/s)
+[Epoch 2/15] step 650/1284 (0.6 it/s)
+[Epoch 2/15] step 700/1284 (0.6 it/s)
+[Epoch 2/15] step 700/1284 (0.6 it/s)
+[Epoch 2/15] step 700/1284 (0.6 it/s)
+[Epoch 2/15] step 700/1284 (0.6 it/s)
+[Epoch 2/15] step 750/1284 (0.6 it/s)
+[Epoch 2/15] step 750/1284 (0.6 it/s)
+[Epoch 2/15] step 750/1284 (0.6 it/s)
+[Epoch 2/15] step 750/1284 (0.6 it/s)
+[Epoch 2/15] step 800/1284 (0.6 it/s)
+[Epoch 2/15] step 800/1284 (0.6 it/s)
+[Epoch 2/15] step 800/1284 (0.6 it/s)
+[Epoch 2/15] step 800/1284 (0.6 it/s)
+[Epoch 2/15] step 850/1284 (0.6 it/s)
+[Epoch 2/15] step 850/1284 (0.6 it/s)
+[Epoch 2/15] step 850/1284 (0.6 it/s)
+[Epoch 2/15] step 850/1284 (0.6 it/s)
+[Epoch 2/15] step 900/1284 (0.6 it/s)
+[Epoch 2/15] step 900/1284 (0.6 it/s)
+[Epoch 2/15] step 900/1284 (0.6 it/s)
+[Epoch 2/15] step 900/1284 (0.6 it/s)
+[Epoch 2/15] step 950/1284 (0.6 it/s)
+[Epoch 2/15] step 950/1284 (0.6 it/s)
+[Epoch 2/15] step 950/1284 (0.6 it/s)
+[Epoch 2/15] step 950/1284 (0.6 it/s)
+[Epoch 2/15] step 1000/1284 (0.6 it/s)
+[Epoch 2/15] step 1000/1284 (0.6 it/s)
+[Epoch 2/15] step 1000/1284 (0.6 it/s)
+[Epoch 2/15] step 1000/1284 (0.6 it/s)
+[Epoch 2/15] step 1050/1284 (0.6 it/s)
+[Epoch 2/15] step 1050/1284 (0.6 it/s)
+[Epoch 2/15] step 1050/1284 (0.6 it/s)
+[Epoch 2/15] step 1050/1284 (0.6 it/s)
+[Epoch 2/15] step 1100/1284 (0.6 it/s)
+[Epoch 2/15] step 1100/1284 (0.6 it/s)
+[Epoch 2/15] step 1100/1284 (0.6 it/s)
+[Epoch 2/15] step 1100/1284 (0.6 it/s)
+[Epoch 2/15] step 1150/1284 (0.6 it/s)
+[Epoch 2/15] step 1150/1284 (0.6 it/s)
+[Epoch 2/15] step 1150/1284 (0.6 it/s)
+[Epoch 2/15] step 1150/1284 (0.6 it/s)
+[Epoch 2/15] step 1200/1284 (0.6 it/s)
+[Epoch 2/15] step 1200/1284 (0.6 it/s)
+[Epoch 2/15] step 1200/1284 (0.6 it/s)
+[Epoch 2/15] step 1200/1284 (0.6 it/s)
+[Epoch 2/15] step 1250/1284 (0.6 it/s)
+[Epoch 2/15] step 1250/1284 (0.6 it/s)
+[Epoch 2/15] step 1250/1284 (0.6 it/s)
+[Epoch 2/15] step 1250/1284 (0.6 it/s)
+[Epoch 2/15] done in 2396.4s
+[Epoch 2/15] done in 2396.4s
+[Epoch 2/15] done in 2396.4s
+22:08:37 | INFO  | trainer_inf~| \n+----------------------------+-----------------------+
+|           Metric           |         Value         |
++----------------------------+-----------------------+
+|          [0;34;40mfit/loss[0m          |   [0;32;40m0.2251187115907669[0m  |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.03078277036547661[0m  |
+|      [0;34;40mfit/sigreg_loss[0m       |        [0;32;40m2.15625[0m        |
+|    [0;34;40mhardware/cpu_percent[0m    |          [0;32;40m7.0[0m          |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |          [0;32;40m0.0[0m          |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |   [0;32;40m0.1995638608932495[0m  |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0019141599768772721[0m |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.0009476408013142645[0m |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m80.53934478759766[0m   |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.300000190734863[0m   |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m4.559078297461383e-05[0m |
+|       [0;34;40mvalidate/loss[0m        |   [0;32;40m2.5838112831115723[0m  |
+|    [0;34;40mvalidate/loss_epoch[0m     |   [0;32;40m2.5838112831115723[0m  |
+|     [0;34;40mvalidate/pred_loss[0m     |   [0;32;40m0.5121514201164246[0m  |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |   [0;32;40m0.5121514201164246[0m  |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m23.018463134765625[0m  |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m23.018463134765625[0m  |
++----------------------------+-----------------------+
+22:08:39 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_3.pt 📦📦📦
+[Epoch 2/15] done in 2398.0s
+22:08:39 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+22:08:39 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=2-step=3852.ckpt
+22:08:39 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=2-step=3852.ckpt saved (206.8 MiB, serialise=0.21s write=0.17s rename=0.0ms)
+22:08:39 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+22:08:39 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+22:08:40 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.20s write=0.18s rename=15.5ms)
+[Epoch 3/15] step 50/1284 (0.6 it/s)
+[Epoch 3/15] step 50/1284 (0.6 it/s)
+[Epoch 3/15] step 50/1284 (0.6 it/s)
+[Epoch 3/15] step 50/1284 (0.6 it/s)
+[Epoch 3/15] step 100/1284 (0.6 it/s)
+[Epoch 3/15] step 100/1284 (0.6 it/s)
+[Epoch 3/15] step 100/1284 (0.6 it/s)
+[Epoch 3/15] step 100/1284 (0.6 it/s)
+[Epoch 3/15] step 150/1284 (0.6 it/s)
+[Epoch 3/15] step 150/1284 (0.6 it/s)
+[Epoch 3/15] step 150/1284 (0.6 it/s)
+[Epoch 3/15] step 150/1284 (0.6 it/s)
+[Epoch 3/15] step 200/1284 (0.6 it/s)
+[Epoch 3/15] step 200/1284 (0.6 it/s)
+[Epoch 3/15] step 200/1284 (0.6 it/s)
+[Epoch 3/15] step 200/1284 (0.6 it/s)
+[Epoch 3/15] step 250/1284 (0.6 it/s)
+[Epoch 3/15] step 250/1284 (0.6 it/s)
+[Epoch 3/15] step 250/1284 (0.6 it/s)
+[Epoch 3/15] step 250/1284 (0.6 it/s)
+[Epoch 3/15] step 300/1284 (0.6 it/s)
+[Epoch 3/15] step 300/1284 (0.6 it/s)
+[Epoch 3/15] step 300/1284 (0.6 it/s)
+[Epoch 3/15] step 300/1284 (0.6 it/s)
+[Epoch 3/15] step 350/1284 (0.6 it/s)
+[Epoch 3/15] step 350/1284 (0.6 it/s)
+[Epoch 3/15] step 350/1284 (0.6 it/s)
+[Epoch 3/15] step 350/1284 (0.6 it/s)
+[Epoch 3/15] step 400/1284 (0.6 it/s)
+[Epoch 3/15] step 400/1284 (0.6 it/s)
+[Epoch 3/15] step 400/1284 (0.6 it/s)
+[Epoch 3/15] step 400/1284 (0.6 it/s)
+[Epoch 3/15] step 450/1284 (0.6 it/s)
+[Epoch 3/15] step 450/1284 (0.6 it/s)
+[Epoch 3/15] step 450/1284 (0.6 it/s)
+[Epoch 3/15] step 450/1284 (0.6 it/s)
+[Epoch 3/15] step 500/1284 (0.6 it/s)
+[Epoch 3/15] step 500/1284 (0.6 it/s)
+[Epoch 3/15] step 500/1284 (0.6 it/s)
+[Epoch 3/15] step 500/1284 (0.6 it/s)
+[Epoch 3/15] step 550/1284 (0.6 it/s)
+[Epoch 3/15] step 550/1284 (0.6 it/s)
+[Epoch 3/15] step 550/1284 (0.6 it/s)
+[Epoch 3/15] step 550/1284 (0.6 it/s)
+[Epoch 3/15] step 600/1284 (0.6 it/s)
+[Epoch 3/15] step 600/1284 (0.6 it/s)
+[Epoch 3/15] step 600/1284 (0.6 it/s)
+[Epoch 3/15] step 600/1284 (0.6 it/s)
+[Epoch 3/15] step 650/1284 (0.6 it/s)
+[Epoch 3/15] step 650/1284 (0.6 it/s)
+[Epoch 3/15] step 650/1284 (0.6 it/s)
+[Epoch 3/15] step 650/1284 (0.6 it/s)
+[Epoch 3/15] step 700/1284 (0.6 it/s)
+[Epoch 3/15] step 700/1284 (0.6 it/s)
+[Epoch 3/15] step 700/1284 (0.6 it/s)
+[Epoch 3/15] step 700/1284 (0.6 it/s)
+[Epoch 3/15] step 750/1284 (0.6 it/s)
+[Epoch 3/15] step 750/1284 (0.6 it/s)
+[Epoch 3/15] step 750/1284 (0.6 it/s)
+[Epoch 3/15] step 750/1284 (0.6 it/s)
+[Epoch 3/15] step 800/1284 (0.6 it/s)
+[Epoch 3/15] step 800/1284 (0.6 it/s)
+[Epoch 3/15] step 800/1284 (0.6 it/s)
+[Epoch 3/15] step 800/1284 (0.6 it/s)
+[Epoch 3/15] step 850/1284 (0.6 it/s)
+[Epoch 3/15] step 850/1284 (0.6 it/s)
+[Epoch 3/15] step 850/1284 (0.6 it/s)
+[Epoch 3/15] step 850/1284 (0.6 it/s)
+[Epoch 3/15] step 900/1284 (0.6 it/s)
+[Epoch 3/15] step 900/1284 (0.6 it/s)
+[Epoch 3/15] step 900/1284 (0.6 it/s)
+[Epoch 3/15] step 900/1284 (0.6 it/s)
+[Epoch 3/15] step 950/1284 (0.6 it/s)
+[Epoch 3/15] step 950/1284 (0.6 it/s)
+[Epoch 3/15] step 950/1284 (0.6 it/s)
+[Epoch 3/15] step 950/1284 (0.6 it/s)
+[Epoch 3/15] step 1000/1284 (0.6 it/s)
+[Epoch 3/15] step 1000/1284 (0.6 it/s)
+[Epoch 3/15] step 1000/1284 (0.6 it/s)
+[Epoch 3/15] step 1000/1284 (0.6 it/s)
+[Epoch 3/15] step 1050/1284 (0.6 it/s)
+[Epoch 3/15] step 1050/1284 (0.6 it/s)
+[Epoch 3/15] step 1050/1284 (0.6 it/s)
+[Epoch 3/15] step 1050/1284 (0.6 it/s)
+[Epoch 3/15] step 1100/1284 (0.6 it/s)
+[Epoch 3/15] step 1100/1284 (0.6 it/s)
+[Epoch 3/15] step 1100/1284 (0.6 it/s)
+[Epoch 3/15] step 1100/1284 (0.6 it/s)
+[Epoch 3/15] step 1150/1284 (0.6 it/s)
+[Epoch 3/15] step 1150/1284 (0.6 it/s)
+[Epoch 3/15] step 1150/1284 (0.6 it/s)
+[Epoch 3/15] step 1150/1284 (0.6 it/s)
+[Epoch 3/15] step 1200/1284 (0.6 it/s)
+[Epoch 3/15] step 1200/1284 (0.6 it/s)
+[Epoch 3/15] step 1200/1284 (0.6 it/s)
+[Epoch 3/15] step 1200/1284 (0.6 it/s)
+[Epoch 3/15] step 1250/1284 (0.6 it/s)
+[Epoch 3/15] step 1250/1284 (0.6 it/s)
+[Epoch 3/15] step 1250/1284 (0.6 it/s)
+[Epoch 3/15] step 1250/1284 (0.6 it/s)
+[Epoch 3/15] done in 2402.0s
+[Epoch 3/15] done in 2402.0s
+[Epoch 3/15] done in 2402.0s
+22:48:42 | INFO  | trainer_inf~| \n+----------------------------+-----------------------+
+|           Metric           |         Value         |
++----------------------------+-----------------------+
+|          [0;34;40mfit/loss[0m          |  [0;32;40m0.20256558060646057[0m  |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.02605190873146057[0m  |
+|      [0;34;40mfit/sigreg_loss[0m       |       [0;32;40m1.9609375[0m       |
+|    [0;34;40mhardware/cpu_percent[0m    |          [0;32;40m7.0[0m          |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |  [0;32;40m0.02499346248805523[0m  |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |   [0;32;40m0.0804477110505104[0m  |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0028377738781273365[0m |
+|   [0;34;40mhardware/net_sent_mb_s[0m   |  [0;32;40m0.001668398268520832[0m |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m79.57621765136719[0m   |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.300000190734863[0m   |
+|    [0;34;40mhparams/lr_default_0[0m    |  [0;32;40m4.21547083533369e-05[0m |
+|       [0;34;40mvalidate/loss[0m        |   [0;32;40m1.217316746711731[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |   [0;32;40m1.217316746711731[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.22794678807258606[0m  |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.22794678807258606[0m  |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m10.993334770202637[0m  |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m10.993334770202637[0m  |
++----------------------------+-----------------------+
+22:48:43 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_4.pt 📦📦📦
+[Epoch 3/15] done in 2403.7s
+22:48:43 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+22:48:43 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=3-step=5136.ckpt
+22:48:44 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=3-step=5136.ckpt saved (206.8 MiB, serialise=0.20s write=0.17s rename=0.0ms)
+22:48:44 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+22:48:44 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+22:48:44 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.19s write=0.17s rename=14.7ms)
+[Epoch 4/15] step 50/1284 (0.6 it/s)
+[Epoch 4/15] step 50/1284 (0.6 it/s)
+[Epoch 4/15] step 50/1284 (0.6 it/s)
+[Epoch 4/15] step 50/1284 (0.6 it/s)
+[Epoch 4/15] step 100/1284 (0.6 it/s)
+[Epoch 4/15] step 100/1284 (0.6 it/s)
+[Epoch 4/15] step 100/1284 (0.6 it/s)
+[Epoch 4/15] step 100/1284 (0.6 it/s)
+[Epoch 4/15] step 150/1284 (0.6 it/s)
+[Epoch 4/15] step 150/1284 (0.6 it/s)
+[Epoch 4/15] step 150/1284 (0.6 it/s)
+[Epoch 4/15] step 150/1284 (0.6 it/s)
+[Epoch 4/15] step 200/1284 (0.6 it/s)
+[Epoch 4/15] step 200/1284 (0.6 it/s)
+[Epoch 4/15] step 200/1284 (0.6 it/s)
+[Epoch 4/15] step 200/1284 (0.6 it/s)
+[Epoch 4/15] step 250/1284 (0.6 it/s)
+[Epoch 4/15] step 250/1284 (0.6 it/s)
+[Epoch 4/15] step 250/1284 (0.6 it/s)
+[Epoch 4/15] step 250/1284 (0.6 it/s)
+[Epoch 4/15] step 300/1284 (0.6 it/s)
+[Epoch 4/15] step 300/1284 (0.6 it/s)
+[Epoch 4/15] step 300/1284 (0.6 it/s)
+[Epoch 4/15] step 300/1284 (0.6 it/s)
+[Epoch 4/15] step 350/1284 (0.6 it/s)
+[Epoch 4/15] step 350/1284 (0.6 it/s)
+[Epoch 4/15] step 350/1284 (0.6 it/s)
+[Epoch 4/15] step 350/1284 (0.6 it/s)
+[Epoch 4/15] step 400/1284 (0.6 it/s)
+[Epoch 4/15] step 400/1284 (0.6 it/s)
+[Epoch 4/15] step 400/1284 (0.6 it/s)
+[Epoch 4/15] step 400/1284 (0.6 it/s)
+[Epoch 4/15] step 450/1284 (0.6 it/s)
+[Epoch 4/15] step 450/1284 (0.6 it/s)
+[Epoch 4/15] step 450/1284 (0.6 it/s)
+[Epoch 4/15] step 450/1284 (0.6 it/s)
+[Epoch 4/15] step 500/1284 (0.6 it/s)
+[Epoch 4/15] step 500/1284 (0.6 it/s)
+[Epoch 4/15] step 500/1284 (0.6 it/s)
+[Epoch 4/15] step 500/1284 (0.6 it/s)
+[Epoch 4/15] step 550/1284 (0.6 it/s)
+[Epoch 4/15] step 550/1284 (0.6 it/s)
+[Epoch 4/15] step 550/1284 (0.6 it/s)
+[Epoch 4/15] step 550/1284 (0.6 it/s)
+[Epoch 4/15] step 600/1284 (0.6 it/s)
+[Epoch 4/15] step 600/1284 (0.6 it/s)
+[Epoch 4/15] step 600/1284 (0.6 it/s)
+[Epoch 4/15] step 600/1284 (0.6 it/s)
+[Epoch 4/15] step 650/1284 (0.6 it/s)
+[Epoch 4/15] step 650/1284 (0.6 it/s)
+[Epoch 4/15] step 650/1284 (0.6 it/s)
+[Epoch 4/15] step 650/1284 (0.6 it/s)
+[Epoch 4/15] step 700/1284 (0.6 it/s)
+[Epoch 4/15] step 700/1284 (0.6 it/s)
+[Epoch 4/15] step 700/1284 (0.6 it/s)
+[Epoch 4/15] step 700/1284 (0.6 it/s)
+[Epoch 4/15] step 750/1284 (0.6 it/s)
+[Epoch 4/15] step 750/1284 (0.6 it/s)
+[Epoch 4/15] step 750/1284 (0.6 it/s)
+[Epoch 4/15] step 750/1284 (0.6 it/s)
+[Epoch 4/15] step 800/1284 (0.6 it/s)
+[Epoch 4/15] step 800/1284 (0.6 it/s)
+[Epoch 4/15] step 800/1284 (0.6 it/s)
+[Epoch 4/15] step 800/1284 (0.6 it/s)
+[Epoch 4/15] step 850/1284 (0.6 it/s)
+[Epoch 4/15] step 850/1284 (0.6 it/s)
+[Epoch 4/15] step 850/1284 (0.6 it/s)
+[Epoch 4/15] step 850/1284 (0.6 it/s)
+[Epoch 4/15] step 900/1284 (0.6 it/s)
+[Epoch 4/15] step 900/1284 (0.6 it/s)
+[Epoch 4/15] step 900/1284 (0.6 it/s)
+[Epoch 4/15] step 900/1284 (0.6 it/s)
+[Epoch 4/15] step 950/1284 (0.6 it/s)
+[Epoch 4/15] step 950/1284 (0.6 it/s)
+[Epoch 4/15] step 950/1284 (0.6 it/s)
+[Epoch 4/15] step 950/1284 (0.6 it/s)
+[Epoch 4/15] step 1000/1284 (0.6 it/s)
+[Epoch 4/15] step 1000/1284 (0.6 it/s)
+[Epoch 4/15] step 1000/1284 (0.6 it/s)
+[Epoch 4/15] step 1000/1284 (0.6 it/s)
+[Epoch 4/15] step 1050/1284 (0.6 it/s)
+[Epoch 4/15] step 1050/1284 (0.6 it/s)
+[Epoch 4/15] step 1050/1284 (0.6 it/s)
+[Epoch 4/15] step 1050/1284 (0.6 it/s)
+[Epoch 4/15] step 1100/1284 (0.6 it/s)
+[Epoch 4/15] step 1100/1284 (0.6 it/s)
+[Epoch 4/15] step 1100/1284 (0.6 it/s)
+[Epoch 4/15] step 1100/1284 (0.6 it/s)
+[Epoch 4/15] step 1150/1284 (0.6 it/s)
+[Epoch 4/15] step 1150/1284 (0.6 it/s)
+[Epoch 4/15] step 1150/1284 (0.6 it/s)
+[Epoch 4/15] step 1150/1284 (0.6 it/s)
+[Epoch 4/15] step 1200/1284 (0.6 it/s)
+[Epoch 4/15] step 1200/1284 (0.6 it/s)
+[Epoch 4/15] step 1200/1284 (0.6 it/s)
+[Epoch 4/15] step 1200/1284 (0.6 it/s)
+[Epoch 4/15] step 1250/1284 (0.6 it/s)
+[Epoch 4/15] step 1250/1284 (0.6 it/s)
+[Epoch 4/15] step 1250/1284 (0.6 it/s)
+[Epoch 4/15] step 1250/1284 (0.6 it/s)
+[Epoch 4/15] done in 2412.5s
+[Epoch 4/15] done in 2412.5s
+[Epoch 4/15] done in 2412.5s
+23:28:57 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |  [0;32;40m0.19969651103019714[0m   |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.027821514755487442[0m  |
+|      [0;34;40mfit/sigreg_loss[0m       |       [0;32;40m1.91015625[0m       |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m7.199999809265137[0m    |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |   [0;32;40m0.662348747253418[0m    |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.08474627137184143[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   |  [0;32;40m0.000453273270977661[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.00045842191320843995[0m |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m79.57640838623047[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.300000190734863[0m    |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m3.795377415372059e-05[0m  |
+|       [0;34;40mvalidate/loss[0m        |   [0;32;40m0.8145525455474854[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |   [0;32;40m0.8145525455474854[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |   [0;32;40m0.1438707411289215[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |   [0;32;40m0.1438707411289215[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m7.451836109161377[0m    |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m7.451836109161377[0m    |
++----------------------------+------------------------+
+23:28:58 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_5.pt 📦📦📦
+[Epoch 4/15] done in 2414.0s
+23:28:58 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+23:28:58 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=4-step=6420.ckpt
+23:28:58 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=4-step=6420.ckpt saved (206.8 MiB, serialise=0.20s write=0.19s rename=0.0ms)
+23:28:59 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+23:28:59 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+23:28:59 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.20s write=0.19s rename=18.4ms)
+[Epoch 5/15] step 50/1284 (0.6 it/s)
+[Epoch 5/15] step 50/1284 (0.6 it/s)
+[Epoch 5/15] step 50/1284 (0.6 it/s)
+[Epoch 5/15] step 50/1284 (0.6 it/s)
+[Epoch 5/15] step 100/1284 (0.6 it/s)
+[Epoch 5/15] step 100/1284 (0.6 it/s)
+[Epoch 5/15] step 100/1284 (0.6 it/s)
+[Epoch 5/15] step 100/1284 (0.6 it/s)
+[Epoch 5/15] step 150/1284 (0.6 it/s)
+[Epoch 5/15] step 150/1284 (0.6 it/s)
+[Epoch 5/15] step 150/1284 (0.6 it/s)
+[Epoch 5/15] step 150/1284 (0.6 it/s)
+[Epoch 5/15] step 200/1284 (0.6 it/s)
+[Epoch 5/15] step 200/1284 (0.6 it/s)
+[Epoch 5/15] step 200/1284 (0.6 it/s)
+[Epoch 5/15] step 200/1284 (0.6 it/s)
+[Epoch 5/15] step 250/1284 (0.6 it/s)
+[Epoch 5/15] step 250/1284 (0.6 it/s)
+[Epoch 5/15] step 250/1284 (0.6 it/s)
+[Epoch 5/15] step 250/1284 (0.6 it/s)
+[Epoch 5/15] step 300/1284 (0.6 it/s)
+[Epoch 5/15] step 300/1284 (0.6 it/s)
+[Epoch 5/15] step 300/1284 (0.6 it/s)
+[Epoch 5/15] step 300/1284 (0.6 it/s)
+[Epoch 5/15] step 350/1284 (0.6 it/s)
+[Epoch 5/15] step 350/1284 (0.6 it/s)
+[Epoch 5/15] step 350/1284 (0.6 it/s)
+[Epoch 5/15] step 350/1284 (0.6 it/s)
+[Epoch 5/15] step 400/1284 (0.6 it/s)
+[Epoch 5/15] step 400/1284 (0.6 it/s)
+[Epoch 5/15] step 400/1284 (0.6 it/s)
+[Epoch 5/15] step 400/1284 (0.6 it/s)
+[Epoch 5/15] step 450/1284 (0.6 it/s)
+[Epoch 5/15] step 450/1284 (0.6 it/s)
+[Epoch 5/15] step 450/1284 (0.6 it/s)
+[Epoch 5/15] step 450/1284 (0.6 it/s)
+[Epoch 5/15] step 500/1284 (0.6 it/s)
+[Epoch 5/15] step 500/1284 (0.6 it/s)
+[Epoch 5/15] step 500/1284 (0.6 it/s)
+[Epoch 5/15] step 500/1284 (0.6 it/s)
+[Epoch 5/15] step 550/1284 (0.6 it/s)
+[Epoch 5/15] step 550/1284 (0.6 it/s)
+[Epoch 5/15] step 550/1284 (0.6 it/s)
+[Epoch 5/15] step 550/1284 (0.6 it/s)
+[Epoch 5/15] step 600/1284 (0.6 it/s)
+[Epoch 5/15] step 600/1284 (0.6 it/s)
+[Epoch 5/15] step 600/1284 (0.6 it/s)
+[Epoch 5/15] step 600/1284 (0.6 it/s)
+[Epoch 5/15] step 650/1284 (0.6 it/s)
+[Epoch 5/15] step 650/1284 (0.6 it/s)
+[Epoch 5/15] step 650/1284 (0.6 it/s)
+[Epoch 5/15] step 650/1284 (0.6 it/s)
+[Epoch 5/15] step 700/1284 (0.6 it/s)
+[Epoch 5/15] step 700/1284 (0.6 it/s)
+[Epoch 5/15] step 700/1284 (0.6 it/s)
+[Epoch 5/15] step 700/1284 (0.6 it/s)
+[Epoch 5/15] step 750/1284 (0.6 it/s)
+[Epoch 5/15] step 750/1284 (0.6 it/s)
+[Epoch 5/15] step 750/1284 (0.6 it/s)
+[Epoch 5/15] step 750/1284 (0.6 it/s)
+[Epoch 5/15] step 800/1284 (0.6 it/s)
+[Epoch 5/15] step 800/1284 (0.6 it/s)
+[Epoch 5/15] step 800/1284 (0.6 it/s)
+[Epoch 5/15] step 800/1284 (0.6 it/s)
+[Epoch 5/15] step 850/1284 (0.6 it/s)
+[Epoch 5/15] step 850/1284 (0.6 it/s)
+[Epoch 5/15] step 850/1284 (0.6 it/s)
+[Epoch 5/15] step 850/1284 (0.6 it/s)
+[Epoch 5/15] step 900/1284 (0.6 it/s)
+[Epoch 5/15] step 900/1284 (0.6 it/s)
+[Epoch 5/15] step 900/1284 (0.6 it/s)
+[Epoch 5/15] step 900/1284 (0.6 it/s)
+[Epoch 5/15] step 950/1284 (0.6 it/s)
+[Epoch 5/15] step 950/1284 (0.6 it/s)
+[Epoch 5/15] step 950/1284 (0.6 it/s)
+[Epoch 5/15] step 950/1284 (0.6 it/s)
+[Epoch 5/15] step 1000/1284 (0.6 it/s)
+[Epoch 5/15] step 1000/1284 (0.6 it/s)
+[Epoch 5/15] step 1000/1284 (0.6 it/s)
+[Epoch 5/15] step 1000/1284 (0.6 it/s)
+[Epoch 5/15] step 1050/1284 (0.6 it/s)
+[Epoch 5/15] step 1050/1284 (0.6 it/s)
+[Epoch 5/15] step 1050/1284 (0.6 it/s)
+[Epoch 5/15] step 1050/1284 (0.6 it/s)
+[Epoch 5/15] step 1100/1284 (0.6 it/s)
+[Epoch 5/15] step 1100/1284 (0.6 it/s)
+[Epoch 5/15] step 1100/1284 (0.6 it/s)
+[Epoch 5/15] step 1100/1284 (0.6 it/s)
+[Epoch 5/15] step 1150/1284 (0.6 it/s)
+[Epoch 5/15] step 1150/1284 (0.6 it/s)
+[Epoch 5/15] step 1150/1284 (0.6 it/s)
+[Epoch 5/15] step 1150/1284 (0.6 it/s)
+[Epoch 5/15] step 1200/1284 (0.6 it/s)
+[Epoch 5/15] step 1200/1284 (0.6 it/s)
+[Epoch 5/15] step 1200/1284 (0.6 it/s)
+[Epoch 5/15] step 1200/1284 (0.6 it/s)
+[Epoch 5/15] step 1250/1284 (0.6 it/s)
+[Epoch 5/15] step 1250/1284 (0.6 it/s)
+[Epoch 5/15] step 1250/1284 (0.6 it/s)
+[Epoch 5/15] step 1250/1284 (0.6 it/s)
+[Epoch 5/15] done in 2451.4s
+[Epoch 5/15] done in 2451.4s
+[Epoch 5/15] done in 2451.4s
+00:09:50 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |   [0;32;40m0.1900199055671692[0m   |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.025957418605685234[0m  |
+|      [0;34;40mfit/sigreg_loss[0m       |       [0;32;40m1.8203125[0m        |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m6.900000095367432[0m    |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |   [0;32;40m0.2874329388141632[0m   |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.16441477835178375[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0006119254394434392[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.0007332045352086425[0m  |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m76.78828430175781[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.099999904632568[0m    |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m3.3175285352626815e-05[0m |
+|       [0;34;40mvalidate/loss[0m        |  [0;32;40m0.44798433780670166[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |  [0;32;40m0.44798433780670166[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.08182065188884735[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.08182065188884735[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m4.068172454833984[0m    |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m4.068172454833984[0m    |
++----------------------------+------------------------+
+00:09:52 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_6.pt 📦📦📦
+[Epoch 5/15] done in 2452.8s
+00:09:52 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+00:09:52 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=5-step=7704.ckpt
+00:09:52 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=5-step=7704.ckpt saved (206.8 MiB, serialise=0.20s write=0.19s rename=0.0ms)
+00:09:52 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+00:09:52 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+00:09:53 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.19s write=0.18s rename=15.7ms)
+[Epoch 6/15] step 50/1284 (0.6 it/s)
+[Epoch 6/15] step 50/1284 (0.6 it/s)
+[Epoch 6/15] step 50/1284 (0.6 it/s)
+[Epoch 6/15] step 50/1284 (0.6 it/s)
+[Epoch 6/15] step 100/1284 (0.6 it/s)
+[Epoch 6/15] step 100/1284 (0.6 it/s)
+[Epoch 6/15] step 100/1284 (0.6 it/s)
+[Epoch 6/15] step 100/1284 (0.6 it/s)
+[Epoch 6/15] step 150/1284 (0.6 it/s)
+[Epoch 6/15] step 150/1284 (0.6 it/s)
+[Epoch 6/15] step 150/1284 (0.6 it/s)
+[Epoch 6/15] step 150/1284 (0.6 it/s)
+[Epoch 6/15] step 200/1284 (0.6 it/s)
+[Epoch 6/15] step 200/1284 (0.6 it/s)
+[Epoch 6/15] step 200/1284 (0.6 it/s)
+[Epoch 6/15] step 200/1284 (0.6 it/s)
+[Epoch 6/15] step 250/1284 (0.6 it/s)
+[Epoch 6/15] step 250/1284 (0.6 it/s)
+[Epoch 6/15] step 250/1284 (0.6 it/s)
+[Epoch 6/15] step 250/1284 (0.6 it/s)
+[Epoch 6/15] step 300/1284 (0.6 it/s)
+[Epoch 6/15] step 300/1284 (0.6 it/s)
+[Epoch 6/15] step 300/1284 (0.6 it/s)
+[Epoch 6/15] step 300/1284 (0.6 it/s)
+[Epoch 6/15] step 350/1284 (0.6 it/s)
+[Epoch 6/15] step 350/1284 (0.6 it/s)
+[Epoch 6/15] step 350/1284 (0.6 it/s)
+[Epoch 6/15] step 350/1284 (0.6 it/s)
+[Epoch 6/15] step 400/1284 (0.6 it/s)
+[Epoch 6/15] step 400/1284 (0.6 it/s)
+[Epoch 6/15] step 400/1284 (0.6 it/s)
+[Epoch 6/15] step 400/1284 (0.6 it/s)
+[Epoch 6/15] step 450/1284 (0.6 it/s)
+[Epoch 6/15] step 450/1284 (0.6 it/s)
+[Epoch 6/15] step 450/1284 (0.6 it/s)
+[Epoch 6/15] step 450/1284 (0.6 it/s)
+[Epoch 6/15] step 500/1284 (0.6 it/s)
+[Epoch 6/15] step 500/1284 (0.6 it/s)
+[Epoch 6/15] step 500/1284 (0.6 it/s)
+[Epoch 6/15] step 500/1284 (0.6 it/s)
+[Epoch 6/15] step 550/1284 (0.6 it/s)
+[Epoch 6/15] step 550/1284 (0.6 it/s)
+[Epoch 6/15] step 550/1284 (0.6 it/s)
+[Epoch 6/15] step 550/1284 (0.6 it/s)
+[Epoch 6/15] step 600/1284 (0.6 it/s)
+[Epoch 6/15] step 600/1284 (0.6 it/s)
+[Epoch 6/15] step 600/1284 (0.6 it/s)
+[Epoch 6/15] step 600/1284 (0.6 it/s)
+[Epoch 6/15] step 650/1284 (0.6 it/s)
+[Epoch 6/15] step 650/1284 (0.6 it/s)
+[Epoch 6/15] step 650/1284 (0.6 it/s)
+[Epoch 6/15] step 650/1284 (0.6 it/s)
+[Epoch 6/15] step 700/1284 (0.6 it/s)
+[Epoch 6/15] step 700/1284 (0.6 it/s)
+[Epoch 6/15] step 700/1284 (0.6 it/s)
+[Epoch 6/15] step 700/1284 (0.6 it/s)
+[Epoch 6/15] step 750/1284 (0.6 it/s)
+[Epoch 6/15] step 750/1284 (0.6 it/s)
+[Epoch 6/15] step 750/1284 (0.6 it/s)
+[Epoch 6/15] step 750/1284 (0.6 it/s)
+[Epoch 6/15] step 800/1284 (0.6 it/s)
+[Epoch 6/15] step 800/1284 (0.6 it/s)
+[Epoch 6/15] step 800/1284 (0.6 it/s)
+[Epoch 6/15] step 800/1284 (0.6 it/s)
+[Epoch 6/15] step 850/1284 (0.6 it/s)
+[Epoch 6/15] step 850/1284 (0.6 it/s)
+[Epoch 6/15] step 850/1284 (0.6 it/s)
+[Epoch 6/15] step 850/1284 (0.6 it/s)
+[Epoch 6/15] step 900/1284 (0.6 it/s)
+[Epoch 6/15] step 900/1284 (0.6 it/s)
+[Epoch 6/15] step 900/1284 (0.6 it/s)
+[Epoch 6/15] step 900/1284 (0.6 it/s)
+[Epoch 6/15] step 950/1284 (0.6 it/s)
+[Epoch 6/15] step 950/1284 (0.6 it/s)
+[Epoch 6/15] step 950/1284 (0.6 it/s)
+[Epoch 6/15] step 950/1284 (0.6 it/s)
+[Epoch 6/15] step 1000/1284 (0.6 it/s)
+[Epoch 6/15] step 1000/1284 (0.6 it/s)
+[Epoch 6/15] step 1000/1284 (0.6 it/s)
+[Epoch 6/15] step 1000/1284 (0.6 it/s)
+[Epoch 6/15] step 1050/1284 (0.6 it/s)
+[Epoch 6/15] step 1050/1284 (0.6 it/s)
+[Epoch 6/15] step 1050/1284 (0.6 it/s)
+[Epoch 6/15] step 1050/1284 (0.6 it/s)
+[Epoch 6/15] step 1100/1284 (0.6 it/s)
+[Epoch 6/15] step 1100/1284 (0.6 it/s)
+[Epoch 6/15] step 1100/1284 (0.6 it/s)
+[Epoch 6/15] step 1100/1284 (0.6 it/s)
+[Epoch 6/15] step 1150/1284 (0.6 it/s)
+[Epoch 6/15] step 1150/1284 (0.6 it/s)
+[Epoch 6/15] step 1150/1284 (0.6 it/s)
+[Epoch 6/15] step 1150/1284 (0.6 it/s)
+[Epoch 6/15] step 1200/1284 (0.6 it/s)
+[Epoch 6/15] step 1200/1284 (0.6 it/s)
+[Epoch 6/15] step 1200/1284 (0.6 it/s)
+[Epoch 6/15] step 1200/1284 (0.6 it/s)
+[Epoch 6/15] step 1250/1284 (0.6 it/s)
+[Epoch 6/15] step 1250/1284 (0.6 it/s)
+[Epoch 6/15] step 1250/1284 (0.6 it/s)
+[Epoch 6/15] step 1250/1284 (0.6 it/s)
+[Epoch 6/15] done in 2439.9s
+[Epoch 6/15] done in 2439.9s
+[Epoch 6/15] done in 2439.9s
+00:50:32 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |  [0;32;40m0.18364809453487396[0m   |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.02568911388516426[0m   |
+|      [0;34;40mfit/sigreg_loss[0m       |      [0;32;40m1.751953125[0m       |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m6.900000095367432[0m    |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |          [0;32;40m0.0[0m           |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.07185876369476318[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   |  [0;32;40m0.001877360511571169[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.0008698404999449849[0m  |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m76.93144989013672[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.099999904632568[0m    |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m2.8032287445967086e-05[0m |
+|       [0;34;40mvalidate/loss[0m        |   [0;32;40m0.5434585809707642[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |   [0;32;40m0.5434585809707642[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.10119017958641052[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.10119017958641052[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m4.914131164550781[0m    |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m4.914131164550781[0m    |
++----------------------------+------------------------+
+00:50:34 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_7.pt 📦📦📦
+[Epoch 6/15] done in 2441.3s
+00:50:34 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+00:50:34 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=6-step=8988.ckpt
+00:50:34 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=6-step=8988.ckpt saved (206.8 MiB, serialise=0.22s write=0.18s rename=0.0ms)
+00:50:34 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+00:50:34 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+00:50:35 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.21s write=0.18s rename=15.1ms)
+[Epoch 7/15] step 50/1284 (0.6 it/s)
+[Epoch 7/15] step 50/1284 (0.6 it/s)
+[Epoch 7/15] step 50/1284 (0.6 it/s)
+[Epoch 7/15] step 50/1284 (0.6 it/s)
+[Epoch 7/15] step 100/1284 (0.6 it/s)
+[Epoch 7/15] step 100/1284 (0.6 it/s)
+[Epoch 7/15] step 100/1284 (0.6 it/s)
+[Epoch 7/15] step 100/1284 (0.6 it/s)
+[Epoch 7/15] step 150/1284 (0.6 it/s)
+[Epoch 7/15] step 150/1284 (0.6 it/s)
+[Epoch 7/15] step 150/1284 (0.6 it/s)
+[Epoch 7/15] step 150/1284 (0.6 it/s)
+[Epoch 7/15] step 200/1284 (0.6 it/s)
+[Epoch 7/15] step 200/1284 (0.6 it/s)
+[Epoch 7/15] step 200/1284 (0.6 it/s)
+[Epoch 7/15] step 200/1284 (0.6 it/s)
+[Epoch 7/15] step 250/1284 (0.6 it/s)
+[Epoch 7/15] step 250/1284 (0.6 it/s)
+[Epoch 7/15] step 250/1284 (0.6 it/s)
+[Epoch 7/15] step 250/1284 (0.6 it/s)
+[Epoch 7/15] step 300/1284 (0.6 it/s)
+[Epoch 7/15] step 300/1284 (0.6 it/s)
+[Epoch 7/15] step 300/1284 (0.6 it/s)
+[Epoch 7/15] step 300/1284 (0.6 it/s)
+[Epoch 7/15] step 350/1284 (0.6 it/s)
+[Epoch 7/15] step 350/1284 (0.6 it/s)
+[Epoch 7/15] step 350/1284 (0.6 it/s)
+[Epoch 7/15] step 350/1284 (0.6 it/s)
+[Epoch 7/15] step 400/1284 (0.6 it/s)
+[Epoch 7/15] step 400/1284 (0.6 it/s)
+[Epoch 7/15] step 400/1284 (0.6 it/s)
+[Epoch 7/15] step 400/1284 (0.6 it/s)
+[Epoch 7/15] step 450/1284 (0.6 it/s)
+[Epoch 7/15] step 450/1284 (0.6 it/s)
+[Epoch 7/15] step 450/1284 (0.6 it/s)
+[Epoch 7/15] step 450/1284 (0.6 it/s)
+[Epoch 7/15] step 500/1284 (0.6 it/s)
+[Epoch 7/15] step 500/1284 (0.6 it/s)
+[Epoch 7/15] step 500/1284 (0.6 it/s)
+[Epoch 7/15] step 500/1284 (0.6 it/s)
+[Epoch 7/15] step 550/1284 (0.6 it/s)
+[Epoch 7/15] step 550/1284 (0.6 it/s)
+[Epoch 7/15] step 550/1284 (0.6 it/s)
+[Epoch 7/15] step 550/1284 (0.6 it/s)
+[Epoch 7/15] step 600/1284 (0.6 it/s)
+[Epoch 7/15] step 600/1284 (0.6 it/s)
+[Epoch 7/15] step 600/1284 (0.6 it/s)
+[Epoch 7/15] step 600/1284 (0.6 it/s)
+[Epoch 7/15] step 650/1284 (0.6 it/s)
+[Epoch 7/15] step 650/1284 (0.6 it/s)
+[Epoch 7/15] step 650/1284 (0.6 it/s)
+[Epoch 7/15] step 650/1284 (0.6 it/s)
+[Epoch 7/15] step 700/1284 (0.6 it/s)
+[Epoch 7/15] step 700/1284 (0.6 it/s)
+[Epoch 7/15] step 700/1284 (0.6 it/s)
+[Epoch 7/15] step 700/1284 (0.6 it/s)
+[Epoch 7/15] step 750/1284 (0.6 it/s)
+[Epoch 7/15] step 750/1284 (0.6 it/s)
+[Epoch 7/15] step 750/1284 (0.6 it/s)
+[Epoch 7/15] step 750/1284 (0.6 it/s)
+[Epoch 7/15] step 800/1284 (0.6 it/s)
+[Epoch 7/15] step 800/1284 (0.6 it/s)
+[Epoch 7/15] step 800/1284 (0.6 it/s)
+[Epoch 7/15] step 800/1284 (0.6 it/s)
+[Epoch 7/15] step 850/1284 (0.6 it/s)
+[Epoch 7/15] step 850/1284 (0.6 it/s)
+[Epoch 7/15] step 850/1284 (0.6 it/s)
+[Epoch 7/15] step 850/1284 (0.6 it/s)
+[Epoch 7/15] step 900/1284 (0.6 it/s)
+[Epoch 7/15] step 900/1284 (0.6 it/s)
+[Epoch 7/15] step 900/1284 (0.6 it/s)
+[Epoch 7/15] step 900/1284 (0.6 it/s)
+[Epoch 7/15] step 950/1284 (0.6 it/s)
+[Epoch 7/15] step 950/1284 (0.6 it/s)
+[Epoch 7/15] step 950/1284 (0.6 it/s)
+[Epoch 7/15] step 950/1284 (0.6 it/s)
+[Epoch 7/15] step 1000/1284 (0.6 it/s)
+[Epoch 7/15] step 1000/1284 (0.6 it/s)
+[Epoch 7/15] step 1000/1284 (0.6 it/s)
+[Epoch 7/15] step 1000/1284 (0.6 it/s)
+[Epoch 7/15] step 1050/1284 (0.6 it/s)
+[Epoch 7/15] step 1050/1284 (0.6 it/s)
+[Epoch 7/15] step 1050/1284 (0.6 it/s)
+[Epoch 7/15] step 1050/1284 (0.6 it/s)
+[Epoch 7/15] step 1100/1284 (0.6 it/s)
+[Epoch 7/15] step 1100/1284 (0.6 it/s)
+[Epoch 7/15] step 1100/1284 (0.6 it/s)
+[Epoch 7/15] step 1100/1284 (0.6 it/s)
+[Epoch 7/15] step 1150/1284 (0.6 it/s)
+[Epoch 7/15] step 1150/1284 (0.6 it/s)
+[Epoch 7/15] step 1150/1284 (0.6 it/s)
+[Epoch 7/15] step 1150/1284 (0.6 it/s)
+[Epoch 7/15] step 1200/1284 (0.6 it/s)
+[Epoch 7/15] step 1200/1284 (0.6 it/s)
+[Epoch 7/15] step 1200/1284 (0.6 it/s)
+[Epoch 7/15] step 1200/1284 (0.6 it/s)
+[Epoch 7/15] step 1250/1284 (0.6 it/s)
+[Epoch 7/15] step 1250/1284 (0.6 it/s)
+[Epoch 7/15] step 1250/1284 (0.6 it/s)
+[Epoch 7/15] step 1250/1284 (0.6 it/s)
+[Epoch 7/15] done in 2479.6s
+[Epoch 7/15] done in 2479.6s
+[Epoch 7/15] done in 2479.6s
+01:31:54 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |   [0;32;40m0.1728021800518036[0m   |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.02387639880180359[0m   |
+|      [0;34;40mfit/sigreg_loss[0m       |       [0;32;40m1.65234375[0m       |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m7.300000190734863[0m    |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |   [0;32;40m0.7747947573661804[0m   |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.13902567327022552[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0003708810545504093[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.0003813687071669847[0m  |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m77.34642028808594[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.099999904632568[0m    |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m2.2754094970878214e-05[0m |
+|       [0;34;40mvalidate/loss[0m        |   [0;32;40m0.6344654560089111[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |   [0;32;40m0.6344654560089111[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.11969772726297379[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.11969772726297379[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m5.719461441040039[0m    |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m5.719461441040039[0m    |
++----------------------------+------------------------+
+01:31:55 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_8.pt 📦📦📦
+[Epoch 7/15] done in 2480.6s
+01:31:55 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+01:31:55 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=7-step=10272.ckpt
+01:31:56 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=7-step=10272.ckpt saved (206.8 MiB, serialise=0.20s write=0.18s rename=0.0ms)
+01:31:56 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+01:31:56 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+01:31:56 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.20s write=0.19s rename=19.7ms)
+[Epoch 8/15] step 50/1284 (0.6 it/s)
+[Epoch 8/15] step 50/1284 (0.6 it/s)
+[Epoch 8/15] step 50/1284 (0.6 it/s)
+[Epoch 8/15] step 50/1284 (0.6 it/s)
+[Epoch 8/15] step 100/1284 (0.6 it/s)
+[Epoch 8/15] step 100/1284 (0.6 it/s)
+[Epoch 8/15] step 100/1284 (0.6 it/s)
+[Epoch 8/15] step 100/1284 (0.6 it/s)
+[Epoch 8/15] step 150/1284 (0.6 it/s)
+[Epoch 8/15] step 150/1284 (0.6 it/s)
+[Epoch 8/15] step 150/1284 (0.6 it/s)
+[Epoch 8/15] step 150/1284 (0.6 it/s)
+[Epoch 8/15] step 200/1284 (0.6 it/s)
+[Epoch 8/15] step 200/1284 (0.6 it/s)
+[Epoch 8/15] step 200/1284 (0.6 it/s)
+[Epoch 8/15] step 200/1284 (0.6 it/s)
+[Epoch 8/15] step 250/1284 (0.6 it/s)
+[Epoch 8/15] step 250/1284 (0.6 it/s)
+[Epoch 8/15] step 250/1284 (0.6 it/s)
+[Epoch 8/15] step 250/1284 (0.6 it/s)
+[Epoch 8/15] step 300/1284 (0.6 it/s)
+[Epoch 8/15] step 300/1284 (0.6 it/s)
+[Epoch 8/15] step 300/1284 (0.6 it/s)
+[Epoch 8/15] step 300/1284 (0.6 it/s)
+[Epoch 8/15] step 350/1284 (0.6 it/s)
+[Epoch 8/15] step 350/1284 (0.6 it/s)
+[Epoch 8/15] step 350/1284 (0.6 it/s)
+[Epoch 8/15] step 350/1284 (0.6 it/s)
+[Epoch 8/15] step 400/1284 (0.6 it/s)
+[Epoch 8/15] step 400/1284 (0.6 it/s)
+[Epoch 8/15] step 400/1284 (0.6 it/s)
+[Epoch 8/15] step 400/1284 (0.6 it/s)
+[Epoch 8/15] step 450/1284 (0.6 it/s)
+[Epoch 8/15] step 450/1284 (0.6 it/s)
+[Epoch 8/15] step 450/1284 (0.6 it/s)
+[Epoch 8/15] step 450/1284 (0.6 it/s)
+[Epoch 8/15] step 500/1284 (0.6 it/s)
+[Epoch 8/15] step 500/1284 (0.6 it/s)
+[Epoch 8/15] step 500/1284 (0.6 it/s)
+[Epoch 8/15] step 500/1284 (0.6 it/s)
+[Epoch 8/15] step 550/1284 (0.6 it/s)
+[Epoch 8/15] step 550/1284 (0.6 it/s)
+[Epoch 8/15] step 550/1284 (0.6 it/s)
+[Epoch 8/15] step 550/1284 (0.6 it/s)
+[Epoch 8/15] step 600/1284 (0.6 it/s)
+[Epoch 8/15] step 600/1284 (0.6 it/s)
+[Epoch 8/15] step 600/1284 (0.6 it/s)
+[Epoch 8/15] step 600/1284 (0.6 it/s)
+[Epoch 8/15] step 650/1284 (0.6 it/s)
+[Epoch 8/15] step 650/1284 (0.6 it/s)
+[Epoch 8/15] step 650/1284 (0.6 it/s)
+[Epoch 8/15] step 650/1284 (0.6 it/s)
+[Epoch 8/15] step 700/1284 (0.6 it/s)
+[Epoch 8/15] step 700/1284 (0.6 it/s)
+[Epoch 8/15] step 700/1284 (0.6 it/s)
+[Epoch 8/15] step 700/1284 (0.6 it/s)
+[Epoch 8/15] step 750/1284 (0.6 it/s)
+[Epoch 8/15] step 750/1284 (0.6 it/s)
+[Epoch 8/15] step 750/1284 (0.6 it/s)
+[Epoch 8/15] step 750/1284 (0.6 it/s)
+[Epoch 8/15] step 800/1284 (0.6 it/s)
+[Epoch 8/15] step 800/1284 (0.6 it/s)
+[Epoch 8/15] step 800/1284 (0.6 it/s)
+[Epoch 8/15] step 800/1284 (0.6 it/s)
+[Epoch 8/15] step 850/1284 (0.6 it/s)
+[Epoch 8/15] step 850/1284 (0.6 it/s)
+[Epoch 8/15] step 850/1284 (0.6 it/s)
+[Epoch 8/15] step 850/1284 (0.6 it/s)
+[Epoch 8/15] step 900/1284 (0.6 it/s)
+[Epoch 8/15] step 900/1284 (0.6 it/s)
+[Epoch 8/15] step 900/1284 (0.6 it/s)
+[Epoch 8/15] step 900/1284 (0.6 it/s)
+[Epoch 8/15] step 950/1284 (0.6 it/s)
+[Epoch 8/15] step 950/1284 (0.6 it/s)
+[Epoch 8/15] step 950/1284 (0.6 it/s)
+[Epoch 8/15] step 950/1284 (0.6 it/s)
+[Epoch 8/15] step 1000/1284 (0.6 it/s)
+[Epoch 8/15] step 1000/1284 (0.6 it/s)
+[Epoch 8/15] step 1000/1284 (0.6 it/s)
+[Epoch 8/15] step 1000/1284 (0.6 it/s)
+[Epoch 8/15] step 1050/1284 (0.6 it/s)
+[Epoch 8/15] step 1050/1284 (0.6 it/s)
+[Epoch 8/15] step 1050/1284 (0.6 it/s)
+[Epoch 8/15] step 1050/1284 (0.6 it/s)
+[Epoch 8/15] step 1100/1284 (0.6 it/s)
+[Epoch 8/15] step 1100/1284 (0.6 it/s)
+[Epoch 8/15] step 1100/1284 (0.6 it/s)
+[Epoch 8/15] step 1100/1284 (0.6 it/s)
+[Epoch 8/15] step 1150/1284 (0.6 it/s)
+[Epoch 8/15] step 1150/1284 (0.6 it/s)
+[Epoch 8/15] step 1150/1284 (0.6 it/s)
+[Epoch 8/15] step 1150/1284 (0.6 it/s)
+[Epoch 8/15] step 1200/1284 (0.6 it/s)
+[Epoch 8/15] step 1200/1284 (0.6 it/s)
+[Epoch 8/15] step 1200/1284 (0.6 it/s)
+[Epoch 8/15] step 1200/1284 (0.6 it/s)
+[Epoch 8/15] step 1250/1284 (0.6 it/s)
+[Epoch 8/15] step 1250/1284 (0.6 it/s)
+[Epoch 8/15] step 1250/1284 (0.6 it/s)
+[Epoch 8/15] step 1250/1284 (0.6 it/s)
+[Epoch 8/15] done in 2358.8s
+[Epoch 8/15] done in 2358.8s
+[Epoch 8/15] done in 2358.8s
+02:11:15 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |  [0;32;40m0.17742937803268433[0m   |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.029480144381523132[0m  |
+|      [0;34;40mfit/sigreg_loss[0m       |      [0;32;40m1.646484375[0m       |
+|    [0;34;40mhardware/cpu_percent[0m    |          [0;32;40m7.0[0m           |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |          [0;32;40m0.0[0m           |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |   [0;32;40m0.1827700138092041[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0004178029776085168[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.00044831345439888537[0m |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m77.60260772705078[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.199999809265137[0m    |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m1.757603786245454e-05[0m  |
+|       [0;34;40mvalidate/loss[0m        |   [0;32;40m0.6271154880523682[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |   [0;32;40m0.6271154880523682[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.16788725554943085[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.16788725554943085[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m5.102221965789795[0m    |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m5.102221965789795[0m    |
++----------------------------+------------------------+
+02:11:16 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_9.pt 📦📦📦
+[Epoch 8/15] done in 2360.2s
+02:11:16 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+02:11:16 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=8-step=11556.ckpt
+02:11:17 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=8-step=11556.ckpt saved (206.8 MiB, serialise=0.18s write=0.17s rename=0.0ms)
+02:11:17 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+02:11:17 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+02:11:17 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.19s write=0.17s rename=17.8ms)
+[Epoch 9/15] step 50/1284 (0.6 it/s)
+[Epoch 9/15] step 50/1284 (0.6 it/s)
+[Epoch 9/15] step 50/1284 (0.6 it/s)
+[Epoch 9/15] step 50/1284 (0.6 it/s)
+[Epoch 9/15] step 100/1284 (0.6 it/s)
+[Epoch 9/15] step 100/1284 (0.6 it/s)
+[Epoch 9/15] step 100/1284 (0.6 it/s)
+[Epoch 9/15] step 100/1284 (0.6 it/s)
+[Epoch 9/15] step 150/1284 (0.6 it/s)
+[Epoch 9/15] step 150/1284 (0.6 it/s)
+[Epoch 9/15] step 150/1284 (0.6 it/s)
+[Epoch 9/15] step 150/1284 (0.6 it/s)
+[Epoch 9/15] step 200/1284 (0.6 it/s)
+[Epoch 9/15] step 200/1284 (0.6 it/s)
+[Epoch 9/15] step 200/1284 (0.6 it/s)
+[Epoch 9/15] step 200/1284 (0.6 it/s)
+[Epoch 9/15] step 250/1284 (0.6 it/s)
+[Epoch 9/15] step 250/1284 (0.6 it/s)
+[Epoch 9/15] step 250/1284 (0.6 it/s)
+[Epoch 9/15] step 250/1284 (0.6 it/s)
+[Epoch 9/15] step 300/1284 (0.6 it/s)
+[Epoch 9/15] step 300/1284 (0.6 it/s)
+[Epoch 9/15] step 300/1284 (0.6 it/s)
+[Epoch 9/15] step 300/1284 (0.6 it/s)
+[Epoch 9/15] step 350/1284 (0.6 it/s)
+[Epoch 9/15] step 350/1284 (0.6 it/s)
+[Epoch 9/15] step 350/1284 (0.6 it/s)
+[Epoch 9/15] step 350/1284 (0.6 it/s)
+[Epoch 9/15] step 400/1284 (0.6 it/s)
+[Epoch 9/15] step 400/1284 (0.6 it/s)
+[Epoch 9/15] step 400/1284 (0.6 it/s)
+[Epoch 9/15] step 400/1284 (0.6 it/s)
+[Epoch 9/15] step 450/1284 (0.6 it/s)
+[Epoch 9/15] step 450/1284 (0.6 it/s)
+[Epoch 9/15] step 450/1284 (0.6 it/s)
+[Epoch 9/15] step 450/1284 (0.6 it/s)
+[Epoch 9/15] step 500/1284 (0.6 it/s)
+[Epoch 9/15] step 500/1284 (0.6 it/s)
+[Epoch 9/15] step 500/1284 (0.6 it/s)
+[Epoch 9/15] step 500/1284 (0.6 it/s)
+[Epoch 9/15] step 550/1284 (0.6 it/s)
+[Epoch 9/15] step 550/1284 (0.6 it/s)
+[Epoch 9/15] step 550/1284 (0.6 it/s)
+[Epoch 9/15] step 550/1284 (0.6 it/s)
+[Epoch 9/15] step 600/1284 (0.6 it/s)
+[Epoch 9/15] step 600/1284 (0.6 it/s)
+[Epoch 9/15] step 600/1284 (0.6 it/s)
+[Epoch 9/15] step 600/1284 (0.6 it/s)
+[Epoch 9/15] step 650/1284 (0.6 it/s)
+[Epoch 9/15] step 650/1284 (0.6 it/s)
+[Epoch 9/15] step 650/1284 (0.6 it/s)
+[Epoch 9/15] step 650/1284 (0.6 it/s)
+[Epoch 9/15] step 700/1284 (0.6 it/s)
+[Epoch 9/15] step 700/1284 (0.6 it/s)
+[Epoch 9/15] step 700/1284 (0.6 it/s)
+[Epoch 9/15] step 700/1284 (0.6 it/s)
+[Epoch 9/15] step 750/1284 (0.6 it/s)
+[Epoch 9/15] step 750/1284 (0.6 it/s)
+[Epoch 9/15] step 750/1284 (0.6 it/s)
+[Epoch 9/15] step 750/1284 (0.6 it/s)
+[Epoch 9/15] step 800/1284 (0.6 it/s)
+[Epoch 9/15] step 800/1284 (0.6 it/s)
+[Epoch 9/15] step 800/1284 (0.6 it/s)
+[Epoch 9/15] step 800/1284 (0.6 it/s)
+[Epoch 9/15] step 850/1284 (0.6 it/s)
+[Epoch 9/15] step 850/1284 (0.6 it/s)
+[Epoch 9/15] step 850/1284 (0.6 it/s)
+[Epoch 9/15] step 850/1284 (0.6 it/s)
+[Epoch 9/15] step 900/1284 (0.6 it/s)
+[Epoch 9/15] step 900/1284 (0.6 it/s)
+[Epoch 9/15] step 900/1284 (0.6 it/s)
+[Epoch 9/15] step 900/1284 (0.6 it/s)
+[Epoch 9/15] step 950/1284 (0.6 it/s)
+[Epoch 9/15] step 950/1284 (0.6 it/s)
+[Epoch 9/15] step 950/1284 (0.6 it/s)
+[Epoch 9/15] step 950/1284 (0.6 it/s)
+[Epoch 9/15] step 1000/1284 (0.6 it/s)
+[Epoch 9/15] step 1000/1284 (0.6 it/s)
+[Epoch 9/15] step 1000/1284 (0.6 it/s)
+[Epoch 9/15] step 1000/1284 (0.6 it/s)
+[Epoch 9/15] step 1050/1284 (0.6 it/s)
+[Epoch 9/15] step 1050/1284 (0.6 it/s)
+[Epoch 9/15] step 1050/1284 (0.6 it/s)
+[Epoch 9/15] step 1050/1284 (0.6 it/s)
+[Epoch 9/15] step 1100/1284 (0.6 it/s)
+[Epoch 9/15] step 1100/1284 (0.6 it/s)
+[Epoch 9/15] step 1100/1284 (0.6 it/s)
+[Epoch 9/15] step 1100/1284 (0.6 it/s)
+[Epoch 9/15] step 1150/1284 (0.6 it/s)
+[Epoch 9/15] step 1150/1284 (0.6 it/s)
+[Epoch 9/15] step 1150/1284 (0.6 it/s)
+[Epoch 9/15] step 1150/1284 (0.6 it/s)
+[Epoch 9/15] step 1200/1284 (0.6 it/s)
+[Epoch 9/15] step 1200/1284 (0.6 it/s)
+[Epoch 9/15] step 1200/1284 (0.6 it/s)
+[Epoch 9/15] step 1200/1284 (0.6 it/s)
+[Epoch 9/15] step 1250/1284 (0.6 it/s)
+[Epoch 9/15] step 1250/1284 (0.6 it/s)
+[Epoch 9/15] step 1250/1284 (0.6 it/s)
+[Epoch 9/15] step 1250/1284 (0.6 it/s)
+[Epoch 9/15] done in 2347.3s
+[Epoch 9/15] done in 2347.3s
+[Epoch 9/15] done in 2347.3s
+02:50:24 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |  [0;32;40m0.17637759447097778[0m   |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.024033838883042336[0m  |
+|      [0;34;40mfit/sigreg_loss[0m       |       [0;32;40m1.69140625[0m       |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m6.900000095367432[0m    |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |          [0;32;40m0.0[0m           |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.08045081794261932[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0004101792583242059[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.00046204758109524846[0m |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m78.10279846191406[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.199999809265137[0m    |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m1.2728984984278213e-05[0m |
+|       [0;34;40mvalidate/loss[0m        |  [0;32;40m0.42640000581741333[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |  [0;32;40m0.42640000581741333[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.08048786967992783[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.08048786967992783[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m3.843106508255005[0m    |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m3.843106508255005[0m    |
++----------------------------+------------------------+
+02:50:26 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_10.pt 📦📦📦
+[Epoch 9/15] done in 2348.7s
+02:50:26 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+02:50:26 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=9-step=12840.ckpt
+02:50:26 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=9-step=12840.ckpt saved (206.8 MiB, serialise=0.21s write=0.17s rename=0.0ms)
+02:50:26 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+02:50:26 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+02:50:27 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.21s write=0.16s rename=16.2ms)
+[Epoch 10/15] step 50/1284 (0.6 it/s)
+[Epoch 10/15] step 50/1284 (0.6 it/s)
+[Epoch 10/15] step 50/1284 (0.6 it/s)
+[Epoch 10/15] step 50/1284 (0.6 it/s)
+[Epoch 10/15] step 100/1284 (0.6 it/s)
+[Epoch 10/15] step 100/1284 (0.6 it/s)
+[Epoch 10/15] step 100/1284 (0.6 it/s)
+[Epoch 10/15] step 100/1284 (0.6 it/s)
+[Epoch 10/15] step 150/1284 (0.6 it/s)
+[Epoch 10/15] step 150/1284 (0.6 it/s)
+[Epoch 10/15] step 150/1284 (0.6 it/s)
+[Epoch 10/15] step 150/1284 (0.6 it/s)
+[Epoch 10/15] step 200/1284 (0.6 it/s)
+[Epoch 10/15] step 200/1284 (0.6 it/s)
+[Epoch 10/15] step 200/1284 (0.6 it/s)
+[Epoch 10/15] step 200/1284 (0.6 it/s)
+[Epoch 10/15] step 250/1284 (0.6 it/s)
+[Epoch 10/15] step 250/1284 (0.6 it/s)
+[Epoch 10/15] step 250/1284 (0.6 it/s)
+[Epoch 10/15] step 250/1284 (0.6 it/s)
+[Epoch 10/15] step 300/1284 (0.6 it/s)
+[Epoch 10/15] step 300/1284 (0.6 it/s)
+[Epoch 10/15] step 300/1284 (0.6 it/s)
+[Epoch 10/15] step 300/1284 (0.6 it/s)
+[Epoch 10/15] step 350/1284 (0.6 it/s)
+[Epoch 10/15] step 350/1284 (0.6 it/s)
+[Epoch 10/15] step 350/1284 (0.6 it/s)
+[Epoch 10/15] step 350/1284 (0.6 it/s)
+[Epoch 10/15] step 400/1284 (0.6 it/s)
+[Epoch 10/15] step 400/1284 (0.6 it/s)
+[Epoch 10/15] step 400/1284 (0.6 it/s)
+[Epoch 10/15] step 400/1284 (0.6 it/s)
+[Epoch 10/15] step 450/1284 (0.6 it/s)
+[Epoch 10/15] step 450/1284 (0.6 it/s)
+[Epoch 10/15] step 450/1284 (0.6 it/s)
+[Epoch 10/15] step 450/1284 (0.6 it/s)
+[Epoch 10/15] step 500/1284 (0.6 it/s)
+[Epoch 10/15] step 500/1284 (0.6 it/s)
+[Epoch 10/15] step 500/1284 (0.6 it/s)
+[Epoch 10/15] step 500/1284 (0.6 it/s)
+[Epoch 10/15] step 550/1284 (0.6 it/s)
+[Epoch 10/15] step 550/1284 (0.6 it/s)
+[Epoch 10/15] step 550/1284 (0.6 it/s)
+[Epoch 10/15] step 550/1284 (0.6 it/s)
+[Epoch 10/15] step 600/1284 (0.6 it/s)
+[Epoch 10/15] step 600/1284 (0.6 it/s)
+[Epoch 10/15] step 600/1284 (0.6 it/s)
+[Epoch 10/15] step 600/1284 (0.6 it/s)
+[Epoch 10/15] step 650/1284 (0.6 it/s)
+[Epoch 10/15] step 650/1284 (0.6 it/s)
+[Epoch 10/15] step 650/1284 (0.6 it/s)
+[Epoch 10/15] step 650/1284 (0.6 it/s)
+[Epoch 10/15] step 700/1284 (0.6 it/s)
+[Epoch 10/15] step 700/1284 (0.6 it/s)
+[Epoch 10/15] step 700/1284 (0.6 it/s)
+[Epoch 10/15] step 700/1284 (0.6 it/s)
+[Epoch 10/15] step 750/1284 (0.6 it/s)
+[Epoch 10/15] step 750/1284 (0.6 it/s)
+[Epoch 10/15] step 750/1284 (0.6 it/s)
+[Epoch 10/15] step 750/1284 (0.6 it/s)
+[Epoch 10/15] step 800/1284 (0.6 it/s)
+[Epoch 10/15] step 800/1284 (0.6 it/s)
+[Epoch 10/15] step 800/1284 (0.6 it/s)
+[Epoch 10/15] step 800/1284 (0.6 it/s)
+[Epoch 10/15] step 850/1284 (0.6 it/s)
+[Epoch 10/15] step 850/1284 (0.6 it/s)
+[Epoch 10/15] step 850/1284 (0.6 it/s)
+[Epoch 10/15] step 850/1284 (0.6 it/s)
+[Epoch 10/15] step 900/1284 (0.6 it/s)
+[Epoch 10/15] step 900/1284 (0.6 it/s)
+[Epoch 10/15] step 900/1284 (0.6 it/s)
+[Epoch 10/15] step 900/1284 (0.6 it/s)
+[Epoch 10/15] step 950/1284 (0.6 it/s)
+[Epoch 10/15] step 950/1284 (0.6 it/s)
+[Epoch 10/15] step 950/1284 (0.6 it/s)
+[Epoch 10/15] step 950/1284 (0.6 it/s)
+[Epoch 10/15] step 1000/1284 (0.6 it/s)
+[Epoch 10/15] step 1000/1284 (0.6 it/s)
+[Epoch 10/15] step 1000/1284 (0.6 it/s)
+[Epoch 10/15] step 1000/1284 (0.6 it/s)
+[Epoch 10/15] step 1050/1284 (0.6 it/s)
+[Epoch 10/15] step 1050/1284 (0.6 it/s)
+[Epoch 10/15] step 1050/1284 (0.6 it/s)
+[Epoch 10/15] step 1050/1284 (0.6 it/s)
+[Epoch 10/15] step 1100/1284 (0.6 it/s)
+[Epoch 10/15] step 1100/1284 (0.6 it/s)
+[Epoch 10/15] step 1100/1284 (0.6 it/s)
+[Epoch 10/15] step 1100/1284 (0.6 it/s)
+[Epoch 10/15] step 1150/1284 (0.6 it/s)
+[Epoch 10/15] step 1150/1284 (0.6 it/s)
+[Epoch 10/15] step 1150/1284 (0.6 it/s)
+[Epoch 10/15] step 1150/1284 (0.6 it/s)
+[Epoch 10/15] step 1200/1284 (0.6 it/s)
+[Epoch 10/15] step 1200/1284 (0.6 it/s)
+[Epoch 10/15] step 1200/1284 (0.6 it/s)
+[Epoch 10/15] step 1200/1284 (0.6 it/s)
+[Epoch 10/15] step 1250/1284 (0.6 it/s)
+[Epoch 10/15] step 1250/1284 (0.6 it/s)
+[Epoch 10/15] step 1250/1284 (0.6 it/s)
+[Epoch 10/15] step 1250/1284 (0.6 it/s)
+[Epoch 10/15] done in 2353.5s
+[Epoch 10/15] done in 2353.5s
+[Epoch 10/15] done in 2353.5s
+03:29:40 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |  [0;32;40m0.16275164484977722[0m   |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.01968524232506752[0m   |
+|      [0;34;40mfit/sigreg_loss[0m       |       [0;32;40m1.58984375[0m       |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m7.599999904632568[0m    |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |   [0;32;40m0.7748250365257263[0m   |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.12145695090293884[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0003701327950693667[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.00038214639062061906[0m |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m77.31964111328125[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.099999904632568[0m    |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m8.429049557889812e-06[0m  |
+|       [0;34;40mvalidate/loss[0m        |   [0;32;40m0.3843281865119934[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |   [0;32;40m0.3843281865119934[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.07101710140705109[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.07101710140705109[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m3.480879783630371[0m    |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m3.480879783630371[0m    |
++----------------------------+------------------------+
+03:29:42 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_11.pt 📦📦📦
+[Epoch 10/15] done in 2355.0s
+03:29:42 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+03:29:42 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=10-step=14124.ckpt
+03:29:42 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=10-step=14124.ckpt saved (206.8 MiB, serialise=0.18s write=0.17s rename=0.0ms)
+03:29:42 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+03:29:42 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+03:29:42 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.19s write=0.16s rename=13.1ms)
+[Epoch 11/15] step 50/1284 (0.6 it/s)
+[Epoch 11/15] step 50/1284 (0.6 it/s)
+[Epoch 11/15] step 50/1284 (0.6 it/s)
+[Epoch 11/15] step 50/1284 (0.6 it/s)
+[Epoch 11/15] step 100/1284 (0.6 it/s)
+[Epoch 11/15] step 100/1284 (0.6 it/s)
+[Epoch 11/15] step 100/1284 (0.6 it/s)
+[Epoch 11/15] step 100/1284 (0.6 it/s)
+[Epoch 11/15] step 150/1284 (0.6 it/s)
+[Epoch 11/15] step 150/1284 (0.6 it/s)
+[Epoch 11/15] step 150/1284 (0.6 it/s)
+[Epoch 11/15] step 150/1284 (0.6 it/s)
+[Epoch 11/15] step 200/1284 (0.6 it/s)
+[Epoch 11/15] step 200/1284 (0.6 it/s)
+[Epoch 11/15] step 200/1284 (0.6 it/s)
+[Epoch 11/15] step 200/1284 (0.6 it/s)
+[Epoch 11/15] step 250/1284 (0.6 it/s)
+[Epoch 11/15] step 250/1284 (0.6 it/s)
+[Epoch 11/15] step 250/1284 (0.6 it/s)
+[Epoch 11/15] step 250/1284 (0.6 it/s)
+[Epoch 11/15] step 300/1284 (0.6 it/s)
+[Epoch 11/15] step 300/1284 (0.6 it/s)
+[Epoch 11/15] step 300/1284 (0.6 it/s)
+[Epoch 11/15] step 300/1284 (0.6 it/s)
+[Epoch 11/15] step 350/1284 (0.6 it/s)
+[Epoch 11/15] step 350/1284 (0.6 it/s)
+[Epoch 11/15] step 350/1284 (0.6 it/s)
+[Epoch 11/15] step 350/1284 (0.6 it/s)
+[Epoch 11/15] step 400/1284 (0.6 it/s)
+[Epoch 11/15] step 400/1284 (0.6 it/s)
+[Epoch 11/15] step 400/1284 (0.6 it/s)
+[Epoch 11/15] step 400/1284 (0.6 it/s)
+[Epoch 11/15] step 450/1284 (0.6 it/s)
+[Epoch 11/15] step 450/1284 (0.6 it/s)
+[Epoch 11/15] step 450/1284 (0.6 it/s)
+[Epoch 11/15] step 450/1284 (0.6 it/s)
+[Epoch 11/15] step 500/1284 (0.6 it/s)
+[Epoch 11/15] step 500/1284 (0.6 it/s)
+[Epoch 11/15] step 500/1284 (0.6 it/s)
+[Epoch 11/15] step 500/1284 (0.6 it/s)
+[Epoch 11/15] step 550/1284 (0.6 it/s)
+[Epoch 11/15] step 550/1284 (0.6 it/s)
+[Epoch 11/15] step 550/1284 (0.6 it/s)
+[Epoch 11/15] step 550/1284 (0.6 it/s)
+[Epoch 11/15] step 600/1284 (0.6 it/s)
+[Epoch 11/15] step 600/1284 (0.6 it/s)
+[Epoch 11/15] step 600/1284 (0.6 it/s)
+[Epoch 11/15] step 600/1284 (0.6 it/s)
+[Epoch 11/15] step 650/1284 (0.6 it/s)
+[Epoch 11/15] step 650/1284 (0.6 it/s)
+[Epoch 11/15] step 650/1284 (0.6 it/s)
+[Epoch 11/15] step 650/1284 (0.6 it/s)
+[Epoch 11/15] step 700/1284 (0.6 it/s)
+[Epoch 11/15] step 700/1284 (0.6 it/s)
+[Epoch 11/15] step 700/1284 (0.6 it/s)
+[Epoch 11/15] step 700/1284 (0.6 it/s)
+[Epoch 11/15] step 750/1284 (0.6 it/s)
+[Epoch 11/15] step 750/1284 (0.6 it/s)
+[Epoch 11/15] step 750/1284 (0.6 it/s)
+[Epoch 11/15] step 750/1284 (0.6 it/s)
+[Epoch 11/15] step 800/1284 (0.6 it/s)
+[Epoch 11/15] step 800/1284 (0.6 it/s)
+[Epoch 11/15] step 800/1284 (0.6 it/s)
+[Epoch 11/15] step 800/1284 (0.6 it/s)
+[Epoch 11/15] step 850/1284 (0.6 it/s)
+[Epoch 11/15] step 850/1284 (0.6 it/s)
+[Epoch 11/15] step 850/1284 (0.6 it/s)
+[Epoch 11/15] step 850/1284 (0.6 it/s)
+[Epoch 11/15] step 900/1284 (0.6 it/s)
+[Epoch 11/15] step 900/1284 (0.6 it/s)
+[Epoch 11/15] step 900/1284 (0.6 it/s)
+[Epoch 11/15] step 900/1284 (0.6 it/s)
+[Epoch 11/15] step 950/1284 (0.6 it/s)
+[Epoch 11/15] step 950/1284 (0.6 it/s)
+[Epoch 11/15] step 950/1284 (0.6 it/s)
+[Epoch 11/15] step 950/1284 (0.6 it/s)
+[Epoch 11/15] step 1000/1284 (0.6 it/s)
+[Epoch 11/15] step 1000/1284 (0.6 it/s)
+[Epoch 11/15] step 1000/1284 (0.6 it/s)
+[Epoch 11/15] step 1000/1284 (0.6 it/s)
+[Epoch 11/15] step 1050/1284 (0.6 it/s)
+[Epoch 11/15] step 1050/1284 (0.6 it/s)
+[Epoch 11/15] step 1050/1284 (0.6 it/s)
+[Epoch 11/15] step 1050/1284 (0.6 it/s)
+[Epoch 11/15] step 1100/1284 (0.6 it/s)
+[Epoch 11/15] step 1100/1284 (0.6 it/s)
+[Epoch 11/15] step 1100/1284 (0.6 it/s)
+[Epoch 11/15] step 1100/1284 (0.6 it/s)
+[Epoch 11/15] step 1150/1284 (0.6 it/s)
+[Epoch 11/15] step 1150/1284 (0.6 it/s)
+[Epoch 11/15] step 1150/1284 (0.6 it/s)
+[Epoch 11/15] step 1150/1284 (0.6 it/s)
+[Epoch 11/15] step 1200/1284 (0.6 it/s)
+[Epoch 11/15] step 1200/1284 (0.6 it/s)
+[Epoch 11/15] step 1200/1284 (0.6 it/s)
+[Epoch 11/15] step 1200/1284 (0.6 it/s)
+[Epoch 11/15] step 1250/1284 (0.6 it/s)
+[Epoch 11/15] step 1250/1284 (0.6 it/s)
+[Epoch 11/15] step 1250/1284 (0.6 it/s)
+[Epoch 11/15] step 1250/1284 (0.6 it/s)
+[Epoch 11/15] done in 2336.2s
+[Epoch 11/15] done in 2336.2s
+[Epoch 11/15] done in 2336.2s
+04:08:39 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |  [0;32;40m0.16817156970500946[0m   |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.01802508905529976[0m   |
+|      [0;34;40mfit/sigreg_loss[0m       |       [0;32;40m1.66796875[0m       |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m7.400000095367432[0m    |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |   [0;32;40m0.7748156189918518[0m   |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.12614186108112335[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0003703190013766289[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.00035601729177869856[0m |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m76.82855224609375[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.099999904632568[0m    |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m4.867947609454859e-06[0m  |
+|       [0;34;40mvalidate/loss[0m        |   [0;32;40m0.3281259536743164[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |   [0;32;40m0.3281259536743164[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.06270018965005875[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.06270018965005875[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m2.9488792419433594[0m   |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m2.9488792419433594[0m   |
++----------------------------+------------------------+
+04:08:40 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_12.pt 📦📦📦
+[Epoch 11/15] done in 2337.6s
+04:08:40 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+04:08:40 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=11-step=15408.ckpt
+04:08:40 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=11-step=15408.ckpt saved (206.8 MiB, serialise=0.20s write=0.17s rename=0.0ms)
+04:08:40 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+04:08:40 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+04:08:41 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.19s write=0.16s rename=13.2ms)
+[Epoch 12/15] step 50/1284 (0.6 it/s)
+[Epoch 12/15] step 50/1284 (0.6 it/s)
+[Epoch 12/15] step 50/1284 (0.6 it/s)
+[Epoch 12/15] step 50/1284 (0.6 it/s)
+[Epoch 12/15] step 100/1284 (0.6 it/s)
+[Epoch 12/15] step 100/1284 (0.6 it/s)
+[Epoch 12/15] step 100/1284 (0.6 it/s)
+[Epoch 12/15] step 100/1284 (0.6 it/s)
+[Epoch 12/15] step 150/1284 (0.6 it/s)
+[Epoch 12/15] step 150/1284 (0.6 it/s)
+[Epoch 12/15] step 150/1284 (0.6 it/s)
+[Epoch 12/15] step 150/1284 (0.6 it/s)
+[Epoch 12/15] step 200/1284 (0.6 it/s)
+[Epoch 12/15] step 200/1284 (0.6 it/s)
+[Epoch 12/15] step 200/1284 (0.6 it/s)
+[Epoch 12/15] step 200/1284 (0.6 it/s)
+[Epoch 12/15] step 250/1284 (0.6 it/s)
+[Epoch 12/15] step 250/1284 (0.6 it/s)
+[Epoch 12/15] step 250/1284 (0.6 it/s)
+[Epoch 12/15] step 250/1284 (0.6 it/s)
+[Epoch 12/15] step 300/1284 (0.6 it/s)
+[Epoch 12/15] step 300/1284 (0.6 it/s)
+[Epoch 12/15] step 300/1284 (0.6 it/s)
+[Epoch 12/15] step 300/1284 (0.6 it/s)
+[Epoch 12/15] step 350/1284 (0.6 it/s)
+[Epoch 12/15] step 350/1284 (0.6 it/s)
+[Epoch 12/15] step 350/1284 (0.6 it/s)
+[Epoch 12/15] step 350/1284 (0.6 it/s)
+[Epoch 12/15] step 400/1284 (0.6 it/s)
+[Epoch 12/15] step 400/1284 (0.6 it/s)
+[Epoch 12/15] step 400/1284 (0.6 it/s)
+[Epoch 12/15] step 400/1284 (0.6 it/s)
+[Epoch 12/15] step 450/1284 (0.6 it/s)
+[Epoch 12/15] step 450/1284 (0.6 it/s)
+[Epoch 12/15] step 450/1284 (0.6 it/s)
+[Epoch 12/15] step 450/1284 (0.6 it/s)
+[Epoch 12/15] step 500/1284 (0.6 it/s)
+[Epoch 12/15] step 500/1284 (0.6 it/s)
+[Epoch 12/15] step 500/1284 (0.6 it/s)
+[Epoch 12/15] step 500/1284 (0.6 it/s)
+[Epoch 12/15] step 550/1284 (0.6 it/s)
+[Epoch 12/15] step 550/1284 (0.6 it/s)
+[Epoch 12/15] step 550/1284 (0.6 it/s)
+[Epoch 12/15] step 550/1284 (0.6 it/s)
+[Epoch 12/15] step 600/1284 (0.6 it/s)
+[Epoch 12/15] step 600/1284 (0.6 it/s)
+[Epoch 12/15] step 600/1284 (0.6 it/s)
+[Epoch 12/15] step 600/1284 (0.6 it/s)
+[Epoch 12/15] step 650/1284 (0.6 it/s)
+[Epoch 12/15] step 650/1284 (0.6 it/s)
+[Epoch 12/15] step 650/1284 (0.6 it/s)
+[Epoch 12/15] step 650/1284 (0.6 it/s)
+[Epoch 12/15] step 700/1284 (0.6 it/s)
+[Epoch 12/15] step 700/1284 (0.6 it/s)
+[Epoch 12/15] step 700/1284 (0.6 it/s)
+[Epoch 12/15] step 700/1284 (0.6 it/s)
+[Epoch 12/15] step 750/1284 (0.6 it/s)
+[Epoch 12/15] step 750/1284 (0.6 it/s)
+[Epoch 12/15] step 750/1284 (0.6 it/s)
+[Epoch 12/15] step 750/1284 (0.6 it/s)
+[Epoch 12/15] step 800/1284 (0.6 it/s)
+[Epoch 12/15] step 800/1284 (0.6 it/s)
+[Epoch 12/15] step 800/1284 (0.6 it/s)
+[Epoch 12/15] step 800/1284 (0.6 it/s)
+[Epoch 12/15] step 850/1284 (0.6 it/s)
+[Epoch 12/15] step 850/1284 (0.6 it/s)
+[Epoch 12/15] step 850/1284 (0.6 it/s)
+[Epoch 12/15] step 850/1284 (0.6 it/s)
+[Epoch 12/15] step 900/1284 (0.6 it/s)
+[Epoch 12/15] step 900/1284 (0.6 it/s)
+[Epoch 12/15] step 900/1284 (0.6 it/s)
+[Epoch 12/15] step 900/1284 (0.6 it/s)
+[Epoch 12/15] step 950/1284 (0.6 it/s)
+[Epoch 12/15] step 950/1284 (0.6 it/s)
+[Epoch 12/15] step 950/1284 (0.6 it/s)
+[Epoch 12/15] step 950/1284 (0.6 it/s)
+[Epoch 12/15] step 1000/1284 (0.6 it/s)
+[Epoch 12/15] step 1000/1284 (0.6 it/s)
+[Epoch 12/15] step 1000/1284 (0.6 it/s)
+[Epoch 12/15] step 1000/1284 (0.6 it/s)
+[Epoch 12/15] step 1050/1284 (0.6 it/s)
+[Epoch 12/15] step 1050/1284 (0.6 it/s)
+[Epoch 12/15] step 1050/1284 (0.6 it/s)
+[Epoch 12/15] step 1050/1284 (0.6 it/s)
+[Epoch 12/15] step 1100/1284 (0.6 it/s)
+[Epoch 12/15] step 1100/1284 (0.6 it/s)
+[Epoch 12/15] step 1100/1284 (0.6 it/s)
+[Epoch 12/15] step 1100/1284 (0.6 it/s)
+[Epoch 12/15] step 1150/1284 (0.6 it/s)
+[Epoch 12/15] step 1150/1284 (0.6 it/s)
+[Epoch 12/15] step 1150/1284 (0.6 it/s)
+[Epoch 12/15] step 1150/1284 (0.6 it/s)
+[Epoch 12/15] step 1200/1284 (0.6 it/s)
+[Epoch 12/15] step 1200/1284 (0.6 it/s)
+[Epoch 12/15] step 1200/1284 (0.6 it/s)
+[Epoch 12/15] step 1200/1284 (0.6 it/s)
+[Epoch 12/15] step 1250/1284 (0.6 it/s)
+[Epoch 12/15] step 1250/1284 (0.6 it/s)
+[Epoch 12/15] step 1250/1284 (0.6 it/s)
+[Epoch 12/15] step 1250/1284 (0.6 it/s)
+[Epoch 12/15] done in 2336.8s
+[Epoch 12/15] done in 2336.8s
+[Epoch 12/15] done in 2336.8s
+04:47:38 | INFO  | trainer_inf~| \n+----------------------------+------------------------+
+|           Metric           |         Value          |
++----------------------------+------------------------+
+|          [0;34;40mfit/loss[0m          |   [0;32;40m0.1652369350194931[0m   |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.020217405632138252[0m  |
+|      [0;34;40mfit/sigreg_loss[0m       |      [0;32;40m1.611328125[0m       |
+|    [0;34;40mhardware/cpu_percent[0m    |          [0;32;40m7.0[0m           |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |          [0;32;40m0.0[0m           |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.06951582431793213[0m   |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0018809912726283073[0m  |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.0008540165727026761[0m  |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m76.82464599609375[0m    |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.099999904632568[0m    |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m2.2044548586563906e-06[0m |
+|       [0;34;40mvalidate/loss[0m        |  [0;32;40m0.20205679535865784[0m   |
+|    [0;34;40mvalidate/loss_epoch[0m     |  [0;32;40m0.20205679535865784[0m   |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.01732983998954296[0m   |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.01732983998954296[0m   |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m2.0520858764648438[0m   |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m2.0520858764648438[0m   |
++----------------------------+------------------------+
+04:47:39 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_13.pt 📦📦📦
+[Epoch 12/15] done in 2338.2s
+04:47:39 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+04:47:39 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=12-step=16692.ckpt
+04:47:39 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=12-step=16692.ckpt saved (206.8 MiB, serialise=0.19s write=0.18s rename=0.1ms)
+04:47:39 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+04:47:39 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+04:47:40 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.20s write=0.19s rename=17.3ms)
+[Epoch 13/15] step 50/1284 (0.6 it/s)
+[Epoch 13/15] step 50/1284 (0.6 it/s)
+[Epoch 13/15] step 50/1284 (0.6 it/s)
+[Epoch 13/15] step 50/1284 (0.6 it/s)
+[Epoch 13/15] step 100/1284 (0.6 it/s)
+[Epoch 13/15] step 100/1284 (0.6 it/s)
+[Epoch 13/15] step 100/1284 (0.6 it/s)
+[Epoch 13/15] step 100/1284 (0.6 it/s)
+[Epoch 13/15] step 150/1284 (0.6 it/s)
+[Epoch 13/15] step 150/1284 (0.6 it/s)
+[Epoch 13/15] step 150/1284 (0.6 it/s)
+[Epoch 13/15] step 150/1284 (0.6 it/s)
+[Epoch 13/15] step 200/1284 (0.6 it/s)
+[Epoch 13/15] step 200/1284 (0.6 it/s)
+[Epoch 13/15] step 200/1284 (0.6 it/s)
+[Epoch 13/15] step 200/1284 (0.6 it/s)
+[Epoch 13/15] step 250/1284 (0.6 it/s)
+[Epoch 13/15] step 250/1284 (0.6 it/s)
+[Epoch 13/15] step 250/1284 (0.6 it/s)
+[Epoch 13/15] step 250/1284 (0.6 it/s)
+[Epoch 13/15] step 300/1284 (0.6 it/s)
+[Epoch 13/15] step 300/1284 (0.6 it/s)
+[Epoch 13/15] step 300/1284 (0.6 it/s)
+[Epoch 13/15] step 300/1284 (0.6 it/s)
+[Epoch 13/15] step 350/1284 (0.6 it/s)
+[Epoch 13/15] step 350/1284 (0.6 it/s)
+[Epoch 13/15] step 350/1284 (0.6 it/s)
+[Epoch 13/15] step 350/1284 (0.6 it/s)
+[Epoch 13/15] step 400/1284 (0.6 it/s)
+[Epoch 13/15] step 400/1284 (0.6 it/s)
+[Epoch 13/15] step 400/1284 (0.6 it/s)
+[Epoch 13/15] step 400/1284 (0.6 it/s)
+[Epoch 13/15] step 450/1284 (0.6 it/s)
+[Epoch 13/15] step 450/1284 (0.6 it/s)
+[Epoch 13/15] step 450/1284 (0.6 it/s)
+[Epoch 13/15] step 450/1284 (0.6 it/s)
+[Epoch 13/15] step 500/1284 (0.6 it/s)
+[Epoch 13/15] step 500/1284 (0.6 it/s)
+[Epoch 13/15] step 500/1284 (0.6 it/s)
+[Epoch 13/15] step 500/1284 (0.6 it/s)
+[Epoch 13/15] step 550/1284 (0.6 it/s)
+[Epoch 13/15] step 550/1284 (0.6 it/s)
+[Epoch 13/15] step 550/1284 (0.6 it/s)
+[Epoch 13/15] step 550/1284 (0.6 it/s)
+[Epoch 13/15] step 600/1284 (0.6 it/s)
+[Epoch 13/15] step 600/1284 (0.6 it/s)
+[Epoch 13/15] step 600/1284 (0.6 it/s)
+[Epoch 13/15] step 600/1284 (0.6 it/s)
+[Epoch 13/15] step 650/1284 (0.6 it/s)
+[Epoch 13/15] step 650/1284 (0.6 it/s)
+[Epoch 13/15] step 650/1284 (0.6 it/s)
+[Epoch 13/15] step 650/1284 (0.6 it/s)
+[Epoch 13/15] step 700/1284 (0.6 it/s)
+[Epoch 13/15] step 700/1284 (0.6 it/s)
+[Epoch 13/15] step 700/1284 (0.6 it/s)
+[Epoch 13/15] step 700/1284 (0.6 it/s)
+[Epoch 13/15] step 750/1284 (0.6 it/s)
+[Epoch 13/15] step 750/1284 (0.6 it/s)
+[Epoch 13/15] step 750/1284 (0.6 it/s)
+[Epoch 13/15] step 750/1284 (0.6 it/s)
+[Epoch 13/15] step 800/1284 (0.6 it/s)
+[Epoch 13/15] step 800/1284 (0.6 it/s)
+[Epoch 13/15] step 800/1284 (0.6 it/s)
+[Epoch 13/15] step 800/1284 (0.6 it/s)
+[Epoch 13/15] step 850/1284 (0.6 it/s)
+[Epoch 13/15] step 850/1284 (0.6 it/s)
+[Epoch 13/15] step 850/1284 (0.6 it/s)
+[Epoch 13/15] step 850/1284 (0.6 it/s)
+[Epoch 13/15] step 900/1284 (0.6 it/s)
+[Epoch 13/15] step 900/1284 (0.6 it/s)
+[Epoch 13/15] step 900/1284 (0.6 it/s)
+[Epoch 13/15] step 900/1284 (0.6 it/s)
+[Epoch 13/15] step 950/1284 (0.6 it/s)
+[Epoch 13/15] step 950/1284 (0.6 it/s)
+[Epoch 13/15] step 950/1284 (0.6 it/s)
+[Epoch 13/15] step 950/1284 (0.6 it/s)
+[Epoch 13/15] step 1000/1284 (0.6 it/s)
+[Epoch 13/15] step 1000/1284 (0.6 it/s)
+[Epoch 13/15] step 1000/1284 (0.6 it/s)
+[Epoch 13/15] step 1000/1284 (0.6 it/s)
+[Epoch 13/15] step 1050/1284 (0.6 it/s)
+[Epoch 13/15] step 1050/1284 (0.6 it/s)
+[Epoch 13/15] step 1050/1284 (0.6 it/s)
+[Epoch 13/15] step 1050/1284 (0.6 it/s)
+[Epoch 13/15] step 1100/1284 (0.6 it/s)
+[Epoch 13/15] step 1100/1284 (0.6 it/s)
+[Epoch 13/15] step 1100/1284 (0.6 it/s)
+[Epoch 13/15] step 1100/1284 (0.6 it/s)
+[Epoch 13/15] step 1150/1284 (0.6 it/s)
+[Epoch 13/15] step 1150/1284 (0.6 it/s)
+[Epoch 13/15] step 1150/1284 (0.6 it/s)
+[Epoch 13/15] step 1150/1284 (0.6 it/s)
+[Epoch 13/15] step 1200/1284 (0.6 it/s)
+[Epoch 13/15] step 1200/1284 (0.6 it/s)
+[Epoch 13/15] step 1200/1284 (0.6 it/s)
+[Epoch 13/15] step 1200/1284 (0.6 it/s)
+[Epoch 13/15] step 1250/1284 (0.6 it/s)
+[Epoch 13/15] step 1250/1284 (0.6 it/s)
+[Epoch 13/15] step 1250/1284 (0.6 it/s)
+[Epoch 13/15] step 1250/1284 (0.6 it/s)
+[Epoch 13/15] done in 2414.7s
+[Epoch 13/15] done in 2414.7s
+[Epoch 13/15] done in 2414.7s
+05:27:54 | INFO  | trainer_inf~| \n+----------------------------+-----------------------+
+|           Metric           |         Value         |
++----------------------------+-----------------------+
+|          [0;34;40mfit/loss[0m          |  [0;32;40m0.16270554065704346[0m  |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.01768600568175316[0m  |
+|      [0;34;40mfit/sigreg_loss[0m       |      [0;32;40m1.611328125[0m      |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m7.699999809265137[0m   |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |   [0;32;40m0.7748193740844727[0m  |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |  [0;32;40m0.16168105602264404[0m  |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0004212351341266185[0m |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.0004580383829306811[0m |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m76.95860290527344[0m   |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.099999904632568[0m   |
+|    [0;34;40mhparams/lr_default_0[0m    | [0;32;40m5.573259613811388e-07[0m |
+|       [0;34;40mvalidate/loss[0m        |  [0;32;40m0.18556618690490723[0m  |
+|    [0;34;40mvalidate/loss_epoch[0m     |  [0;32;40m0.18556618690490723[0m  |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.012557580135762691[0m |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.012557580135762691[0m |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m1.9222266674041748[0m  |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m1.9222266674041748[0m  |
++----------------------------+-----------------------+
+05:27:56 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_14.pt 📦📦📦
+[Epoch 13/15] done in 2416.0s
+05:27:56 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+05:27:56 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=13-step=17976.ckpt
+05:27:56 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=13-step=17976.ckpt saved (206.8 MiB, serialise=0.19s write=0.17s rename=0.0ms)
+05:27:56 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+05:27:56 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+05:27:57 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.19s write=0.19s rename=15.4ms)
+[Epoch 14/15] step 50/1284 (0.6 it/s)
+[Epoch 14/15] step 50/1284 (0.6 it/s)
+[Epoch 14/15] step 50/1284 (0.6 it/s)
+[Epoch 14/15] step 50/1284 (0.6 it/s)
+[Epoch 14/15] step 100/1284 (0.6 it/s)
+[Epoch 14/15] step 100/1284 (0.6 it/s)
+[Epoch 14/15] step 100/1284 (0.6 it/s)
+[Epoch 14/15] step 100/1284 (0.6 it/s)
+[Epoch 14/15] step 150/1284 (0.6 it/s)
+[Epoch 14/15] step 150/1284 (0.6 it/s)
+[Epoch 14/15] step 150/1284 (0.6 it/s)
+[Epoch 14/15] step 150/1284 (0.6 it/s)
+[Epoch 14/15] step 200/1284 (0.6 it/s)
+[Epoch 14/15] step 200/1284 (0.6 it/s)
+[Epoch 14/15] step 200/1284 (0.6 it/s)
+[Epoch 14/15] step 200/1284 (0.6 it/s)
+[Epoch 14/15] step 250/1284 (0.6 it/s)
+[Epoch 14/15] step 250/1284 (0.6 it/s)
+[Epoch 14/15] step 250/1284 (0.6 it/s)
+[Epoch 14/15] step 250/1284 (0.6 it/s)
+[Epoch 14/15] step 300/1284 (0.6 it/s)
+[Epoch 14/15] step 300/1284 (0.6 it/s)
+[Epoch 14/15] step 300/1284 (0.6 it/s)
+[Epoch 14/15] step 300/1284 (0.6 it/s)
+[Epoch 14/15] step 350/1284 (0.6 it/s)
+[Epoch 14/15] step 350/1284 (0.6 it/s)
+[Epoch 14/15] step 350/1284 (0.6 it/s)
+[Epoch 14/15] step 350/1284 (0.6 it/s)
+[Epoch 14/15] step 400/1284 (0.6 it/s)
+[Epoch 14/15] step 400/1284 (0.6 it/s)
+[Epoch 14/15] step 400/1284 (0.6 it/s)
+[Epoch 14/15] step 400/1284 (0.6 it/s)
+[Epoch 14/15] step 450/1284 (0.6 it/s)
+[Epoch 14/15] step 450/1284 (0.6 it/s)
+[Epoch 14/15] step 450/1284 (0.6 it/s)
+[Epoch 14/15] step 450/1284 (0.6 it/s)
+[Epoch 14/15] step 500/1284 (0.6 it/s)
+[Epoch 14/15] step 500/1284 (0.6 it/s)
+[Epoch 14/15] step 500/1284 (0.6 it/s)
+[Epoch 14/15] step 500/1284 (0.6 it/s)
+[Epoch 14/15] step 550/1284 (0.6 it/s)
+[Epoch 14/15] step 550/1284 (0.6 it/s)
+[Epoch 14/15] step 550/1284 (0.6 it/s)
+[Epoch 14/15] step 550/1284 (0.6 it/s)
+[Epoch 14/15] step 600/1284 (0.6 it/s)
+[Epoch 14/15] step 600/1284 (0.6 it/s)
+[Epoch 14/15] step 600/1284 (0.6 it/s)
+[Epoch 14/15] step 600/1284 (0.6 it/s)
+[Epoch 14/15] step 650/1284 (0.6 it/s)
+[Epoch 14/15] step 650/1284 (0.6 it/s)
+[Epoch 14/15] step 650/1284 (0.6 it/s)
+[Epoch 14/15] step 650/1284 (0.6 it/s)
+[Epoch 14/15] step 700/1284 (0.6 it/s)
+[Epoch 14/15] step 700/1284 (0.6 it/s)
+[Epoch 14/15] step 700/1284 (0.6 it/s)
+[Epoch 14/15] step 700/1284 (0.6 it/s)
+[Epoch 14/15] step 750/1284 (0.6 it/s)
+[Epoch 14/15] step 750/1284 (0.6 it/s)
+[Epoch 14/15] step 750/1284 (0.6 it/s)
+[Epoch 14/15] step 750/1284 (0.6 it/s)
+[Epoch 14/15] step 800/1284 (0.6 it/s)
+[Epoch 14/15] step 800/1284 (0.6 it/s)
+[Epoch 14/15] step 800/1284 (0.6 it/s)
+[Epoch 14/15] step 800/1284 (0.6 it/s)
+[Epoch 14/15] step 850/1284 (0.6 it/s)
+[Epoch 14/15] step 850/1284 (0.6 it/s)
+[Epoch 14/15] step 850/1284 (0.6 it/s)
+[Epoch 14/15] step 850/1284 (0.6 it/s)
+[Epoch 14/15] step 900/1284 (0.6 it/s)
+[Epoch 14/15] step 900/1284 (0.6 it/s)
+[Epoch 14/15] step 900/1284 (0.6 it/s)
+[Epoch 14/15] step 900/1284 (0.6 it/s)
+[Epoch 14/15] step 950/1284 (0.6 it/s)
+[Epoch 14/15] step 950/1284 (0.6 it/s)
+[Epoch 14/15] step 950/1284 (0.6 it/s)
+[Epoch 14/15] step 950/1284 (0.6 it/s)
+[Epoch 14/15] step 1000/1284 (0.6 it/s)
+[Epoch 14/15] step 1000/1284 (0.6 it/s)
+[Epoch 14/15] step 1000/1284 (0.6 it/s)
+[Epoch 14/15] step 1000/1284 (0.6 it/s)
+[Epoch 14/15] step 1050/1284 (0.6 it/s)
+[Epoch 14/15] step 1050/1284 (0.6 it/s)
+[Epoch 14/15] step 1050/1284 (0.6 it/s)
+[Epoch 14/15] step 1050/1284 (0.6 it/s)
+[Epoch 14/15] step 1100/1284 (0.6 it/s)
+[Epoch 14/15] step 1100/1284 (0.6 it/s)
+[Epoch 14/15] step 1100/1284 (0.6 it/s)
+[Epoch 14/15] step 1100/1284 (0.6 it/s)
+[Epoch 14/15] step 1150/1284 (0.6 it/s)
+[Epoch 14/15] step 1150/1284 (0.6 it/s)
+[Epoch 14/15] step 1150/1284 (0.6 it/s)
+[Epoch 14/15] step 1150/1284 (0.6 it/s)
+[Epoch 14/15] step 1200/1284 (0.6 it/s)
+[Epoch 14/15] step 1200/1284 (0.6 it/s)
+[Epoch 14/15] step 1200/1284 (0.6 it/s)
+[Epoch 14/15] step 1200/1284 (0.6 it/s)
+[Epoch 14/15] step 1250/1284 (0.6 it/s)
+[Epoch 14/15] step 1250/1284 (0.6 it/s)
+[Epoch 14/15] step 1250/1284 (0.6 it/s)
+[Epoch 14/15] step 1250/1284 (0.6 it/s)
+[Epoch 14/15] done in 2412.6s
+[Epoch 14/15] done in 2412.6s
+[Epoch 14/15] done in 2412.6s
+06:08:09 | INFO  | trainer_inf~| \n+----------------------------+-----------------------+
+|           Metric           |         Value         |
++----------------------------+-----------------------+
+|          [0;34;40mfit/loss[0m          |  [0;32;40m0.16803734004497528[0m  |
+|       [0;34;40mfit/pred_loss[0m        |  [0;32;40m0.02130882441997528[0m  |
+|      [0;34;40mfit/sigreg_loss[0m       |       [0;32;40m1.62890625[0m      |
+|    [0;34;40mhardware/cpu_percent[0m    |   [0;32;40m6.900000095367432[0m   |
+|  [0;34;40mhardware/disk_read_mb_s[0m   |          [0;32;40m0.0[0m          |
+|  [0;34;40mhardware/disk_write_mb_s[0m  |   [0;32;40m0.0777151957154274[0m  |
+|   [0;34;40mhardware/net_recv_mb_s[0m   | [0;32;40m0.0018500530859455466[0m |
+|   [0;34;40mhardware/net_sent_mb_s[0m   | [0;32;40m0.0008263455820269883[0m |
+|    [0;34;40mhardware/ram_used_gb[0m    |   [0;32;40m76.80376434326172[0m   |
+|   [0;34;40mhardware/ram_used_pct[0m    |   [0;32;40m4.099999904632568[0m   |
+|    [0;34;40mhparams/lr_default_0[0m    |          [0;32;40m0.0[0m          |
+|       [0;34;40mvalidate/loss[0m        |  [0;32;40m0.17859256267547607[0m  |
+|    [0;34;40mvalidate/loss_epoch[0m     |  [0;32;40m0.17859256267547607[0m  |
+|     [0;34;40mvalidate/pred_loss[0m     |  [0;32;40m0.010344640351831913[0m |
+|  [0;34;40mvalidate/pred_loss_epoch[0m  |  [0;32;40m0.010344640351831913[0m |
+|    [0;34;40mvalidate/sigreg_loss[0m    |   [0;32;40m1.8692753314971924[0m  |
+| [0;34;40mvalidate/sigreg_loss_epoch[0m |   [0;32;40m1.8692753314971924[0m  |
++----------------------------+-----------------------+
+06:08:10 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_15.pt 📦📦📦
+06:08:11 | INFO  | utils.py    | 📦📦📦 Model saved to /manifoldai-training/johnny/challenge/lewm-tworooms/checkpoints/lewm_tworoom/weights_epoch_15.pt 📦📦📦
+[Epoch 14/15] done in 2414.8s
+06:08:11 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+06:08:11 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/epoch=14-step=19260.ckpt
+06:08:12 | INFO  | atomic_chec~| [atomic_save] ✓ epoch=14-step=19260.ckpt saved (206.8 MiB, serialise=0.19s write=0.18s rename=0.0ms)
+06:08:12 | INFO  | checkpoint_~|   Checking for non PyTorch modules to save
+06:08:12 | INFO  | atomic_chec~| [atomic_save] → /data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260522/200707/eced5527d842/checkpoints/last.ckpt
+06:08:12 | INFO  | atomic_chec~| [atomic_save] ✓ last.ckpt saved (206.8 MiB, serialise=0.20s write=0.19s rename=15.8ms)
+`Trainer.fit` stopped: `max_epochs=15` reached.
+Epoch 14/14 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1284/1284 0:36:35 • 0:00:00 0.58it/s  
+06:08:12 | INFO  | utils.py    | ── SignalHandlers (after Trainer.fit() returned) ──
+06:08:12 | INFO  | manager.py  |   SIGUSR1  → SIG_DFL (default OS action — terminate process)
+06:08:12 | INFO  | manager.py  |   SIGUSR2  → SIG_DFL (default OS action — terminate process)
+06:08:12 | INFO  | manager.py  |   SIGCONT  → SIG_DFL (default OS action — terminate process)
+06:08:12 | INFO  | manager.py  |   SIGTERM  → SIG_DFL (default OS action — terminate process)

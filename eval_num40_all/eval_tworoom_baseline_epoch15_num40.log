@@ -1,0 +1,40 @@
+19:03:04 | INFO  | atomic_chec~| [atomic_save] installed crash-safe checkpoint plugin (write to sibling .tmp + fsync + atomic rename)
+[2026-05-28 19:03:04,912][root][INFO] - Cached 'action' from '/manifoldai-training/johnny/challenge/lewm-tworooms/datasets/tworoom.h5'
+[2026-05-28 19:03:04,921][root][INFO] - Cached 'proprio' from '/manifoldai-training/johnny/challenge/lewm-tworooms/datasets/tworoom.h5'
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/wm/utils.py:80: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(checkpoint_path, map_location='cpu')
+19:03:05 | INFO  | utils.py    | Created ViT-tiny from scratch with config: {'hidden_size': 192, 'num_hidden_layers': 12, 'num_attention_heads': 3, 'intermediate_size': 768, 'image_size': 224, 'patch_size': 14}
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:130: UserWarning: [33mWARN: The obs returned by the `reset()` method was expecting a numpy array, actual type: <class 'torch.Tensor'>[0m
+  logger.warn(
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/gymnasium/spaces/box.py:423: UserWarning: [33mWARN: Casting input x to numpy array.[0m
+  gym.logger.warn("Casting input x to numpy array.")
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:130: UserWarning: [33mWARN: The obs returned by the `step()` method was expecting a numpy array, actual type: <class 'torch.Tensor'>[0m
+  logger.warn(
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/gymnasium/spaces/box.py:423: UserWarning: [33mWARN: Casting input x to numpy array.[0m
+  gym.logger.warn("Casting input x to numpy array.")
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lance/__init__.py:298: UserWarning: lance is not fork-safe. If you are using multiprocessing, use spawn or forkserver instead.
+  warnings.warn(
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lancedb/__init__.py:294: UserWarning: lance is not fork-safe. If you are using multiprocessing, use spawn instead.
+  warnings.warn(
+670809 valid starting points found for evaluation.
+[ 58908  79450  82491  85129  86997 118111 168252 185616 209431 254977
+ 341702 370737 398929 404337 408566 414988 415067 461005 472789 484951
+ 502347 510816 581725 593050 602867 642502 660996 677778 701233 712921
+ 719919 724129 757930 762404 773567 790696 790950 817974 853616 898377]
+CEM solve time: 41.0502 seconds
+CEM solve time: 3.9800 seconds
+CEM solve time: 2.9624 seconds
+CEM solve time: 2.9812 seconds
+CEM solve time: 1.9803 seconds
+CEM solve time: 1.9843 seconds
+CEM solve time: 1.9967 seconds
+CEM solve time: 1.9875 seconds
+CEM solve time: 1.9982 seconds
+CEM solve time: 1.9819 seconds
+CEM solve time: 2.0037 seconds
+CEM solve time: 2.0141 seconds
+{'success_rate': 95.0, 'episode_successes': array([ True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True, False,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True, False,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True]), 'seeds': None}

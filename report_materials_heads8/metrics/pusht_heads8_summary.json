@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "run_id": "1a8db80c457a",
+  "run_dir": "/data1/Johnny/challenge/wrf/.cache/stable-pretraining/runs/20260526/162728/1a8db80c457a",
+  "updated_at": 1779820743.7778442,
+  "step": 52244,
+  "epoch": 14,
+  "metrics": {
+    "fit/pred_loss": {
+      "last": 0.0149229746311903,
+      "min": 0.013170599937438965,
+      "max": 0.24904003739356995,
+      "count": 418
+    },
+    "fit/sigreg_loss": {
+      "last": 1.0029296875,
+      "min": 0.9560546875,
+      "max": 1.26953125,
+      "count": 418
+    },
+    "fit/loss": {
+      "last": 0.10525500774383545,
+      "min": 0.10096302628517151,
+      "max": 0.36341992020606995,
+      "count": 418
+    },
+    "hparams/lr_default_0": {
+      "last": 9.338284312487843e-11,
+      "min": 9.338284312487843e-11,
+      "max": 1.7572378055774607e-05,
+      "count": 418
+    },
+    "hardware/cpu_percent": {
+      "last": 3.9000000953674316,
+      "min": 3.700000047683716,
+      "max": 5.900000095367432,
+      "count": 418
+    },
+    "hardware/ram_used_pct": {
+      "last": 3.5999999046325684,
+      "min": 3.299999952316284,
+      "max": 6.5,
+      "count": 418
+    },
+    "hardware/ram_used_gb": {
+      "last": 67.82658386230469,
+      "min": 61.62997817993164,
+      "max": 122.00286865234375,
+      "count": 418
+    },
+    "hardware/disk_read_mb_s": {
+      "last": 0.0,
+      "min": 0.0,
+      "max": 95.67540740966797,
+      "count": 418
+    },
+    "hardware/disk_write_mb_s": {
+      "last": 0.1491883546113968,
+      "min": 0.0,
+      "max": 72.06563568115234,
+      "count": 418
+    },
+    "hardware/net_recv_mb_s": {
+      "last": 2.040701150894165,
+      "min": 0.000757609261199832,
+      "max": 33.443050384521484,
+      "count": 418
+    },
+    "hardware/net_sent_mb_s": {
+      "last": 0.03238314017653465,
+      "min": 0.0009194198064506054,
+      "max": 6.005667209625244,
+      "count": 418
+    },
+    "epoch": {
+      "last": 14.0,
+      "min": 9.0,
+      "max": 14.0,
+      "count": 424
+    },
+    "validate/pred_loss_step": {
+      "last": 0.008624807931482792,
+      "min": 0.007329881191253662,
+      "max": 0.024122329428792,
+      "count": 2328
+    },
+    "validate/sigreg_loss_step": {
+      "last": 1.0146484375,
+      "min": 0.96484375,
+      "max": 2.8828125,
+      "count": 2328
+    },
+    "validate/loss_step": {
+      "last": 0.10005547106266022,
+      "min": 0.09937089681625366,
+      "max": 0.28138816356658936,
+      "count": 2328
+    },
+    "validate/pred_loss_epoch": {
+      "last": 0.010191074572503567,
+      "min": 0.009485846385359764,
+      "max": 0.021755708381533623,
+      "count": 6
+    },
+    "validate/sigreg_loss_epoch": {
+      "last": 1.4362846612930298,
+      "min": 1.4362846612930298,
+      "max": 2.614511728286743,
+      "count": 6
+    },
+    "validate/loss_epoch": {
+      "last": 0.13946542143821716,
+      "min": 0.13946542143821716,
+      "max": 0.2570572793483734,
+      "count": 6
+    }
+  }
+}
