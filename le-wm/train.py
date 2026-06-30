@@ -7,11 +7,87 @@ import lightning as pl
 import stable_pretraining as spt
 import stable_worldmodel as swm
 import torch
+import torch.nn.functional as F
 from lightning.pytorch.loggers import WandbLogger
 from omegaconf import OmegaConf, open_dict
 
 from module import SIGReg
-from utils import get_column_normalizer, get_img_preprocessor, SaveCkptCallback
+from utils import (
+    JEPATrainStatsCallback,
+    SaveCkptCallback,
+    get_column_normalizer,
+    get_img_preprocessor,
+)
+
+
+def _sanitize_metric_key(value):
+    return str(value).replace("/", "_").replace(" ", "_").replace(".", "_")
+
+
+def _get_eval_metric_cfg(cfg, key, default):
+    eval_cfg = cfg.get("eval_metrics", {})
+    if hasattr(eval_cfg, "get"):
+        return eval_cfg.get(key, default)
+    return default
+
+
+def _log_jepa_eval_metrics(module, batch, stage, emb, tgt_emb, pred_emb, loss_total, cfg):
+    with torch.no_grad():
+        diff = pred_emb.detach() - tgt_emb.detach()
+        mse = diff.pow(2).mean()
+        l1 = diff.abs().mean()
+        cos = F.cosine_similarity(pred_emb.detach(), tgt_emb.detach(), dim=-1)
+        cos_loss = 1.0 - cos.mean()
+
+        flat_emb = emb.detach().reshape(-1, emb.size(-1)).float()
+        latent_std_per_dim = flat_emb.std(dim=0, unbiased=False)
+        latent_norm = flat_emb.norm(dim=-1)
+        active_threshold = float(_get_eval_metric_cfg(cfg, "active_dim_std_threshold", 1e-2))
+        active_dims = (latent_std_per_dim > active_threshold).float().sum()
+
+        metrics = {
+            f"{stage}/loss_total": loss_total.detach(),
+            f"{stage}/loss_mse": mse,
+            f"{stage}/loss_future_l1": l1,
+            f"{stage}/loss_future_cos": cos_loss,
+            f"{stage}/latent_mean": flat_emb.mean(),
+            f"{stage}/latent_std": flat_emb.std(unbiased=False),
+            f"{stage}/latent_norm": latent_norm.mean(),
+            f"{stage}/active_dim_count": active_dims,
+        }
+
+        horizon_mse = diff.pow(2).mean(dim=(0, 2))
+        for horizon_idx, value in enumerate(horizon_mse, start=1):
+            metrics[f"{stage}/loss_mse_horizon_{horizon_idx:02d}"] = value
+
+        if flat_emb.size(0) > 1:
+            max_pairwise_samples = int(_get_eval_metric_cfg(cfg, "max_pairwise_samples", 512))
+            pairwise_emb = flat_emb[:max_pairwise_samples]
+            normed = F.normalize(pairwise_emb, dim=-1)
+            pairwise = normed @ normed.T
+            mask = ~torch.eye(pairwise.size(0), dtype=torch.bool, device=pairwise.device)
+            pairwise = pairwise[mask]
+            metrics[f"{stage}/pairwise_cos_mean"] = pairwise.mean()
+            metrics[f"{stage}/pairwise_cos_std"] = pairwise.std(unbiased=False)
+            metrics[f"{stage}/pairwise_cos_min"] = pairwise.min()
+            metrics[f"{stage}/pairwise_cos_max"] = pairwise.max()
+            hist = torch.histc(pairwise.float(), bins=20, min=-1.0, max=1.0)
+            hist = hist / hist.sum().clamp_min(1.0)
+            for bin_idx, value in enumerate(hist):
+                metrics[f"{stage}/pairwise_cos_hist_bin_{bin_idx:02d}"] = value
+
+        source_key = next((key for key in ("dataset", "dataset_id", "source", "source_id") if key in batch), None)
+        if source_key is not None:
+            per_sample_mse = diff.pow(2).mean(dim=tuple(range(1, diff.ndim)))
+            sources = batch[source_key]
+            if torch.is_tensor(sources) and sources.ndim > 0 and sources.size(0) == per_sample_mse.size(0):
+                for source in torch.unique(sources.detach().cpu()):
+                    source_mask = sources == source.to(sources.device)
+                    source_name = _sanitize_metric_key(source.item())
+                    metrics[f"{stage}/batch_source_counts/{source_name}"] = source_mask.float().sum()
+                    metrics[f"{stage}/per_dataset_loss/{source_name}"] = per_sample_mse[source_mask].mean()
+
+        module.log_dict(metrics, on_step=True, sync_dist=True)
 
 
 def lejepa_forward(self, batch, stage, cfg):
@@ -42,6 +118,7 @@ def lejepa_forward(self, batch, stage, cfg):
 
     losses_dict = {f"{stage}/{k}": v.detach() for k, v in output.items() if "loss" in k}
     self.log_dict(losses_dict, on_step=True, sync_dist=True)
+    _log_jepa_eval_metrics(self, batch, stage, emb, tgt_emb, pred_emb, output["loss"], cfg)
     return output
 
 @hydra.main(version_base=None, config_path="./config/train", config_name="lewm")
@@ -120,10 +197,11 @@ def run(cfg):
     object_dump_callback = SaveCkptCallback(
         run_name=cfg.output_model_name, cfg=cfg.model, epoch_interval=1,
     )
+    train_stats_callback = JEPATrainStatsCallback()
 
     trainer = pl.Trainer(
         **cfg.trainer,
-        callbacks=[object_dump_callback],
+        callbacks=[object_dump_callback, train_stats_callback],
         num_sanity_val_steps=1,
         logger=logger,
         enable_checkpointing=True,

@@ -1,3 +1,5 @@
+import time
+
 import numpy as np
 import torch
 import torchvision.transforms.v2 as v2
@@ -153,3 +155,62 @@ class SaveCkptCallback(Callback):
             config=self.cfg,
             filename=f"weights_epoch_{epoch}.pt",
         )
+
+
+class JEPATrainStatsCallback(Callback):
+    """Log optimizer and throughput stats without changing training behavior."""
+
+    def __init__(self):
+        super().__init__()
+        self._batch_start_time = None
+
+    def on_train_batch_start(self, trainer, pl_module, batch, batch_idx):
+        self._batch_start_time = time.perf_counter()
+
+    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
+        if self._batch_start_time is None:
+            return
+
+        elapsed = max(time.perf_counter() - self._batch_start_time, 1e-12)
+        batch_size = self._get_batch_size(batch)
+        if batch_size is not None:
+            world_size = getattr(trainer, "world_size", 1) or 1
+            samples_per_sec = float(batch_size * world_size) / elapsed
+            pl_module.log(
+                "fit/samples_per_sec",
+                samples_per_sec,
+                on_step=True,
+                on_epoch=False,
+                sync_dist=True,
+            )
+
+        optimizer = trainer.optimizers[0] if trainer.optimizers else None
+        if optimizer is not None:
+            for group_idx, group in enumerate(optimizer.param_groups):
+                pl_module.log(
+                    f"fit/learning_rate_{group_idx}",
+                    group.get("lr", 0.0),
+                    on_step=True,
+                    on_epoch=False,
+                    sync_dist=True,
+                )
+
+    def _get_batch_size(self, batch):
+        if isinstance(batch, dict):
+            for value in batch.values():
+                size = self._get_batch_size(value)
+                if size is not None:
+                    return size
+            return None
+
+        if isinstance(batch, (list, tuple)):
+            for value in batch:
+                size = self._get_batch_size(value)
+                if size is not None:
+                    return size
+            return None
+
+        if torch.is_tensor(batch) and batch.ndim > 0:
+            return int(batch.size(0))
+
+        return None
