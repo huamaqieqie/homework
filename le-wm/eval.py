@@ -1,5 +1,8 @@
 import os
 
+from local_paths import configure_output_paths
+
+configure_output_paths()
 os.environ["MUJOCO_GL"] = "egl"
 
 import time

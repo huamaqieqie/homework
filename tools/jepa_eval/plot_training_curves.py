@@ -5,7 +5,6 @@ import json
 import math
 import os
 import re
-import tempfile
 import time
 from collections import defaultdict
 from pathlib import Path
@@ -13,6 +12,27 @@ from pathlib import Path
 
 ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 TABLE_RE = re.compile(r"\|\s*([^|]+?)\s*\|\s*([-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?)\s*\|")
+
+
+def configure_output_paths(out_dir):
+    output_root = Path(os.environ.get("LEWM_OUTPUT_ROOT", Path(out_dir).resolve().parents[1]))
+    paths = {
+        "XDG_CACHE_HOME": output_root / ".cache",
+        "XDG_CONFIG_HOME": output_root / ".config",
+        "XDG_DATA_HOME": output_root / ".local",
+        "MPLCONFIGDIR": output_root / ".cache" / "matplotlib",
+        "TMPDIR": output_root / "tmp",
+    }
+
+    if os.environ.get("LEWM_RESPECT_EXTERNAL_CACHE", "0") == "1":
+        for key, path in paths.items():
+            os.environ.setdefault(key, str(path))
+    else:
+        for key, path in paths.items():
+            os.environ[key] = str(path)
+
+    for key in paths:
+        Path(os.environ[key]).mkdir(parents=True, exist_ok=True)
 
 
 def strip_ansi(text):
@@ -294,9 +314,7 @@ def main():
     log_path = Path(args.log)
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
-    mpl_config_dir = Path(tempfile.gettempdir()) / "jepa_eval_matplotlib"
-    mpl_config_dir.mkdir(parents=True, exist_ok=True)
-    os.environ.setdefault("MPLCONFIGDIR", str(mpl_config_dir))
+    configure_output_paths(out_dir)
 
     try:
         import matplotlib
