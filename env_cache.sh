@@ -1,8 +1,12 @@
-export XDG_CACHE_HOME=/manifold-obs/jinlei/challenge/wrf/.cache
-export XDG_CONFIG_HOME=/manifold-obs/jinlei/challenge/wrf/.config
-export XDG_DATA_HOME=/manifold-obs/jinlei/challenge/wrf/.local
-export PIP_CACHE_DIR=/manifold-obs/jinlei/challenge/wrf/.cache/pip
-export UV_CACHE_DIR=/manifold-obs/jinlei/challenge/wrf/.cache/uv
-export HF_HOME=/manifold-obs/jinlei/challenge/wrf/.cache/huggingface
-export HF_HUB_CACHE=/manifold-obs/jinlei/challenge/wrf/.cache/huggingface/hub
-export TMPDIR=/manifold-obs/jinlei/challenge/wrf/.tmp
+export SERVER_REPO=${SERVER_REPO:-/data1/Johnny/challenge/wrf/homework}
+export LEWM_OUTPUT_ROOT=${LEWM_OUTPUT_ROOT:-${SERVER_REPO}/outputs}
+
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:-${LEWM_OUTPUT_ROOT}/.cache}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${LEWM_OUTPUT_ROOT}/.config}
+export XDG_DATA_HOME=${XDG_DATA_HOME:-${LEWM_OUTPUT_ROOT}/.local}
+export PIP_CACHE_DIR=${PIP_CACHE_DIR:-${XDG_CACHE_HOME}/pip}
+export UV_CACHE_DIR=${UV_CACHE_DIR:-${XDG_CACHE_HOME}/uv}
+export HF_HOME=${HF_HOME:-${XDG_CACHE_HOME}/huggingface}
+export HF_HUB_CACHE=${HF_HUB_CACHE:-${HF_HOME}/hub}
+export TMPDIR=${TMPDIR:-${LEWM_OUTPUT_ROOT}/tmp}
+export STABLEWM_HOME=${STABLEWM_HOME:-${LEWM_OUTPUT_ROOT}/stable-wm}

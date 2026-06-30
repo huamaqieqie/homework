@@ -2,6 +2,13 @@ import os
 from functools import partial
 from pathlib import Path
 
+_repo_root = Path(__file__).resolve().parents[1]
+_output_root = Path(os.environ.get("LEWM_OUTPUT_ROOT", _repo_root / "outputs"))
+os.environ.setdefault("XDG_CACHE_HOME", str(_output_root / ".cache"))
+os.environ.setdefault("XDG_CONFIG_HOME", str(_output_root / ".config"))
+os.environ.setdefault("XDG_DATA_HOME", str(_output_root / ".local"))
+os.environ.setdefault("STABLEWM_HOME", str(_output_root / "stable-wm"))
+
 import hydra
 import lightning as pl
 import stable_pretraining as spt

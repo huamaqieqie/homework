@@ -6,6 +6,7 @@ set -euo pipefail
 
 SERVER_REPO=${SERVER_REPO:-/data1/Johnny/challenge/wrf/homework}
 PYTHON=${PYTHON:-python}
+LEWM_OUTPUT_ROOT=${LEWM_OUTPUT_ROOT:-${SERVER_REPO}/outputs}
 
 # train.py is launched from the le-wm directory.
 LEWM_DIR=${LEWM_DIR:-${SERVER_REPO}/le-wm}
@@ -30,7 +31,7 @@ NUM_EVAL=${NUM_EVAL:-50}
 EVAL_BUDGET=${EVAL_BUDGET:-300}
 
 # Logging and plotting.
-RUN_ROOT=${RUN_ROOT:-${SERVER_REPO}/outputs/jepa_eval}
+RUN_ROOT=${RUN_ROOT:-${LEWM_OUTPUT_ROOT}/jepa_eval}
 TRAIN_LOG=${TRAIN_LOG:-${RUN_ROOT}/logs/train_${DATA_CONFIG}_${SUBDIR}.log}
 EVAL_LOG=${EVAL_LOG:-${RUN_ROOT}/logs/eval_${DATA_CONFIG}_${SUBDIR}.log}
 METRICS_LOG=${METRICS_LOG:-${TRAIN_LOG}}
@@ -41,6 +42,14 @@ WATCH_INTERVAL=${WATCH_INTERVAL:-60}
 MODE=${MODE:-train}
 
 mkdir -p "${RUN_ROOT}/logs" "${PLOT_OUT}"
+
+export LEWM_OUTPUT_ROOT
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:-${LEWM_OUTPUT_ROOT}/.cache}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${LEWM_OUTPUT_ROOT}/.config}
+export XDG_DATA_HOME=${XDG_DATA_HOME:-${LEWM_OUTPUT_ROOT}/.local}
+export TMPDIR=${TMPDIR:-${LEWM_OUTPUT_ROOT}/tmp}
+export STABLEWM_HOME=${STABLEWM_HOME:-${LEWM_OUTPUT_ROOT}/stable-wm}
+mkdir -p "${XDG_CACHE_HOME}" "${XDG_CONFIG_HOME}" "${XDG_DATA_HOME}" "${TMPDIR}" "${STABLEWM_HOME}"
 
 if [[ -n "${STABLEWM_HOME}" ]]; then
   export STABLEWM_HOME
