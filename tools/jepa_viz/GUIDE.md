@@ -1,6 +1,6 @@
 # JEPA Viz Guide
 
-本文档统一说明 `tools/jepa_viz/` 生成的训练曲线、latent 导出文件和 latent 可视化结果。  
+本文档统一说明 `tools/jepa_viz/` 生成的训练曲线、latent 导出文件、latent 可视化结果和 prediction 能力可视化结果。  
 运行命令集中放在 `COMMANDS.md`。
 
 默认输出目录：
@@ -509,3 +509,198 @@ active_dimension_count.png
 collapse_diagnostics_summary.json
 visualization_summary.json
 ```
+
+## 4. Prediction Visualization
+
+prediction 能力可视化默认读取：
+
+```text
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latents/
+```
+
+默认输出到：
+
+```text
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/prediction_viz/
+```
+
+输入 latent 至少需要：
+
+```text
+z_context
+z_target
+z_pred
+metadata.jsonl
+```
+
+### target_pred_cosine_vs_horizon_by_*.png
+
+预测 latent 与目标 latent 在不同 future horizon 上的 cosine similarity。
+
+横轴：
+
+```text
+future horizon
+```
+
+纵轴：
+
+```text
+cos(z_pred, z_target)
+```
+
+支持通过 `--group-by` 按下面字段分组：
+
+```text
+source
+dataset
+task
+action
+object
+success
+```
+
+如果 `--group-by action`，脚本会优先读取 latent 文件里的 `action` 数组，并按 action norm 做分桶。
+
+怎么看：
+
+- 越接近 1，说明预测 latent 和目标 latent 方向越一致。
+- 越远 horizon 明显下降：长期预测更难，属于常见现象。
+- 某个分组显著更低：该数据源、任务或动作区间更难，或者条件信息对齐有问题。
+
+同时会输出对应的 csv：
+
+```text
+target_pred_cosine_vs_horizon_by_*.csv
+```
+
+### target_pred_alignment_heatmap.png
+
+预测 token / horizon 与目标 token / horizon 的 pairwise cosine heatmap。
+
+行：
+
+```text
+pred token / frame / horizon
+```
+
+列：
+
+```text
+target token / frame / horizon
+```
+
+颜色：
+
+```text
+cosine similarity
+```
+
+怎么看：
+
+- 对角线明显：第 k 个 prediction 更接近第 k 个 target，时间对应关系比较清楚。
+- 非对角区域也很亮：模型可能混淆 future step，或者多个 target latent 很相似。
+- 整体都偏低：prediction latent 与 target latent 对齐较差。
+
+同时会输出矩阵：
+
+```text
+target_pred_alignment_heatmap.csv
+```
+
+### rollout_drift_curve.png
+
+多步 rollout error 曲线。只有 latent 文件中包含 rollout prediction 和 rollout target 数组时才会生成。
+
+脚本会寻找这些 prediction 字段：
+
+```text
+z_rollout_pred
+rollout_pred
+z_pred_rollout
+multi_step_z_pred
+```
+
+以及这些 target 字段：
+
+```text
+z_rollout_target
+rollout_target
+z_target_rollout
+multi_step_z_target
+```
+
+如果当前导出的 latent 没有这些字段，脚本会跳过，并在 `prediction_report.md` 中说明原因。
+
+### condition_ablation.png
+
+条件消融对比图。只有 latent 文件中已经导出不同 condition 设置下的 prediction 时才会生成。
+
+支持字段包括：
+
+```text
+z_pred_condition_removed
+z_pred_no_condition
+z_pred_without_condition
+z_pred_condition_shuffled
+z_pred_shuffled_condition
+z_pred_condition_replaced
+z_pred_replaced_condition
+```
+
+图中会对比：
+
+```text
+normal condition
+condition removed
+condition shuffled
+condition replaced
+```
+
+指标包括：
+
+```text
+prediction MSE
+prediction cosine similarity
+```
+
+如果只有普通 `z_pred`，脚本会跳过这张图。当前工具不会为了画图重新运行模型做 ablation；它只分析已经导出的 latent。
+
+### goal_distance.png
+
+goal distance 图。只有 latent 文件中包含 goal latent 时才会生成。
+
+支持字段：
+
+```text
+z_goal
+goal_latent
+goal_emb
+```
+
+图中比较：
+
+```text
+d(z_current, z_goal)
+d(z_pred_after_action, z_goal)
+```
+
+默认用 `z_context` 的最后一个 token 作为 current latent，用 `z_pred` 的最后一个 token 作为 action 后预测 latent。
+
+如果只有 goal image、没有 goal latent，脚本会跳过这张图，并在报告中说明需要先导出 goal latent。
+
+### prediction_report.md / prediction_report.json
+
+每次运行都会生成报告：
+
+```text
+prediction_report.md
+prediction_report.json
+```
+
+报告会列出：
+
+- 已生成的图和 csv。
+- 因缺少 rollout / ablation / goal latent 而跳过的项目。
+- 输入 latent 文件路径。
+- latent 数组 shape。

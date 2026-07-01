@@ -38,10 +38,15 @@ LATENT_MAX_POINTS=${LATENT_MAX_POINTS:-5000}
 LATENT_NN_QUERIES=${LATENT_NN_QUERIES:-8}
 LATENT_TOP_K=${LATENT_TOP_K:-5}
 
-# MODE can be: plot, watch, export_latents, visualize_latents, all.
+# Inputs / outputs for prediction visualization.
+PREDICTION_VIZ_OUT=${PREDICTION_VIZ_OUT:-${JEPA_VIZ_OUTPUT_ROOT}/prediction_viz}
+PREDICTION_GROUP_BY=${PREDICTION_GROUP_BY:-source}
+PREDICTION_MAX_GROUPS=${PREDICTION_MAX_GROUPS:-8}
+
+# MODE can be: plot, watch, export_latents, visualize_latents, visualize_prediction, all.
 MODE=${MODE:-visualize_latents}
 
-mkdir -p "${JEPA_VIZ_OUTPUT_ROOT}" "${TRAINING_OUT}" "${LATENT_OUT}" "${LATENT_VIZ_OUT}"
+mkdir -p "${JEPA_VIZ_OUTPUT_ROOT}" "${TRAINING_OUT}" "${LATENT_OUT}" "${LATENT_VIZ_OUT}" "${PREDICTION_VIZ_OUT}"
 
 if [[ "${JEPA_VIZ_RESPECT_EXTERNAL_CACHE:-0}" != "1" ]]; then
   export XDG_CACHE_HOME=${JEPA_VIZ_OUTPUT_ROOT}/.cache
@@ -113,6 +118,14 @@ run_visualize_latents() {
     --top-k "${LATENT_TOP_K}"
 }
 
+run_visualize_prediction() {
+  "${PYTHON}" "${SCRIPT_DIR}/visualize_prediction.py" \
+    --latent-dir "${LATENT_DIR}" \
+    --out "${PREDICTION_VIZ_OUT}" \
+    --group-by "${PREDICTION_GROUP_BY}" \
+    --max-groups "${PREDICTION_MAX_GROUPS}"
+}
+
 case "${MODE}" in
   plot)
     run_plot
@@ -126,12 +139,16 @@ case "${MODE}" in
   visualize_latents)
     run_visualize_latents
     ;;
+  visualize_prediction)
+    run_visualize_prediction
+    ;;
   all)
     run_export_latents
     run_visualize_latents
+    run_visualize_prediction
     ;;
   *)
-    echo "Unknown MODE=${MODE}. Use one of: plot, watch, export_latents, visualize_latents, all." >&2
+    echo "Unknown MODE=${MODE}. Use one of: plot, watch, export_latents, visualize_latents, visualize_prediction, all." >&2
     exit 2
     ;;
 esac

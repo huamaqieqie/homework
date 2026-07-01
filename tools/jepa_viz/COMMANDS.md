@@ -225,7 +225,47 @@ metadata.jsonl
 
 然后直接使用第 2 节的 `visualize_latents.py`。
 
-## 4. 一步导出并可视化
+## 4. Prediction 能力可视化
+
+准备输入 latent 目录：
+
+```bash
+export LATENT_DIR=<包含latents.npz或latents.pt的目录>
+export PREDICTION_VIZ_OUT=$JEPA_VIZ_OUTPUT_ROOT/prediction_viz
+```
+
+运行 prediction 可视化：
+
+```bash
+MODE=visualize_prediction \
+LATENT_DIR=$LATENT_DIR \
+PREDICTION_VIZ_OUT=$PREDICTION_VIZ_OUT \
+PREDICTION_GROUP_BY=action \
+PREDICTION_MAX_GROUPS=8 \
+bash $JEPA_VIZ_DIR/run_jepa_viz_template.sh
+```
+
+直接调用脚本：
+
+```bash
+python $JEPA_VIZ_DIR/visualize_prediction.py \
+  --latent-dir $LATENT_DIR \
+  --out $PREDICTION_VIZ_OUT \
+  --group-by action
+```
+
+输出内容：
+
+```text
+target_pred_cosine_vs_horizon_by_*.png
+target_pred_alignment_heatmap.png
+prediction_report.md
+prediction_report.json
+```
+
+如果 latent 文件中没有 rollout、ablation 或 goal latent 对应数组，脚本会跳过这些图，并在 `prediction_report.md` 中说明原因。
+
+## 5. 一步导出并可视化
 
 适用于当前导出适配器可以直接工作的项目：
 
@@ -234,6 +274,7 @@ export CONFIG_PATH=<训练配置路径>
 export CKPT_PATH=<checkpoint路径>
 export LATENT_OUT=$JEPA_VIZ_OUTPUT_ROOT/latents
 export LATENT_VIZ_OUT=$JEPA_VIZ_OUTPUT_ROOT/latent_viz
+export PREDICTION_VIZ_OUT=$JEPA_VIZ_OUTPUT_ROOT/prediction_viz
 
 MODE=all \
 LATENT_CONFIG=$CONFIG_PATH \
@@ -243,12 +284,14 @@ LATENT_MAX_SAMPLES=1024 \
 LATENT_OUT=$LATENT_OUT \
 LATENT_DIR=$LATENT_OUT \
 LATENT_VIZ_OUT=$LATENT_VIZ_OUT \
+PREDICTION_VIZ_OUT=$PREDICTION_VIZ_OUT \
 LATENT_COLOR_BY=action \
+PREDICTION_GROUP_BY=action \
 BATCH_SIZE=128 \
 bash $JEPA_VIZ_DIR/run_jepa_viz_template.sh
 ```
 
-## 5. 常见输出
+## 6. 常见输出
 
 训练曲线：
 
@@ -280,4 +323,17 @@ $JEPA_VIZ_OUTPUT_ROOT/latent_viz/
   feature_std_distribution.png
   active_dimension_count.png
   visualization_summary.json
+```
+
+prediction 可视化：
+
+```text
+$JEPA_VIZ_OUTPUT_ROOT/prediction_viz/
+  target_pred_cosine_vs_horizon_by_*.png
+  target_pred_alignment_heatmap.png
+  rollout_drift_curve.png，如果导出的 latent 支持 rollout
+  condition_ablation.png，如果导出的 latent 支持 condition ablation
+  goal_distance.png，如果导出的 latent 包含 goal latent
+  prediction_report.md
+  prediction_report.json
 ```

@@ -47,12 +47,14 @@ tools/jepa_viz/
   plot_training_curves.py
   export_latents.py
   visualize_latents.py
+  visualize_prediction.py
   run_jepa_viz_template.sh
   output/
     <YYYYMMDD_HHMMSS>/
       training/
       latents/
       latent_viz/
+      prediction_viz/
 ```
 
 说明：
@@ -62,6 +64,7 @@ tools/jepa_viz/
 - `plot_training_curves.py`：从 `csv/jsonl/txt` 训练日志画训练曲线。
 - `export_latents.py`：LeWM 当前项目的 latent 导出适配器。
 - `visualize_latents.py`：通用 latent 可视化，只依赖 `latents.npz/.pt + metadata.jsonl`，其他 JEPA 模型也可以使用。
+- `visualize_prediction.py`：prediction 能力可视化，分析 `z_pred` 与 `z_target` 的 horizon、alignment、ablation、goal distance。
 - `run_jepa_viz_template.sh`：统一命令模板。
 
 后续只维护 `tools/jepa_viz/` 这一套入口。
@@ -122,6 +125,21 @@ tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latents
 tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latent_viz
 ```
 
+## Prediction 可视化
+
+```bash
+python tools/jepa_viz/visualize_prediction.py \
+  --latent-dir $JEPA_VIZ_OUTPUT_ROOT/latents \
+  --out $JEPA_VIZ_OUTPUT_ROOT/prediction_viz \
+  --group-by action
+```
+
+默认输出到：
+
+```text
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/prediction_viz
+```
+
 ## 统一模板
 
 ```bash
@@ -139,6 +157,7 @@ plot
 watch
 export_latents
 visualize_latents
+visualize_prediction
 all
 ```
 
