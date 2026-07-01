@@ -1,186 +1,264 @@
 # JEPA Viz Commands
 
-本文档只记录 `tools/jepa_viz/` 这一套工具的常用命令。  
-默认输出目录是：
+本文档是通用命令模板，适用于任何 JEPA / V-JEPA / action-conditioned JEPA 项目。
 
-```bash
-$SERVER_REPO/tools/jepa_viz/output
+核心约定只有两个：
+
+1. 训练曲线脚本需要一个训练日志文件，例如 `metrics.csv`、`jsonl` 或文本日志。
+2. latent 可视化脚本需要一个 latent 目录，里面有 `latents.npz` 或 `latents.pt`，以及可选的 `metadata.jsonl`。
+
+默认输出目录在工具目录下：
+
+```text
+tools/jepa_viz/output/
 ```
 
-服务器仓库路径：
+你可以通过修改下面这些变量，把工具用于任意模型、任意仓库、任意输出位置。
+
+## 0. 通用路径变量
+
+先设置你的项目路径和工具路径：
 
 ```bash
-export SERVER_REPO=/data1/Johnny/challenge/wrf/homework
-cd $SERVER_REPO
-source env_cache.sh
+export PROJECT_ROOT=<你的项目根目录>
+cd $PROJECT_ROOT
+
+# 如果 jepa_viz 在当前项目里，通常这样写：
+export JEPA_VIZ_DIR=$PROJECT_ROOT/tools/jepa_viz
+
+# 如果 jepa_viz 被复制到别的地方，就改成实际路径：
+# export JEPA_VIZ_DIR=/path/to/tools/jepa_viz
+```
+
+设置统一输出根目录：
+
+```bash
+export JEPA_VIZ_OUTPUT_ROOT=$JEPA_VIZ_DIR/output
+```
+
+如果你不想把结果写进代码目录，可以改成任意路径：
+
+```bash
+export JEPA_VIZ_OUTPUT_ROOT=<你的输出目录>
+```
+
+例如：
+
+```bash
+export JEPA_VIZ_OUTPUT_ROOT=$PROJECT_ROOT/outputs/jepa_viz
 ```
 
 ## 1. 训练曲线可视化
 
-训练时终端日志会出现类似：
-
-```text
-[RegistryLogger] run_id=... run_dir=... metrics.csv will live here
-```
-
-把 `RUN_DIR` 替换成日志里的真实路径：
+准备输入日志路径：
 
 ```bash
-export RUN_DIR=<训练日志里的run_dir>
+export TRAIN_LOG=<训练日志或metrics.csv路径>
+export TRAINING_OUT=$JEPA_VIZ_OUTPUT_ROOT/training
+```
 
+一次性生成曲线：
+
+```bash
 MODE=plot \
-TRAIN_LOG=$RUN_DIR/metrics.csv \
-TRAINING_OUT=$SERVER_REPO/tools/jepa_viz/output/training \
-bash tools/jepa_viz/run_jepa_viz_template.sh
+TRAIN_LOG=$TRAIN_LOG \
+TRAINING_OUT=$TRAINING_OUT \
+bash $JEPA_VIZ_DIR/run_jepa_viz_template.sh
 ```
 
 训练过程中持续刷新曲线：
 
 ```bash
-export RUN_DIR=<训练日志里的run_dir>
-
 MODE=watch \
-TRAIN_LOG=$RUN_DIR/metrics.csv \
-TRAINING_OUT=$SERVER_REPO/tools/jepa_viz/output/training \
+TRAIN_LOG=$TRAIN_LOG \
+TRAINING_OUT=$TRAINING_OUT \
 WATCH_INTERVAL=60 \
-bash tools/jepa_viz/run_jepa_viz_template.sh
-```
-
-也可以直接调用脚本：
-
-```bash
-python tools/jepa_viz/plot_training_curves.py \
-  --log $RUN_DIR/metrics.csv \
-  --out $SERVER_REPO/tools/jepa_viz/output/training
-```
-
-## 2. 导出 Latents
-
-把 `CKPT_PATH` 替换成真实 checkpoint：
-
-```bash
-export CKPT_PATH=/data1/Johnny/challenge/wrf/homework/outputs/stable-wm/checkpoints/lewm_15/weights_epoch_15.pt
-```
-
-导出验证集 latent：
-
-```bash
-MODE=export_latents \
-DATA_CONFIG=pusht \
-DATASET_NAME=/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5 \
-LATENT_CHECKPOINT=$CKPT_PATH \
-LATENT_SPLIT=val \
-LATENT_MAX_SAMPLES=1024 \
-LATENT_OUT=$SERVER_REPO/tools/jepa_viz/output/latents \
-BATCH_SIZE=128 \
-bash tools/jepa_viz/run_jepa_viz_template.sh
-```
-
-最小导出测试：
-
-```bash
-MODE=export_latents \
-DATA_CONFIG=pusht \
-DATASET_NAME=/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5 \
-LATENT_CHECKPOINT=$CKPT_PATH \
-LATENT_SPLIT=val \
-LATENT_MAX_SAMPLES=16 \
-LATENT_OUT=$SERVER_REPO/tools/jepa_viz/output/latents_test \
-BATCH_SIZE=8 \
-NUM_WORKERS=0 \
-bash tools/jepa_viz/run_jepa_viz_template.sh
+bash $JEPA_VIZ_DIR/run_jepa_viz_template.sh
 ```
 
 直接调用脚本：
 
 ```bash
-python tools/jepa_viz/export_latents.py \
-  --config $SERVER_REPO/le-wm/config/train/lewm.yaml \
-  --checkpoint $CKPT_PATH \
-  --split val \
-  --max-samples 1024 \
-  --out $SERVER_REPO/tools/jepa_viz/output/latents \
-  --dataset /manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5 \
-  data=pusht
+python $JEPA_VIZ_DIR/plot_training_curves.py \
+  --log $TRAIN_LOG \
+  --out $TRAINING_OUT
 ```
 
-## 3. Latent 可视化
+输出目录：
 
-使用默认 latent 输出目录：
+```text
+$TRAINING_OUT
+```
+
+## 2. Latent 可视化
+
+如果你的模型已经能导出 latent，只需要准备一个目录：
+
+```bash
+export LATENT_DIR=<包含latents.npz或latents.pt的目录>
+export LATENT_VIZ_OUT=$JEPA_VIZ_OUTPUT_ROOT/latent_viz
+```
+
+该目录建议包含：
+
+```text
+latents.npz 或 latents.pt
+metadata.jsonl
+```
+
+其中 latent 文件至少包含：
+
+```text
+z_context
+z_target
+z_pred
+```
+
+运行可视化：
 
 ```bash
 MODE=visualize_latents \
-LATENT_DIR=$SERVER_REPO/tools/jepa_viz/output/latents \
-LATENT_VIZ_OUT=$SERVER_REPO/tools/jepa_viz/output/latent_viz \
+LATENT_DIR=$LATENT_DIR \
+LATENT_VIZ_OUT=$LATENT_VIZ_OUT \
 LATENT_COLOR_BY=action \
 LATENT_MAX_POINTS=5000 \
 LATENT_NN_QUERIES=8 \
 LATENT_TOP_K=5 \
-bash tools/jepa_viz/run_jepa_viz_template.sh
+bash $JEPA_VIZ_DIR/run_jepa_viz_template.sh
 ```
 
-最小可视化测试：
+最小测试版本：
 
 ```bash
 MODE=visualize_latents \
-LATENT_DIR=$SERVER_REPO/tools/jepa_viz/output/latents \
-LATENT_VIZ_OUT=$SERVER_REPO/tools/jepa_viz/output/latent_viz_test \
+LATENT_DIR=$LATENT_DIR \
+LATENT_VIZ_OUT=$JEPA_VIZ_OUTPUT_ROOT/latent_viz_test \
 LATENT_COLOR_BY=action \
 LATENT_MAX_POINTS=512 \
 LATENT_NN_QUERIES=2 \
 LATENT_TOP_K=3 \
-bash tools/jepa_viz/run_jepa_viz_template.sh
+bash $JEPA_VIZ_DIR/run_jepa_viz_template.sh
 ```
 
 直接调用脚本：
 
 ```bash
-python tools/jepa_viz/visualize_latents.py \
-  --latent-dir $SERVER_REPO/tools/jepa_viz/output/latents \
-  --out $SERVER_REPO/tools/jepa_viz/output/latent_viz \
+python $JEPA_VIZ_DIR/visualize_latents.py \
+  --latent-dir $LATENT_DIR \
+  --out $LATENT_VIZ_OUT \
   --color-by action
 ```
 
-## 4. 一步导出并可视化
+常用 `--color-by`：
+
+```text
+source
+dataset
+task
+action
+object
+success
+time_index
+step_idx
+episode_idx
+```
+
+## 3. 可选：用当前仓库的导出适配器导出 latent
+
+`export_latents.py` 是当前仓库提供的导出适配器。  
+它适合“训练配置可以实例化模型和 dataloader”的项目。不同项目只需要替换这些路径和 override：
 
 ```bash
-MODE=all \
-DATA_CONFIG=pusht \
-DATASET_NAME=/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5 \
+export CONFIG_PATH=<训练配置路径>
+export CKPT_PATH=<checkpoint路径>
+export DATASET_NAME=<数据集路径或名字>
+export LATENT_OUT=$JEPA_VIZ_OUTPUT_ROOT/latents
+```
+
+通过模板运行：
+
+```bash
+MODE=export_latents \
+LATENT_CONFIG=$CONFIG_PATH \
 LATENT_CHECKPOINT=$CKPT_PATH \
 LATENT_SPLIT=val \
 LATENT_MAX_SAMPLES=1024 \
-LATENT_OUT=$SERVER_REPO/tools/jepa_viz/output/latents \
-LATENT_DIR=$SERVER_REPO/tools/jepa_viz/output/latents \
-LATENT_VIZ_OUT=$SERVER_REPO/tools/jepa_viz/output/latent_viz \
-LATENT_COLOR_BY=action \
+LATENT_OUT=$LATENT_OUT \
 BATCH_SIZE=128 \
-bash tools/jepa_viz/run_jepa_viz_template.sh
+bash $JEPA_VIZ_DIR/run_jepa_viz_template.sh
 ```
 
-## 5. 换输出根目录
-
-如果不想写到 `tools/jepa_viz/output`，可以指定新的输出根目录：
+如果你的项目需要 Hydra override，可以直接调用脚本，并把 override 放在最后：
 
 ```bash
-JEPA_VIZ_OUTPUT_ROOT=$SERVER_REPO/outputs/my_jepa_viz \
-MODE=visualize_latents \
-LATENT_DIR=$SERVER_REPO/outputs/my_jepa_viz/latents \
-bash tools/jepa_viz/run_jepa_viz_template.sh
+python $JEPA_VIZ_DIR/export_latents.py \
+  --config $CONFIG_PATH \
+  --checkpoint $CKPT_PATH \
+  --split val \
+  --max-samples 1024 \
+  --out $LATENT_OUT \
+  --dataset $DATASET_NAME \
+  <hydra_override_1> \
+  <hydra_override_2>
 ```
 
-## 6. 常见输出
+示例：
+
+```bash
+python $JEPA_VIZ_DIR/export_latents.py \
+  --config $CONFIG_PATH \
+  --checkpoint $CKPT_PATH \
+  --split val \
+  --max-samples 1024 \
+  --out $LATENT_OUT \
+  --dataset $DATASET_NAME \
+  <hydra_override>
+```
+
+如果你的模型不是当前导出适配器支持的结构，推荐自己导出标准格式：
+
+```text
+latents.npz
+metadata.jsonl
+```
+
+然后直接使用第 2 节的 `visualize_latents.py`。
+
+## 4. 一步导出并可视化
+
+适用于当前导出适配器可以直接工作的项目：
+
+```bash
+export CONFIG_PATH=<训练配置路径>
+export CKPT_PATH=<checkpoint路径>
+export LATENT_OUT=$JEPA_VIZ_OUTPUT_ROOT/latents
+export LATENT_VIZ_OUT=$JEPA_VIZ_OUTPUT_ROOT/latent_viz
+
+MODE=all \
+LATENT_CONFIG=$CONFIG_PATH \
+LATENT_CHECKPOINT=$CKPT_PATH \
+LATENT_SPLIT=val \
+LATENT_MAX_SAMPLES=1024 \
+LATENT_OUT=$LATENT_OUT \
+LATENT_DIR=$LATENT_OUT \
+LATENT_VIZ_OUT=$LATENT_VIZ_OUT \
+LATENT_COLOR_BY=action \
+BATCH_SIZE=128 \
+bash $JEPA_VIZ_DIR/run_jepa_viz_template.sh
+```
+
+## 5. 常见输出
 
 训练曲线：
 
 ```text
-tools/jepa_viz/output/training/
+$JEPA_VIZ_OUTPUT_ROOT/training/
 ```
 
 latent 文件：
 
 ```text
-tools/jepa_viz/output/latents/
+$JEPA_VIZ_OUTPUT_ROOT/latents/
   latents.npz
   metadata.jsonl
   summary.json
@@ -189,7 +267,7 @@ tools/jepa_viz/output/latents/
 latent 可视化：
 
 ```text
-tools/jepa_viz/output/latent_viz/
+$JEPA_VIZ_OUTPUT_ROOT/latent_viz/
   pca_z_context_by_*.png
   pca_z_target_by_*.png
   pca_z_pred_by_*.png
