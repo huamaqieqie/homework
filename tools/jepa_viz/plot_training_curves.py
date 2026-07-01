@@ -10,6 +10,9 @@ from collections import defaultdict
 from pathlib import Path
 
 
+TOOL_DIR = Path(__file__).resolve().parent
+DEFAULT_OUTPUT_DIR = TOOL_DIR / "output" / "training"
+
 ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 TABLE_RE = re.compile(r"\|\s*([^|]+?)\s*\|\s*([-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?)\s*\|")
 
@@ -308,7 +311,7 @@ def write_plots(log_path, out_dir):
 def main():
     parser = argparse.ArgumentParser(description="Plot JEPA training metrics from CSV, JSONL, or TXT logs.")
     parser.add_argument("--log", required=True, help="Path to a training log file.")
-    parser.add_argument("--out", default="outputs/jepa_eval/training", help="Output directory for PNG figures.")
+    parser.add_argument("--out", default=str(DEFAULT_OUTPUT_DIR), help="Output directory for PNG figures.")
     parser.add_argument("--watch", action="store_true", help="Continuously refresh plots while training is running.")
     parser.add_argument("--interval", type=float, default=60.0, help="Refresh interval in seconds for --watch.")
     args = parser.parse_args()

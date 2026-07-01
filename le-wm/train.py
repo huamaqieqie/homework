@@ -35,7 +35,7 @@ def _get_eval_metric_cfg(cfg, key, default):
     return default
 
 
-def _log_jepa_eval_metrics(module, batch, stage, emb, tgt_emb, pred_emb, loss_total, cfg):
+def _log_jepa_viz_metrics(module, batch, stage, emb, tgt_emb, pred_emb, loss_total, cfg):
     with torch.no_grad():
         diff = pred_emb.detach() - tgt_emb.detach()
         mse = diff.pow(2).mean()
@@ -122,7 +122,7 @@ def lejepa_forward(self, batch, stage, cfg):
 
     losses_dict = {f"{stage}/{k}": v.detach() for k, v in output.items() if "loss" in k}
     self.log_dict(losses_dict, on_step=True, sync_dist=True)
-    _log_jepa_eval_metrics(self, batch, stage, emb, tgt_emb, pred_emb, output["loss"], cfg)
+    _log_jepa_viz_metrics(self, batch, stage, emb, tgt_emb, pred_emb, output["loss"], cfg)
     return output
 
 @hydra.main(version_base=None, config_path="./config/train", config_name="lewm")

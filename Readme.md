@@ -56,7 +56,7 @@ export SERVER_REPO=/data1/Johnny/challenge/wrf/homework
 export CONFIG_PATH=<你的配置文件路径>
 export CKPT_PATH=<你的checkpoint路径>
 export LOG_PATH=<你的训练日志路径>
-export OUT_DIR=$SERVER_REPO/outputs/jepa_eval
+export OUT_DIR=$SERVER_REPO/tools/jepa_viz/output
 ```
 
 路径中不确定的部分必须保留为占位符，不要自行猜测。

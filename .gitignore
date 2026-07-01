@@ -34,6 +34,7 @@ __pycache__/
 
 # experiment outputs
 outputs/
+tools/jepa_viz/output/
 wandb/
 
 # checkpoints / weights

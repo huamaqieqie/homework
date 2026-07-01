@@ -21,6 +21,8 @@ from omegaconf import OmegaConf, open_dict
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LEWM_DIR = REPO_ROOT / "le-wm"
+TOOL_DIR = Path(__file__).resolve().parent
+DEFAULT_OUTPUT_DIR = TOOL_DIR / "output" / "latents"
 if str(LEWM_DIR) not in sys.path:
     sys.path.insert(0, str(LEWM_DIR))
 
@@ -107,9 +109,9 @@ class IndexedDataset(torch.utils.data.Dataset):
         sample = self.dataset[sample_id]
         if isinstance(sample, dict):
             sample = dict(sample)
-            sample["_jepa_eval_sample_id"] = sample_id
+            sample["_jepa_viz_sample_id"] = sample_id
             return sample
-        return {"sample": sample, "_jepa_eval_sample_id": sample_id}
+        return {"sample": sample, "_jepa_viz_sample_id": sample_id}
 
 
 def parse_args():
@@ -118,7 +120,7 @@ def parse_args():
     parser.add_argument("--checkpoint", required=True, help="Checkpoint file or directory.")
     parser.add_argument("--split", default="val", choices=("train", "val", "all"), help="Dataset split to export.")
     parser.add_argument("--max-samples", type=int, default=1024, help="Maximum samples to export.")
-    parser.add_argument("--out", default="outputs/jepa_eval/latents", help="Output directory.")
+    parser.add_argument("--out", default=str(DEFAULT_OUTPUT_DIR), help="Output directory.")
     parser.add_argument("--format", choices=("npz", "pt"), default="npz", help="Latent tensor file format.")
     parser.add_argument("--dataset", default=None, help="Optional override for data.dataset.name.")
     parser.add_argument("--batch-size", type=int, default=None, help="Optional export batch size override.")
@@ -316,7 +318,7 @@ def value_at_batch_index(value, idx):
 
 
 def metadata_for_batch(batch, split, start_index):
-    sample_ids = batch.get("_jepa_eval_sample_id")
+    sample_ids = batch.get("_jepa_viz_sample_id")
     batch_size = None
     if torch.is_tensor(sample_ids):
         batch_size = int(sample_ids.numel())
