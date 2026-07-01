@@ -8,7 +8,8 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(cd "${SCRIPT_DIR}/../.." && pwd)
 PYTHON=${PYTHON:-python}
 
-JEPA_VIZ_OUTPUT_ROOT=${JEPA_VIZ_OUTPUT_ROOT:-${SCRIPT_DIR}/output}
+JEPA_VIZ_RUN_NAME=${JEPA_VIZ_RUN_NAME:-$(date +%Y%m%d_%H%M%S)}
+JEPA_VIZ_OUTPUT_ROOT=${JEPA_VIZ_OUTPUT_ROOT:-${SCRIPT_DIR}/output/${JEPA_VIZ_RUN_NAME}}
 
 # Inputs / outputs for training curves.
 TRAIN_LOG=${TRAIN_LOG:-}

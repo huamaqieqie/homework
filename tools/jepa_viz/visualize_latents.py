@@ -18,10 +18,12 @@ import html
 import json
 import math
 import os
+from datetime import datetime
 from pathlib import Path
 
 TOOL_DIR = Path(__file__).resolve().parent
-DEFAULT_OUTPUT_ROOT = TOOL_DIR / "output"
+RUN_NAME = os.environ.get("JEPA_VIZ_RUN_NAME") or datetime.now().strftime("%Y%m%d_%H%M%S")
+DEFAULT_OUTPUT_ROOT = Path(os.environ.get("JEPA_VIZ_OUTPUT_ROOT", TOOL_DIR / "output" / RUN_NAME))
 DEFAULT_LATENT_DIR = DEFAULT_OUTPUT_ROOT / "latents"
 DEFAULT_VIZ_DIR = DEFAULT_OUTPUT_ROOT / "latent_viz"
 

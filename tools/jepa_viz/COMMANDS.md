@@ -7,10 +7,10 @@
 1. 训练曲线脚本需要一个训练日志文件，例如 `metrics.csv`、`jsonl` 或文本日志。
 2. latent 可视化脚本需要一个 latent 目录，里面有 `latents.npz` 或 `latents.pt`，以及可选的 `metadata.jsonl`。
 
-默认输出目录在工具目录下：
+默认输出目录在工具目录下，并按日期时间自动分目录：
 
 ```text
-tools/jepa_viz/output/
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/
 ```
 
 你可以通过修改下面这些变量，把工具用于任意模型、任意仓库、任意输出位置。
@@ -30,22 +30,23 @@ export JEPA_VIZ_DIR=$PROJECT_ROOT/tools/jepa_viz
 # export JEPA_VIZ_DIR=/path/to/tools/jepa_viz
 ```
 
-设置统一输出根目录：
+设置统一输出根目录。建议显式设置一个时间戳目录，便于区分不同运行：
 
 ```bash
-export JEPA_VIZ_OUTPUT_ROOT=$JEPA_VIZ_DIR/output
+export JEPA_VIZ_RUN_NAME=$(date +%Y%m%d_%H%M%S)
+export JEPA_VIZ_OUTPUT_ROOT=$JEPA_VIZ_DIR/output/$JEPA_VIZ_RUN_NAME
 ```
 
 如果你不想把结果写进代码目录，可以改成任意路径：
 
 ```bash
-export JEPA_VIZ_OUTPUT_ROOT=<你的输出目录>
+export JEPA_VIZ_OUTPUT_ROOT=<你的输出目录>/$JEPA_VIZ_RUN_NAME
 ```
 
 例如：
 
 ```bash
-export JEPA_VIZ_OUTPUT_ROOT=$PROJECT_ROOT/outputs/jepa_viz
+export JEPA_VIZ_OUTPUT_ROOT=$PROJECT_ROOT/outputs/jepa_viz/$JEPA_VIZ_RUN_NAME
 ```
 
 ## 1. 训练曲线可视化

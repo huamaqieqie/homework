@@ -30,7 +30,7 @@ pixels / image_path / frame_path
 默认输出目录统一放在：
 
 ```text
-tools/jepa_viz/output/
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/
 ```
 
 模板脚本默认也会把 matplotlib/cache/tmp 放到这个目录下，避免写到 `/root`。
@@ -49,9 +49,10 @@ tools/jepa_viz/
   visualize_latents.py
   run_jepa_viz_template.sh
   output/
-    training/
-    latents/
-    latent_viz/
+    <YYYYMMDD_HHMMSS>/
+      training/
+      latents/
+      latent_viz/
 ```
 
 说明：
@@ -70,13 +71,13 @@ tools/jepa_viz/
 ```bash
 python tools/jepa_viz/plot_training_curves.py \
   --log <metrics.csv 或日志文件> \
-  --out tools/jepa_viz/output/training
+  --out $JEPA_VIZ_OUTPUT_ROOT/training
 ```
 
 不传 `--out` 时默认输出到：
 
 ```text
-tools/jepa_viz/output/training
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/training
 ```
 
 ## Latent 导出
@@ -89,36 +90,36 @@ python tools/jepa_viz/export_latents.py \
   --checkpoint <checkpoint_path> \
   --split val \
   --max-samples 1024 \
-  --out tools/jepa_viz/output/latents \
+  --out $JEPA_VIZ_OUTPUT_ROOT/latents \
   --dataset <dataset_path_or_name> \
-  data=pusht
+  <hydra_override>
 ```
 
 不传 `--out` 时默认输出到：
 
 ```text
-tools/jepa_viz/output/latents
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latents
 ```
 
 ## Latent 可视化
 
 ```bash
 python tools/jepa_viz/visualize_latents.py \
-  --latent-dir tools/jepa_viz/output/latents \
-  --out tools/jepa_viz/output/latent_viz \
+  --latent-dir $JEPA_VIZ_OUTPUT_ROOT/latents \
+  --out $JEPA_VIZ_OUTPUT_ROOT/latent_viz \
   --color-by action
 ```
 
 不传参数时默认读取：
 
 ```text
-tools/jepa_viz/output/latents
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latents
 ```
 
 默认输出到：
 
 ```text
-tools/jepa_viz/output/latent_viz
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latent_viz
 ```
 
 ## 统一模板
@@ -144,12 +145,13 @@ all
 默认输出根目录：
 
 ```bash
-JEPA_VIZ_OUTPUT_ROOT=tools/jepa_viz/output
+JEPA_VIZ_OUTPUT_ROOT=tools/jepa_viz/output/<YYYYMMDD_HHMMSS>
 ```
 
 可以覆盖为任意位置：
 
 ```bash
-JEPA_VIZ_OUTPUT_ROOT=/data1/Johnny/challenge/wrf/homework/outputs/my_jepa_viz \
+JEPA_VIZ_RUN_NAME=$(date +%Y%m%d_%H%M%S) \
+JEPA_VIZ_OUTPUT_ROOT=/data1/Johnny/challenge/wrf/homework/outputs/my_jepa_viz/$JEPA_VIZ_RUN_NAME \
 bash tools/jepa_viz/run_jepa_viz_template.sh
 ```

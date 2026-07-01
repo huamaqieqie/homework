@@ -7,11 +7,14 @@ import os
 import re
 import time
 from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
 
 
 TOOL_DIR = Path(__file__).resolve().parent
-DEFAULT_OUTPUT_DIR = TOOL_DIR / "output" / "training"
+RUN_NAME = os.environ.get("JEPA_VIZ_RUN_NAME") or datetime.now().strftime("%Y%m%d_%H%M%S")
+DEFAULT_OUTPUT_ROOT = Path(os.environ.get("JEPA_VIZ_OUTPUT_ROOT", TOOL_DIR / "output" / RUN_NAME))
+DEFAULT_OUTPUT_DIR = DEFAULT_OUTPUT_ROOT / "training"
 
 ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 TABLE_RE = re.compile(r"\|\s*([^|]+?)\s*\|\s*([-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?)\s*\|")

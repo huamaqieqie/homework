@@ -12,6 +12,7 @@ import argparse
 import json
 import os
 import sys
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -22,7 +23,9 @@ from omegaconf import OmegaConf, open_dict
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LEWM_DIR = REPO_ROOT / "le-wm"
 TOOL_DIR = Path(__file__).resolve().parent
-DEFAULT_OUTPUT_DIR = TOOL_DIR / "output" / "latents"
+RUN_NAME = os.environ.get("JEPA_VIZ_RUN_NAME") or datetime.now().strftime("%Y%m%d_%H%M%S")
+DEFAULT_OUTPUT_ROOT = Path(os.environ.get("JEPA_VIZ_OUTPUT_ROOT", TOOL_DIR / "output" / RUN_NAME))
+DEFAULT_OUTPUT_DIR = DEFAULT_OUTPUT_ROOT / "latents"
 if str(LEWM_DIR) not in sys.path:
     sys.path.insert(0, str(LEWM_DIR))
 

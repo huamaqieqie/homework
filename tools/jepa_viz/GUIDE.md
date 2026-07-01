@@ -6,7 +6,7 @@
 默认输出目录：
 
 ```text
-tools/jepa_viz/output/
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/
 ```
 
 ## 1. Training Plots
@@ -14,7 +14,7 @@ tools/jepa_viz/output/
 训练曲线默认输出到：
 
 ```text
-tools/jepa_viz/output/training/
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/training/
 ```
 
 这些图由 `tools/jepa_viz/plot_training_curves.py` 从 `metrics.csv`、`jsonl` 或文本日志中生成。
@@ -290,7 +290,7 @@ throughput_lr.png
 latent 导出默认输出到：
 
 ```text
-tools/jepa_viz/output/latents/
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latents/
 ```
 
 主要文件：
@@ -370,13 +370,13 @@ save_pretrained 生成的 .pt/.pth 文件
 latent 可视化默认读取：
 
 ```text
-tools/jepa_viz/output/latents/
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latents/
 ```
 
 默认输出到：
 
 ```text
-tools/jepa_viz/output/latent_viz/
+tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latent_viz/
 ```
 
 ### PCA Scatter
