@@ -38,10 +38,19 @@ METRICS_LOG=${METRICS_LOG:-${TRAIN_LOG}}
 PLOT_OUT=${PLOT_OUT:-${RUN_ROOT}/training}
 WATCH_INTERVAL=${WATCH_INTERVAL:-60}
 
-# MODE can be: train, eval, plot, watch, all.
+# Latent export.
+LATENT_CONFIG=${LATENT_CONFIG:-${LEWM_DIR}/config/train/lewm.yaml}
+LATENT_CHECKPOINT=${LATENT_CHECKPOINT:-}
+LATENT_SPLIT=${LATENT_SPLIT:-val}
+LATENT_MAX_SAMPLES=${LATENT_MAX_SAMPLES:-1024}
+LATENT_OUT=${LATENT_OUT:-${RUN_ROOT}/latents}
+LATENT_FORMAT=${LATENT_FORMAT:-npz}
+LATENT_DEVICE=${LATENT_DEVICE:-cuda}
+
+# MODE can be: train, eval, plot, watch, export_latents, all.
 MODE=${MODE:-train}
 
-mkdir -p "${RUN_ROOT}/logs" "${PLOT_OUT}"
+mkdir -p "${RUN_ROOT}/logs" "${PLOT_OUT}" "${LATENT_OUT}"
 
 export LEWM_OUTPUT_ROOT
 if [[ "${LEWM_RESPECT_EXTERNAL_CACHE:-0}" != "1" ]]; then
@@ -154,6 +163,41 @@ run_plot_watch() {
     --interval "${WATCH_INTERVAL}"
 }
 
+run_export_latents() {
+  cd "${SERVER_REPO}"
+
+  if [[ -z "${LATENT_CHECKPOINT}" ]]; then
+    echo "LATENT_CHECKPOINT is required for MODE=export_latents." >&2
+    exit 2
+  fi
+
+  args=(
+    "--config" "${LATENT_CONFIG}"
+    "--checkpoint" "${LATENT_CHECKPOINT}"
+    "--split" "${LATENT_SPLIT}"
+    "--max-samples" "${LATENT_MAX_SAMPLES}"
+    "--out" "${LATENT_OUT}"
+    "--format" "${LATENT_FORMAT}"
+    "--device" "${LATENT_DEVICE}"
+    "data=${DATA_CONFIG}"
+  )
+
+  if [[ -n "${DATASET_NAME}" ]]; then
+    args+=("--dataset" "${DATASET_NAME}")
+  fi
+
+  if [[ -n "${BATCH_SIZE}" ]]; then
+    args+=("--batch-size" "${BATCH_SIZE}")
+  fi
+
+  if [[ -n "${NUM_WORKERS}" ]]; then
+    args+=("--num-workers" "${NUM_WORKERS}")
+  fi
+
+  echo "Exporting JEPA latents to ${LATENT_OUT}"
+  "${PYTHON}" tools/jepa_eval/export_latents.py "${args[@]}"
+}
+
 case "${MODE}" in
   train)
     run_train
@@ -167,13 +211,16 @@ case "${MODE}" in
   watch)
     run_plot_watch
     ;;
+  export_latents)
+    run_export_latents
+    ;;
   all)
     run_train
     run_plot_once
     run_eval
     ;;
   *)
-    echo "Unknown MODE=${MODE}. Use one of: train, eval, plot, watch, all." >&2
+    echo "Unknown MODE=${MODE}. Use one of: train, eval, plot, watch, export_latents, all." >&2
     exit 2
     ;;
 esac

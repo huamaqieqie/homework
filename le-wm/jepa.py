@@ -26,6 +26,22 @@ class JEPA(nn.Module):
         self.projector = projector or nn.Identity()
         self.pred_proj = pred_proj or nn.Identity()
 
+    def forward(
+        self,
+        info,
+        *,
+        return_latents=False,
+        history_size=None,
+        num_preds=1,
+    ):
+        if return_latents:
+            return self.extract_latents(
+                info,
+                history_size=history_size,
+                num_preds=num_preds,
+            )
+        return self.encode(info)
+
     def encode(self, info):
         """Encode observations and actions into embeddings.
         info: dict with pixels and action keys
@@ -53,6 +69,29 @@ class JEPA(nn.Module):
         preds = self.pred_proj(rearrange(preds, "b t d -> (b t) d"))
         preds = rearrange(preds, "(b t) d -> b t d", b=emb.size(0))
         return preds
+
+    def extract_latents(self, info, history_size=None, num_preds=1):
+        """Return JEPA latents for offline evaluation without changing training."""
+        output = self.encode(info)
+        emb = output["emb"]
+
+        if "act_emb" not in output:
+            raise KeyError("JEPA latent export requires an 'action' field in the batch.")
+
+        ctx_len = history_size or emb.size(1) - num_preds
+        act_emb = output["act_emb"]
+        z_context = emb[:, :ctx_len]
+        action_condition = act_emb[:, :ctx_len]
+        z_target = emb[:, num_preds : num_preds + ctx_len]
+        z_pred = self.predict(z_context, action_condition)
+
+        return {
+            "z_context": z_context,
+            "z_target": z_target,
+            "z_pred": z_pred,
+            "z_all": emb,
+            "action_condition": action_condition,
+        }
 
     ####################
     ## Inference only ##
