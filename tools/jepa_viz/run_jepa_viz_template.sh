@@ -35,6 +35,11 @@ LATENT_DIR=${LATENT_DIR:-${LATENT_OUT}}
 LATENT_VIZ_OUT=${LATENT_VIZ_OUT:-${JEPA_VIZ_OUTPUT_ROOT}/latent_viz}
 LATENT_COLOR_BY=${LATENT_COLOR_BY:-source}
 LATENT_MAX_POINTS=${LATENT_MAX_POINTS:-5000}
+LATENT_ALIGNMENT_COUNT=${LATENT_ALIGNMENT_COUNT:-4}
+LATENT_ACTIVE_THRESHOLD=${LATENT_ACTIVE_THRESHOLD:-1e-2}
+LATENT_ACTIVE_RELATIVE_THRESHOLD=${LATENT_ACTIVE_RELATIVE_THRESHOLD:-0.0}
+LATENT_PAIRWISE_DENSITY=${LATENT_PAIRWISE_DENSITY:-1}
+LATENT_MAX_ACTION_COMPONENTS=${LATENT_MAX_ACTION_COMPONENTS:-8}
 LATENT_NN_QUERIES=${LATENT_NN_QUERIES:-8}
 LATENT_TOP_K=${LATENT_TOP_K:-5}
 
@@ -42,6 +47,9 @@ LATENT_TOP_K=${LATENT_TOP_K:-5}
 PREDICTION_VIZ_OUT=${PREDICTION_VIZ_OUT:-${JEPA_VIZ_OUTPUT_ROOT}/prediction_viz}
 PREDICTION_GROUP_BY=${PREDICTION_GROUP_BY:-source}
 PREDICTION_MAX_GROUPS=${PREDICTION_MAX_GROUPS:-8}
+PREDICTION_ACTION_BINS=${PREDICTION_ACTION_BINS:-4}
+PREDICTION_INTERVAL=${PREDICTION_INTERVAL:-std}
+PREDICTION_HEATMAP_VMIN_QUANTILE=${PREDICTION_HEATMAP_VMIN_QUANTILE:-0.05}
 
 # MODE can be: plot, watch, export_latents, visualize_latents, visualize_prediction, all.
 MODE=${MODE:-visualize_latents}
@@ -109,13 +117,24 @@ run_export_latents() {
 }
 
 run_visualize_latents() {
-  "${PYTHON}" "${SCRIPT_DIR}/visualize_latents.py" \
-    --latent-dir "${LATENT_DIR}" \
-    --out "${LATENT_VIZ_OUT}" \
-    --color-by "${LATENT_COLOR_BY}" \
-    --max-points "${LATENT_MAX_POINTS}" \
-    --nn-queries "${LATENT_NN_QUERIES}" \
-    --top-k "${LATENT_TOP_K}"
+  args=(
+    "--latent-dir" "${LATENT_DIR}"
+    "--out" "${LATENT_VIZ_OUT}"
+    "--color-by" "${LATENT_COLOR_BY}"
+    "--max-points" "${LATENT_MAX_POINTS}"
+    "--alignment-count" "${LATENT_ALIGNMENT_COUNT}"
+    "--active-threshold" "${LATENT_ACTIVE_THRESHOLD}"
+    "--active-relative-threshold" "${LATENT_ACTIVE_RELATIVE_THRESHOLD}"
+    "--max-action-components" "${LATENT_MAX_ACTION_COMPONENTS}"
+    "--nn-queries" "${LATENT_NN_QUERIES}"
+    "--top-k" "${LATENT_TOP_K}"
+  )
+  if [[ "${LATENT_PAIRWISE_DENSITY}" == "0" ]]; then
+    args+=("--no-pairwise-density")
+  else
+    args+=("--pairwise-density")
+  fi
+  "${PYTHON}" "${SCRIPT_DIR}/visualize_latents.py" "${args[@]}"
 }
 
 run_visualize_prediction() {
@@ -123,7 +142,10 @@ run_visualize_prediction() {
     --latent-dir "${LATENT_DIR}" \
     --out "${PREDICTION_VIZ_OUT}" \
     --group-by "${PREDICTION_GROUP_BY}" \
-    --max-groups "${PREDICTION_MAX_GROUPS}"
+    --max-groups "${PREDICTION_MAX_GROUPS}" \
+    --action-bins "${PREDICTION_ACTION_BINS}" \
+    --interval "${PREDICTION_INTERVAL}" \
+    --heatmap-vmin-quantile "${PREDICTION_HEATMAP_VMIN_QUANTILE}"
 }
 
 case "${MODE}" in

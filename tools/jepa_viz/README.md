@@ -110,7 +110,12 @@ tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latents
 python tools/jepa_viz/visualize_latents.py \
   --latent-dir $JEPA_VIZ_OUTPUT_ROOT/latents \
   --out $JEPA_VIZ_OUTPUT_ROOT/latent_viz \
-  --color-by action
+  --color-by action \
+  --alignment-count 4 \
+  --active-threshold 1e-2 \
+  --active-relative-threshold 0.0 \
+  --pairwise-density \
+  --max-action-components 8
 ```
 
 不传参数时默认读取：
@@ -131,7 +136,11 @@ tools/jepa_viz/output/<YYYYMMDD_HHMMSS>/latent_viz
 python tools/jepa_viz/visualize_prediction.py \
   --latent-dir $JEPA_VIZ_OUTPUT_ROOT/latents \
   --out $JEPA_VIZ_OUTPUT_ROOT/prediction_viz \
-  --group-by action
+  --group-by action \
+  --max-groups 8 \
+  --action-bins 4 \
+  --interval std \
+  --heatmap-vmin-quantile 0.05
 ```
 
 默认输出到：

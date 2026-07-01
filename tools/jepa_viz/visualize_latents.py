@@ -7,7 +7,7 @@ The script consumes the files written by tools/jepa_viz/export_latents.py:
     latents.npz or latents.pt
     metadata.jsonl
 
-It writes PCA/UMAP scatter plots, trajectory plots, nearest-neighbor HTML, and
+It writes PCA/UMAP scatter plots, target-pred alignment plots, nearest-neighbor HTML, and
 collapse diagnostics to tools/jepa_viz/output/latent_viz by default.
 """
 
@@ -46,7 +46,20 @@ import matplotlib.pyplot as plt
 LATENT_KEYS = ("z_context", "z_target", "z_pred")
 GROUP_KEYS = ("episode_idx", "ep_idx", "video_id", "video", "sequence_id", "sequence", "sample_id")
 TIME_KEYS = ("step_idx", "time_idx", "time_index", "frame_idx", "frame_index", "timestep", "export_index")
+HORIZON_KEYS = ("horizon", "future_horizon", "future_horizon_index", "target_horizon", "pred_horizon", "horizon_idx")
 IMAGE_KEYS = ("image_path", "frame_path", "pixels_path", "image", "pixels")
+ACTION_KEYS = ("action", "action_condition")
+LABEL_GROUP_CANDIDATES = (
+    ("task", ("task", "task_id", "instruction", "task_instruction")),
+    ("action", ACTION_KEYS),
+    ("episode", ("episode_idx", "ep_idx", "video_id", "sequence_id")),
+    ("source", ("source", "source_id", "dataset", "dataset_id")),
+)
+ACTION_ABLATION_PRED_KEYS = {
+    "normal": ("z_pred",),
+    "shuffled": ("z_pred_action_shuffled", "z_pred_condition_shuffled", "z_pred_shuffled_action", "z_pred_shuffled_condition"),
+    "zero": ("z_pred_action_zero", "z_pred_zero_action", "z_pred_condition_removed", "z_pred_no_condition", "z_pred_without_condition"),
+}
 
 
 def parse_args():
@@ -64,11 +77,37 @@ def parse_args():
     )
     parser.add_argument("--max-points", type=int, default=5000, help="Maximum points per scatter plot.")
     parser.add_argument("--max-diagnostic-points", type=int, default=3000, help="Maximum points for diagnostics.")
-    parser.add_argument("--trajectory-count", type=int, default=4, help="Number of episode/sequence trajectories to draw.")
+    parser.add_argument("--active-threshold", type=float, default=1e-2, help="Absolute feature std threshold for active dimensions.")
+    parser.add_argument(
+        "--active-relative-threshold",
+        type=float,
+        default=0.0,
+        help="Relative active threshold as a fraction of the max feature std for each latent.",
+    )
+    parser.add_argument(
+        "--pairwise-density",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Use density on pairwise cosine histograms.",
+    )
+    parser.add_argument(
+        "--alignment-count",
+        "--trajectory-count",
+        dest="trajectory_count",
+        type=int,
+        default=4,
+        help="Number of target-pred alignment panels to draw.",
+    )
     parser.add_argument("--trajectory-latent-step", default="last", choices=("first", "last", "mean"))
     parser.add_argument("--nn-latent", default="z_target", choices=LATENT_KEYS, help="Latent space for retrieval.")
     parser.add_argument("--nn-queries", type=int, default=8, help="Number of query samples for retrieval.")
     parser.add_argument("--top-k", type=int, default=5, help="Nearest neighbors per query.")
+    parser.add_argument(
+        "--max-action-components",
+        type=int,
+        default=8,
+        help="Maximum action components to plot for delta_z PCA. Use 0 or negative to plot all components.",
+    )
     parser.add_argument("--seed", type=int, default=0)
     return parser.parse_args()
 
@@ -152,6 +191,8 @@ def metadata_values(metadata, key):
         "success": ("success", "is_success", "label"),
         "time": TIME_KEYS,
         "time_index": TIME_KEYS,
+        "episode": ("episode_idx", "ep_idx", "video_id", "sequence_id"),
+        "horizon": HORIZON_KEYS,
     }
     keys = aliases.get(key, (key,))
     for candidate in keys:
@@ -185,6 +226,55 @@ def vector_norm(values):
     return np.linalg.norm(values.reshape(values.shape[0], -1), axis=1)
 
 
+def first_array(arrays, keys):
+    for key in keys:
+        if key in arrays:
+            return key, np.asarray(arrays[key])
+    return None, None
+
+
+def action_array(arrays):
+    return first_array(arrays, ACTION_KEYS)
+
+
+def action_component_index(color_by):
+    prefixes = ("action_", "action_component_", "action_dim_")
+    for prefix in prefixes:
+        if color_by.startswith(prefix):
+            try:
+                return int(color_by[len(prefix) :])
+            except ValueError:
+                return None
+    if color_by.startswith("action[") and color_by.endswith("]"):
+        try:
+            return int(color_by[len("action[") : -1])
+        except ValueError:
+            return None
+    return None
+
+
+def action_values_for_steps(arrays, n_samples, n_steps, mode="norm", component=None):
+    action_key, action = action_array(arrays)
+    if action is None or action.shape[0] != n_samples:
+        return None, None
+
+    flat = action.reshape(action.shape[0], -1) if action.ndim <= 2 else action.reshape(action.shape[0], action.shape[1], -1)
+    if action.ndim >= 3 and action.shape[1] == n_steps:
+        if mode == "component":
+            if component is None or component >= flat.shape[-1]:
+                return None, None
+            values = flat[:, :, component].reshape(n_samples * n_steps)
+            return values, f"{action_key}_{component}"
+        return vector_norm(flat.reshape(n_samples * n_steps, flat.shape[-1])), f"{action_key}_norm"
+
+    sample_flat = action.reshape(n_samples, -1)
+    if mode == "component":
+        if component is None or component >= sample_flat.shape[1]:
+            return None, None
+        return repeated_sample_values(sample_flat[:, component], n_steps), f"{action_key}_{component}"
+    return repeated_sample_values(vector_norm(sample_flat), n_steps), f"{action_key}_norm"
+
+
 def color_values(arrays, metadata, latent_key, color_by):
     array = np.asarray(arrays[latent_key])
     n_samples = array.shape[0]
@@ -195,12 +285,29 @@ def color_values(arrays, metadata, latent_key, color_by):
         if values is not None:
             return values, source
 
-    if color_by == "action" and "action" in arrays:
-        action = np.asarray(arrays["action"])
-        if action.shape[0] == n_samples and action.ndim >= 3 and action.shape[1] == n_steps:
-            return vector_norm(action.reshape(n_samples * n_steps, *action.shape[2:])), "action_norm"
-        if action.shape[0] == n_samples:
-            return repeated_sample_values(vector_norm(action), n_steps), "action_norm"
+    if color_by in ("action", "action_norm"):
+        values, source = action_values_for_steps(arrays, n_samples, n_steps, mode="norm")
+        if values is not None:
+            return values, source
+
+    component = action_component_index(color_by)
+    if component is not None:
+        values, source = action_values_for_steps(arrays, n_samples, n_steps, mode="component", component=component)
+        if values is not None:
+            return values, source
+
+    if color_by in ("horizon", "future_horizon", "future_horizon_index"):
+        values, source = horizon_values(arrays, metadata, "last")
+        if values is not None:
+            return repeated_sample_values(values, n_steps), source
+
+    if color_by in ("prediction_error", "pred_error", "mse", "cosine_error", "prediction_cosine"):
+        z_target = sample_level_latent(arrays["z_target"], "last")
+        z_pred = sample_level_latent(arrays["z_pred"], "last")
+        cosine, mse = target_pred_metrics(z_target, z_pred)
+        values = cosine if color_by == "prediction_cosine" else mse
+        source = "prediction_cosine" if color_by == "prediction_cosine" else "prediction_mse"
+        return repeated_sample_values(values, n_steps), source
 
     if color_by in arrays:
         values = np.asarray(arrays[color_by])
@@ -235,35 +342,7 @@ def numeric_or_categorical(values):
     return True, numeric
 
 
-def fit_transform_2d(points, method, seed):
-    points = np.asarray(points, dtype=np.float32)
-    if points.shape[0] < 2:
-        raise ValueError("Need at least two latent points for 2D projection.")
-
-    if method == "umap":
-        try:
-            import umap
-
-            reducer = umap.UMAP(n_components=2, random_state=seed)
-            return reducer.fit_transform(points), "UMAP"
-        except ImportError:
-            method = "pca"
-
-    if method == "pca":
-        try:
-            from sklearn.decomposition import PCA
-
-            reducer = PCA(n_components=2, random_state=seed)
-            return reducer.fit_transform(points), "PCA"
-        except ImportError:
-            centered = points - points.mean(axis=0, keepdims=True)
-            _, _, vt = np.linalg.svd(centered, full_matrices=False)
-            return centered @ vt[:2].T, "PCA"
-
-    raise ValueError(f"Unknown projection method: {method}")
-
-
-def plot_scatter(embedding, values, title, out_path, color_label):
+def plot_scatter(embedding, values, title, out_path, color_label, xlim=None, ylim=None):
     is_numeric, color = numeric_or_categorical(values)
     fig, ax = plt.subplots(figsize=(7.5, 6.0))
     if is_numeric:
@@ -284,28 +363,90 @@ def plot_scatter(embedding, values, title, out_path, color_label):
     ax.set_title(title)
     ax.set_xlabel("dim 1")
     ax.set_ylabel("dim 2")
+    if xlim is not None:
+        ax.set_xlim(*xlim)
+    if ylim is not None:
+        ax.set_ylim(*ylim)
     ax.grid(alpha=0.18)
     fig.tight_layout()
     fig.savefig(out_path, dpi=160)
     plt.close(fig)
 
 
-def plot_projection_scatter(arrays, metadata, latent_key, method, args, out_dir):
-    points, step_index = flatten_latent(arrays[latent_key])
-    colors, color_source = color_values(arrays, metadata, latent_key, args.color_by)
-    labels = {"color": np.asarray(colors), "step": step_index}
-    points, labels = sample_points(points, labels, args.max_points, args.seed)
-    embedding, used_method = fit_transform_2d(points, method, args.seed)
-    prefix = "umap_fallback_pca" if method == "umap" and used_method == "PCA" else used_method.lower()
-    filename = f"{prefix}_{latent_key}_by_{safe_name(color_source)}.png"
-    plot_scatter(
-        embedding,
-        labels["color"],
-        f"{used_method} {latent_key} by {color_source}",
-        out_dir / filename,
-        color_source,
-    )
-    return filename
+def fit_shared_pca(points, seed):
+    points = np.asarray(points, dtype=np.float32)
+    try:
+        from sklearn.decomposition import PCA
+
+        reducer = PCA(n_components=2, random_state=seed)
+        return reducer.fit_transform(points), "PCA"
+    except ImportError:
+        centered = points - points.mean(axis=0, keepdims=True)
+        _, _, vt = np.linalg.svd(centered, full_matrices=False)
+        return centered @ vt[:2].T, "PCA"
+
+
+def fit_shared_umap(points, seed):
+    try:
+        import umap
+    except ImportError:
+        return None, None
+
+    reducer = umap.UMAP(n_components=2, random_state=seed)
+    return reducer.fit_transform(np.asarray(points, dtype=np.float32)), "UMAP"
+
+
+def shared_projection_inputs(arrays, metadata, args):
+    per_key = {}
+    combined = []
+    start = 0
+    for latent_key in LATENT_KEYS:
+        points, step_index = flatten_latent(arrays[latent_key])
+        colors, color_source = color_values(arrays, metadata, latent_key, args.color_by)
+        labels = {"color": np.asarray(colors), "step": step_index}
+        points, labels = sample_points(points, labels, args.max_points, args.seed)
+        end = start + points.shape[0]
+        per_key[latent_key] = {
+            "points": points,
+            "labels": labels,
+            "slice": slice(start, end),
+            "color_source": color_source,
+        }
+        combined.append(points)
+        start = end
+    return np.concatenate(combined, axis=0), per_key
+
+
+def plot_shared_projection_scatter(arrays, metadata, method, args, out_dir):
+    combined, per_key = shared_projection_inputs(arrays, metadata, args)
+    if method == "pca":
+        embedding, used_method = fit_shared_pca(combined, args.seed)
+        prefix = "pca"
+    elif method == "umap":
+        embedding, used_method = fit_shared_umap(combined, args.seed)
+        if embedding is None:
+            return []
+        prefix = "umap"
+    else:
+        raise ValueError(f"Unknown projection method: {method}")
+
+    xlim, ylim = axis_limits(embedding)
+    written = []
+    for latent_key, info in per_key.items():
+        latent_embedding = embedding[info["slice"]]
+        color_source = info["color_source"]
+        filename = f"{prefix}_{latent_key}_shared_by_{safe_name(color_source)}.png"
+        plot_scatter(
+            latent_embedding,
+            info["labels"]["color"],
+            f"{used_method} {latent_key} by {color_source} (shared basis)",
+            out_dir / filename,
+            color_source,
+            xlim=xlim,
+            ylim=ylim,
+        )
+        written.append(filename)
+    return written
 
 
 def sample_level_latent(array, step_mode):
@@ -356,89 +497,504 @@ def sort_group(indices, metadata, time_key):
     return sorted(indices, key=sort_value)
 
 
-def plot_trajectories(arrays, metadata, args, out_dir):
-    z_target = sample_level_latent(arrays["z_target"], args.trajectory_latent_step)
-    z_pred = sample_level_latent(arrays["z_pred"], args.trajectory_latent_step)
-    combined = np.concatenate([z_target, z_pred], axis=0)
+def axis_limits(*point_sets):
+    points = np.concatenate([np.asarray(points) for points in point_sets if points is not None and len(points)], axis=0)
+    x_min, y_min = points.min(axis=0)
+    x_max, y_max = points.max(axis=0)
+    x_pad = max((x_max - x_min) * 0.08, 1e-3)
+    y_pad = max((y_max - y_min) * 0.08, 1e-3)
+    return (x_min - x_pad, x_max + x_pad), (y_min - y_pad, y_max + y_pad)
 
-    group_key, time_key, groups = grouped_indices(metadata)
-    selected = sorted(groups.items(), key=lambda item: len(item[1]), reverse=True)[: args.trajectory_count]
-    if not selected:
+
+def target_pred_metrics(z_target, z_pred):
+    target_norm = np.linalg.norm(z_target, axis=1)
+    pred_norm = np.linalg.norm(z_pred, axis=1)
+    cosine = (z_target * z_pred).sum(axis=1) / np.maximum(target_norm * pred_norm, 1e-12)
+    mse = ((z_pred - z_target) ** 2).mean(axis=1)
+    return cosine, mse
+
+
+def sample_id(metadata, idx):
+    row = metadata[idx]
+    for key in ("sample_id", "export_index", "episode_idx", "ep_idx", "frame_idx", "step_idx"):
+        if key in row and row[key] is not None:
+            return row[key]
+    return idx
+
+
+def select_step_value(values, step_mode):
+    values = np.asarray(values)
+    if values.ndim == 0:
+        return values.item()
+    if values.ndim == 1:
+        if step_mode == "first":
+            return values[0]
+        if step_mode == "last":
+            return values[-1]
+        return values.mean() if np.issubdtype(values.dtype, np.number) else values[len(values) // 2]
+    return select_step_value(values.reshape(-1), step_mode)
+
+
+def horizon_values(arrays, metadata, step_mode):
+    key = first_present_key(metadata, HORIZON_KEYS)
+    if key:
+        values = []
+        for row in metadata:
+            value = row.get(key)
+            if isinstance(value, list):
+                value = select_step_value(value, step_mode)
+            values.append(value)
+        return np.asarray(values, dtype=object), key
+
+    for key in HORIZON_KEYS:
+        if key not in arrays:
+            continue
+        values = np.asarray(arrays[key])
+        if values.shape[0] == len(metadata):
+            if values.ndim == 1:
+                return values.astype(object), key
+            return np.asarray([select_step_value(value, step_mode) for value in values], dtype=object), key
+        if values.ndim == 1:
+            return np.asarray([select_step_value(values, step_mode) for _ in metadata], dtype=object), key
+    return None, None
+
+
+def format_metric(value):
+    return f"{float(value):.4f}"
+
+
+def plot_alignment_panels(target_2d, pred_2d, indices, metadata, cosine, mse, args, out_dir, filename, subtitle=None):
+    if not indices:
         return None
 
-    goal_latent = None
-    for key in ("z_goal", "goal_latent", "goal_emb"):
-        if key in arrays:
-            goal_latent = sample_level_latent(arrays[key], args.trajectory_latent_step)
-            break
-
-    projection_input = np.concatenate([combined, goal_latent], axis=0) if goal_latent is not None else combined
-    projected, _ = fit_transform_2d(projection_input, "pca", args.seed)
-    target_2d = projected[: len(z_target)]
-    pred_2d = projected[len(z_target) : len(z_target) + len(z_pred)]
-    goal_2d = projected[len(combined) :] if goal_latent is not None else None
-
+    xlim, ylim = axis_limits(target_2d, pred_2d)
     cols = 2
-    rows = int(math.ceil(len(selected) / cols))
+    rows = int(math.ceil(len(indices) / cols))
     fig, axes = plt.subplots(rows, cols, figsize=(cols * 6.0, rows * 5.0), squeeze=False)
 
-    for ax, (group_value, indices) in zip(axes.reshape(-1), selected):
-        indices = sort_group(indices, metadata, time_key)
-        ax.plot(target_2d[indices, 0], target_2d[indices, 1], "-o", ms=3, lw=1.5, label="target")
-        ax.plot(pred_2d[indices, 0], pred_2d[indices, 1], "-o", ms=3, lw=1.5, label="pred")
-        if goal_2d is not None:
-            ax.scatter(goal_2d[indices[-1], 0], goal_2d[indices[-1], 1], marker="*", s=120, label="goal", color="black")
-        ax.set_title(f"{group_key}={group_value}")
+    for ax, idx in zip(axes.reshape(-1), indices):
+        ax.plot(
+            [target_2d[idx, 0], pred_2d[idx, 0]],
+            [target_2d[idx, 1], pred_2d[idx, 1]],
+            color="0.65",
+            linewidth=1.4,
+            zorder=1,
+        )
+        ax.scatter(target_2d[idx, 0], target_2d[idx, 1], s=48, label="target", color="#4c78a8", zorder=2)
+        ax.scatter(pred_2d[idx, 0], pred_2d[idx, 1], s=48, label="pred", color="#f58518", zorder=2)
+        ax.set_xlim(*xlim)
+        ax.set_ylim(*ylim)
+        ax.set_title(f"sample_id={sample_id(metadata, idx)} | cos={format_metric(cosine[idx])} | mse={format_metric(mse[idx])}")
         ax.set_xlabel("PCA dim 1")
         ax.set_ylabel("PCA dim 2")
         ax.grid(alpha=0.18)
         ax.legend(frameon=False, fontsize=8)
 
-    for ax in axes.reshape(-1)[len(selected) :]:
+    for ax in axes.reshape(-1)[len(indices) :]:
         ax.axis("off")
 
-    fig.suptitle(f"Latent Trajectories ({args.trajectory_latent_step} step, sorted by {time_key})")
+    title = f"Target-Pred Latent Alignment ({args.trajectory_latent_step} step)"
+    if subtitle:
+        title += f" - {subtitle}"
+    fig.suptitle(title)
     fig.tight_layout()
-    filename = "latent_trajectory.png"
     fig.savefig(out_dir / filename, dpi=160)
     plt.close(fig)
     return filename
 
 
-def pairwise_cosine_values(points, max_points, seed):
+def plot_alignment_global(target_2d, pred_2d, indices, cosine, mse, out_dir, filename, subtitle=None):
+    if not indices:
+        return None
+
+    xlim, ylim = axis_limits(target_2d, pred_2d)
+    fig, ax = plt.subplots(figsize=(7.5, 6.0))
+    for idx in indices:
+        ax.plot(
+            [target_2d[idx, 0], pred_2d[idx, 0]],
+            [target_2d[idx, 1], pred_2d[idx, 1]],
+            color="0.7",
+            linewidth=0.75,
+            alpha=0.55,
+            zorder=1,
+        )
+    ax.scatter(target_2d[indices, 0], target_2d[indices, 1], s=16, label="target", color="#4c78a8", alpha=0.82, zorder=2)
+    ax.scatter(pred_2d[indices, 0], pred_2d[indices, 1], s=16, label="pred", color="#f58518", alpha=0.82, zorder=2)
+    ax.set_xlim(*xlim)
+    ax.set_ylim(*ylim)
+    title = "Global Target-Pred Latent Alignment"
+    if subtitle:
+        title += f" - {subtitle}"
+    title += f"\nmean cos={format_metric(cosine[indices].mean())}, mean mse={format_metric(mse[indices].mean())}"
+    ax.set_title(title)
+    ax.set_xlabel("PCA dim 1")
+    ax.set_ylabel("PCA dim 2")
+    ax.grid(alpha=0.18)
+    ax.legend(frameon=False)
+    fig.tight_layout()
+    fig.savefig(out_dir / filename, dpi=160)
+    plt.close(fig)
+    return filename
+
+
+def alignment_panel_indices(mse, count):
+    count = max(int(count), 1)
+    order = np.argsort(mse)
+    anchors = [order[0], order[len(order) // 2], order[-1]]
+    if count <= 3:
+        return list(dict.fromkeys(int(idx) for idx in anchors[:count]))
+
+    quantiles = np.linspace(0, 1, count)
+    selected = [order[int(round(q * (len(order) - 1)))] for q in quantiles]
+    selected = [anchors[0], anchors[1], anchors[2], *selected]
+    return list(dict.fromkeys(int(idx) for idx in selected))[:count]
+
+
+def plot_target_pred_alignment(arrays, metadata, args, out_dir):
+    z_target = sample_level_latent(arrays["z_target"], args.trajectory_latent_step)
+    z_pred = sample_level_latent(arrays["z_pred"], args.trajectory_latent_step)
+    combined = np.concatenate([z_target, z_pred], axis=0)
+
+    projected, _ = fit_shared_pca(combined, args.seed)
+    target_2d = projected[: len(z_target)]
+    pred_2d = projected[len(z_target) : len(z_target) + len(z_pred)]
+    cosine, mse = target_pred_metrics(z_target, z_pred)
+
+    written = []
+    all_indices = list(range(len(metadata)))
+    panel_indices = alignment_panel_indices(mse, min(args.trajectory_count, len(all_indices)))
+
+    filename = plot_alignment_panels(
+        target_2d,
+        pred_2d,
+        panel_indices,
+        metadata,
+        cosine,
+        mse,
+        args,
+        out_dir,
+        "target_pred_latent_alignment.png",
+    )
+    if filename:
+        written.append(filename)
+
+    filename = plot_alignment_global(
+        target_2d,
+        pred_2d,
+        all_indices,
+        cosine,
+        mse,
+        out_dir,
+        "target_pred_latent_alignment_global.png",
+    )
+    if filename:
+        written.append(filename)
+
+    horizons, horizon_key = horizon_values(arrays, metadata, args.trajectory_latent_step)
+    if horizons is not None:
+        labels = np.asarray(["<missing>" if value is None else str(value) for value in horizons], dtype=object)
+        for horizon in np.unique(labels):
+            horizon_indices = np.flatnonzero(labels == horizon).astype(int).tolist()
+            safe_horizon = safe_name(horizon)
+            subtitle = f"{horizon_key}={horizon}"
+            filename = plot_alignment_global(
+                target_2d,
+                pred_2d,
+                horizon_indices,
+                cosine,
+                mse,
+                out_dir,
+                f"target_pred_latent_alignment_global_{safe_name(horizon_key)}_{safe_horizon}.png",
+                subtitle=subtitle,
+            )
+            if filename:
+                written.append(filename)
+
+            horizon_mse = mse[horizon_indices]
+            local_indices = alignment_panel_indices(horizon_mse, min(args.trajectory_count, len(horizon_indices)))
+            panel_indices = [horizon_indices[idx] for idx in local_indices]
+            filename = plot_alignment_panels(
+                target_2d,
+                pred_2d,
+                panel_indices,
+                metadata,
+                cosine,
+                mse,
+                args,
+                out_dir,
+                f"target_pred_latent_alignment_{safe_name(horizon_key)}_{safe_horizon}.png",
+                subtitle=subtitle,
+            )
+            if filename:
+                written.append(filename)
+
+    return written
+
+
+def action_sample_matrix(arrays):
+    _, action = action_array(arrays)
+    if action is None:
+        return None
+    return action.reshape(action.shape[0], -1).astype(np.float32)
+
+
+def plot_delta_z_action_analysis(arrays, metadata, args, out_dir):
+    z_context = sample_level_latent(arrays["z_context"], args.trajectory_latent_step)
+    z_pred = sample_level_latent(arrays["z_pred"], args.trajectory_latent_step)
+    if z_context.shape != z_pred.shape:
+        return []
+
+    delta_z = z_pred - z_context
+    if delta_z.shape[0] < 2:
+        return []
+    embedding, _ = fit_shared_pca(delta_z, args.seed)
+    xlim, ylim = axis_limits(embedding)
+    written = []
+
+    action = action_sample_matrix(arrays)
+    if action is None or action.shape[0] != delta_z.shape[0]:
+        values, source = metadata_values(metadata, args.color_by)
+        filename = f"delta_z_pca_by_{safe_name(source)}.png"
+        plot_scatter(
+            embedding,
+            values,
+            f"PCA delta_z by {source}",
+            out_dir / filename,
+            source,
+            xlim=xlim,
+            ylim=ylim,
+        )
+        return [filename]
+
+    action_norm = vector_norm(action)
+    filename = "delta_z_pca_by_action_norm.png"
+    plot_scatter(
+        embedding,
+        action_norm,
+        "PCA delta_z by action norm",
+        out_dir / filename,
+        "action_norm",
+        xlim=xlim,
+        ylim=ylim,
+    )
+    written.append(filename)
+
+    component_count = action.shape[1]
+    if args.max_action_components > 0:
+        component_count = min(component_count, args.max_action_components)
+    for component in range(component_count):
+        filename = f"delta_z_pca_by_action_{component}.png"
+        plot_scatter(
+            embedding,
+            action[:, component],
+            f"PCA delta_z by action[{component}]",
+            out_dir / filename,
+            f"action_{component}",
+            xlim=xlim,
+            ylim=ylim,
+        )
+        written.append(filename)
+    return written
+
+
+def plot_action_ablation(arrays, args, out_dir):
+    variants = {}
+    for name, keys in ACTION_ABLATION_PRED_KEYS.items():
+        key, value = first_array(arrays, keys)
+        if value is not None:
+            variants[name] = (key, value)
+    if len(variants) <= 1:
+        return []
+
+    z_target = sample_level_latent(arrays["z_target"], args.trajectory_latent_step)
+    names = []
+    mse_values = []
+    cosine_values = []
+    for name, (_, pred) in variants.items():
+        pred = sample_level_latent(pred, args.trajectory_latent_step)
+        if pred.shape != z_target.shape:
+            continue
+        cosine, mse = target_pred_metrics(z_target, pred)
+        names.append(name)
+        mse_values.append(float(mse.mean()))
+        cosine_values.append(float(cosine.mean()))
+
+    if len(names) <= 1:
+        return []
+
+    x = np.arange(len(names))
+    fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.5))
+    axes[0].bar(x, mse_values, color="#e15759")
+    axes[0].set_title("Prediction MSE")
+    axes[0].set_xticks(x)
+    axes[0].set_xticklabels(names, rotation=25, ha="right")
+    axes[0].grid(axis="y", alpha=0.18)
+
+    axes[1].bar(x, cosine_values, color="#4c78a8")
+    axes[1].set_title("Prediction Cosine")
+    axes[1].set_xticks(x)
+    axes[1].set_xticklabels(names, rotation=25, ha="right")
+    axes[1].set_ylim(-1.05, 1.05)
+    axes[1].grid(axis="y", alpha=0.18)
+    fig.suptitle("Action Condition Ablation")
+    fig.tight_layout()
+    filename = "action_condition_ablation.png"
+    fig.savefig(out_dir / filename, dpi=160)
+    plt.close(fig)
+
+    summary = {
+        name: {"mse": mse, "cosine": cosine}
+        for name, mse, cosine in zip(names, mse_values, cosine_values)
+    }
+    summary_name = "action_condition_ablation_summary.json"
+    with (out_dir / summary_name).open("w") as f:
+        json.dump(summary, f, indent=2)
+    return [filename, summary_name]
+
+
+def pairwise_cosine_values(points, max_points, seed, labels=None):
     points = np.asarray(points, dtype=np.float32)
     if points.shape[0] > max_points:
         rng = np.random.default_rng(seed)
-        points = points[np.sort(rng.choice(points.shape[0], size=max_points, replace=False))]
+        keep = np.sort(rng.choice(points.shape[0], size=max_points, replace=False))
+        points = points[keep]
+        labels = None if labels is None else np.asarray(labels, dtype=object)[keep]
     norms = np.linalg.norm(points, axis=1, keepdims=True)
     points = points / np.maximum(norms, 1e-12)
     sim = points @ points.T
     mask = ~np.eye(sim.shape[0], dtype=bool)
-    return sim[mask]
+    values = sim[mask]
+    if labels is None:
+        return values, None, None
+    label_eq = labels[:, None] == labels[None, :]
+    same = values[label_eq[mask]]
+    different = values[~label_eq[mask]]
+    return values, same, different
 
 
-def plot_collapse_diagnostics(arrays, args, out_dir):
-    points = sample_level_latent(arrays["z_target"], args.trajectory_latent_step)
+def diagnostic_points(arrays, latent_key, args):
+    points = sample_level_latent(arrays[latent_key], args.trajectory_latent_step)
     if points.shape[0] > args.max_diagnostic_points:
         rng = np.random.default_rng(args.seed)
         keep = np.sort(rng.choice(points.shape[0], size=args.max_diagnostic_points, replace=False))
         points = points[keep]
+    return points.astype(np.float32)
 
+
+def explained_variance(points):
     centered = points - points.mean(axis=0, keepdims=True)
     cov = centered.T @ centered / max(centered.shape[0] - 1, 1)
     eigvals = np.linalg.eigvalsh(cov)[::-1]
-    feature_std = points.std(axis=0)
-    active_dims = int((feature_std > 1e-2).sum())
-    pairwise = pairwise_cosine_values(points, args.max_diagnostic_points, args.seed)
+    total = float(np.maximum(eigvals.sum(), 1e-12))
+    ratio = eigvals / total
+    return eigvals, ratio
 
+
+def effective_rank(evr):
+    evr = np.asarray(evr, dtype=np.float64)
+    evr = evr[evr > 0]
+    if evr.size == 0:
+        return 0.0
+    entropy = -(evr * np.log(evr)).sum()
+    return float(np.exp(entropy))
+
+
+def participation_ratio(eigvals):
+    eigvals = np.asarray(eigvals, dtype=np.float64)
+    denom = np.square(eigvals).sum()
+    if denom <= 0:
+        return 0.0
+    return float(np.square(eigvals.sum()) / denom)
+
+
+def active_threshold(feature_std, args):
+    relative = float(args.active_relative_threshold) * float(feature_std.max() if feature_std.size else 0.0)
+    return max(float(args.active_threshold), relative)
+
+
+def cumulative_top(evr, k):
+    if evr.size == 0:
+        return 0.0
+    return float(evr[: min(k, evr.size)].sum())
+
+
+def pairwise_label_values(arrays, metadata, n_samples):
+    for label_name, keys in LABEL_GROUP_CANDIDATES:
+        if label_name == "action":
+            action_key, action = action_array(arrays)
+            if action is None or action.shape[0] != n_samples:
+                continue
+            norms = vector_norm(action.reshape(action.shape[0], -1))
+            edges = np.unique(np.quantile(norms, np.linspace(0, 1, 5)))
+            if len(edges) <= 2:
+                labels = np.asarray([f"action_norm={value:.3g}" for value in norms], dtype=object)
+            else:
+                bins = np.digitize(norms, edges[1:-1], right=True)
+                labels = np.asarray([f"action_q{bin_idx}" for bin_idx in bins], dtype=object)
+            return labels, f"{action_key}_norm_bin"
+
+        key = first_present_key(metadata, keys)
+        if key:
+            values = ["<missing>" if row.get(key) is None else str(row.get(key)) for row in metadata]
+            if len(set(values)) > 1:
+                return np.asarray(values, dtype=object), key
+    return None, None
+
+
+def plot_collapse_diagnostics(arrays, metadata, args, out_dir):
+    diagnostics = {}
     written = []
+    palette = {"z_context": "#4c78a8", "z_target": "#59a14f", "z_pred": "#f58518"}
+
+    for latent_key in LATENT_KEYS:
+        points = diagnostic_points(arrays, latent_key, args)
+        eigvals, evr = explained_variance(points)
+        feature_std = points.std(axis=0)
+        threshold = active_threshold(feature_std, args)
+        active_dims = int((feature_std > threshold).sum())
+        pairwise, _, _ = pairwise_cosine_values(points, args.max_diagnostic_points, args.seed)
+        diagnostics[latent_key] = {
+            "points": points,
+            "eigvals": eigvals,
+            "evr": evr,
+            "feature_std": feature_std,
+            "active_threshold": threshold,
+            "active_dims": active_dims,
+            "pairwise": pairwise,
+            "summary": {
+                "num_points": int(points.shape[0]),
+                "latent_dim": int(points.shape[1]),
+                "active_dim_threshold_absolute": float(args.active_threshold),
+                "active_dim_threshold_relative": float(args.active_relative_threshold),
+                "active_dim_threshold_used": float(threshold),
+                "active_dim_count": active_dims,
+                "active_dim_total": int(points.shape[1]),
+                "effective_rank": effective_rank(evr),
+                "participation_ratio": participation_ratio(eigvals),
+                "top10_explained_variance_ratio": cumulative_top(evr, 10),
+                "top50_explained_variance_ratio": cumulative_top(evr, 50),
+                "top100_explained_variance_ratio": cumulative_top(evr, 100),
+                "feature_std_mean": float(feature_std.mean()),
+                "feature_std_min": float(feature_std.min()),
+                "feature_std_median": float(np.median(feature_std)),
+                "feature_std_max": float(feature_std.max()),
+                "pairwise_cosine_mean": float(pairwise.mean()) if pairwise.size else None,
+                "pairwise_cosine_median": float(np.median(pairwise)) if pairwise.size else None,
+                "pairwise_cosine_q95": float(np.quantile(pairwise, 0.95)) if pairwise.size else None,
+                "pairwise_cosine_std": float(pairwise.std()) if pairwise.size else None,
+                "largest_eigenvalue": float(eigvals[0]) if eigvals.size else None,
+            },
+        }
 
     fig, ax = plt.subplots(figsize=(7.5, 5.0))
-    ax.plot(np.arange(1, len(eigvals) + 1), eigvals, lw=1.8)
+    for latent_key in LATENT_KEYS:
+        eigvals = diagnostics[latent_key]["eigvals"]
+        ax.plot(np.arange(1, len(eigvals) + 1), eigvals, lw=1.8, label=latent_key, color=palette[latent_key])
     ax.set_yscale("log")
     ax.set_title("Covariance Eigenvalue Spectrum")
     ax.set_xlabel("dimension rank")
     ax.set_ylabel("eigenvalue")
+    ax.legend(frameon=False)
     ax.grid(alpha=0.18)
     fig.tight_layout()
     filename = "covariance_eigenvalue_spectrum.png"
@@ -447,10 +1003,41 @@ def plot_collapse_diagnostics(arrays, args, out_dir):
     written.append(filename)
 
     fig, ax = plt.subplots(figsize=(7.5, 5.0))
-    ax.hist(pairwise, bins=60, range=(-1, 1), color="#4c78a8", alpha=0.85)
+    for latent_key in LATENT_KEYS:
+        evr = diagnostics[latent_key]["evr"]
+        ax.plot(np.arange(1, len(evr) + 1), np.cumsum(evr), lw=1.8, label=latent_key, color=palette[latent_key])
+    ax.set_title("Cumulative Explained Variance")
+    ax.set_xlabel("dimension rank")
+    ax.set_ylabel("cumulative explained variance ratio")
+    ax.set_ylim(0, 1.02)
+    ax.legend(frameon=False)
+    ax.grid(alpha=0.18)
+    fig.tight_layout()
+    filename = "cumulative_explained_variance.png"
+    fig.savefig(out_dir / filename, dpi=160)
+    plt.close(fig)
+    written.append(filename)
+
+    fig, ax = plt.subplots(figsize=(7.5, 5.0))
+    for latent_key in LATENT_KEYS:
+        values = diagnostics[latent_key]["pairwise"]
+        ax.hist(
+            values,
+            bins=60,
+            range=(-1, 1),
+            density=args.pairwise_density,
+            alpha=0.38,
+            label=latent_key,
+            color=palette[latent_key],
+        )
+        if values.size:
+            ax.axvline(values.mean(), color=palette[latent_key], linewidth=1.2, linestyle="-")
+            ax.axvline(np.median(values), color=palette[latent_key], linewidth=1.2, linestyle="--")
+            ax.axvline(np.quantile(values, 0.95), color=palette[latent_key], linewidth=1.2, linestyle=":")
     ax.set_title("Pairwise Cosine Histogram")
     ax.set_xlabel("cosine similarity")
-    ax.set_ylabel("count")
+    ax.set_ylabel("density" if args.pairwise_density else "count")
+    ax.legend(frameon=False)
     ax.grid(alpha=0.18)
     fig.tight_layout()
     filename = "pairwise_cosine_histogram.png"
@@ -458,9 +1045,43 @@ def plot_collapse_diagnostics(arrays, args, out_dir):
     plt.close(fig)
     written.append(filename)
 
+    labels, label_source = pairwise_label_values(arrays, metadata, len(metadata))
+    if labels is not None:
+        for latent_key in LATENT_KEYS:
+            points = sample_level_latent(arrays[latent_key], args.trajectory_latent_step).astype(np.float32)
+            _, same, different = pairwise_cosine_values(points, args.max_diagnostic_points, args.seed, labels=labels)
+            if same is None or different is None or same.size == 0 or different.size == 0:
+                continue
+            fig, ax = plt.subplots(figsize=(7.5, 5.0))
+            ax.hist(same, bins=60, range=(-1, 1), density=args.pairwise_density, alpha=0.55, label=f"same {label_source}", color="#4c78a8")
+            ax.hist(
+                different,
+                bins=60,
+                range=(-1, 1),
+                density=args.pairwise_density,
+                alpha=0.55,
+                label=f"different {label_source}",
+                color="#e15759",
+            )
+            ax.set_title(f"Pairwise Cosine Same vs Different {label_source} ({latent_key})")
+            ax.set_xlabel("cosine similarity")
+            ax.set_ylabel("density" if args.pairwise_density else "count")
+            ax.legend(frameon=False)
+            ax.grid(alpha=0.18)
+            fig.tight_layout()
+            filename = f"pairwise_cosine_same_vs_different_{safe_name(label_source)}_{latent_key}.png"
+            fig.savefig(out_dir / filename, dpi=160)
+            plt.close(fig)
+            written.append(filename)
+
     fig, ax = plt.subplots(figsize=(7.5, 5.0))
-    ax.hist(feature_std, bins=60, color="#59a14f", alpha=0.85)
-    ax.axvline(1e-2, color="black", linestyle="--", linewidth=1.2, label="active threshold=1e-2")
+    for latent_key in LATENT_KEYS:
+        feature_std = diagnostics[latent_key]["feature_std"]
+        ax.hist(feature_std, bins=60, alpha=0.34, label=latent_key, color=palette[latent_key])
+        stats = (feature_std.min(), np.median(feature_std), feature_std.max())
+        for value, linestyle in zip(stats, (":", "--", "-")):
+            ax.axvline(value, color=palette[latent_key], linestyle=linestyle, linewidth=1.0)
+        ax.axvline(diagnostics[latent_key]["active_threshold"], color=palette[latent_key], linestyle="-.", linewidth=1.0)
     ax.set_title("Feature Std Distribution")
     ax.set_xlabel("per-dimension std")
     ax.set_ylabel("count")
@@ -472,10 +1093,20 @@ def plot_collapse_diagnostics(arrays, args, out_dir):
     plt.close(fig)
     written.append(filename)
 
-    fig, ax = plt.subplots(figsize=(6.0, 4.5))
-    ax.bar(["active", "inactive"], [active_dims, points.shape[1] - active_dims], color=["#59a14f", "#e15759"])
+    fig, ax = plt.subplots(figsize=(7.5, 4.8))
+    active = [diagnostics[key]["active_dims"] for key in LATENT_KEYS]
+    total = [diagnostics[key]["points"].shape[1] for key in LATENT_KEYS]
+    inactive = [dim - active_dim for dim, active_dim in zip(total, active)]
+    x = np.arange(len(LATENT_KEYS))
+    ax.bar(x, active, color="#59a14f", label="active")
+    ax.bar(x, inactive, bottom=active, color="#e15759", label="inactive")
+    for idx, (active_dim, dim) in enumerate(zip(active, total)):
+        ax.text(idx, dim, f"{active_dim}/{dim}", ha="center", va="bottom", fontsize=9)
+    ax.set_xticks(x)
+    ax.set_xticklabels(LATENT_KEYS)
     ax.set_title("Active Dimension Count")
     ax.set_ylabel("dimensions")
+    ax.legend(frameon=False)
     ax.grid(axis="y", alpha=0.18)
     fig.tight_layout()
     filename = "active_dimension_count.png"
@@ -483,19 +1114,9 @@ def plot_collapse_diagnostics(arrays, args, out_dir):
     plt.close(fig)
     written.append(filename)
 
-    summary = {
-        "latent_key": "z_target",
-        "num_points": int(points.shape[0]),
-        "latent_dim": int(points.shape[1]),
-        "active_dim_threshold": 1e-2,
-        "active_dim_count": active_dims,
-        "feature_std_mean": float(feature_std.mean()),
-        "feature_std_min": float(feature_std.min()),
-        "feature_std_max": float(feature_std.max()),
-        "pairwise_cosine_mean": float(pairwise.mean()) if pairwise.size else None,
-        "pairwise_cosine_std": float(pairwise.std()) if pairwise.size else None,
-        "largest_eigenvalue": float(eigvals[0]) if eigvals.size else None,
-    }
+    summary = {latent_key: diagnostics[latent_key]["summary"] for latent_key in LATENT_KEYS}
+    if labels is not None:
+        summary["same_different_label_source"] = label_source
     filename = "collapse_diagnostics_summary.json"
     with (out_dir / filename).open("w") as f:
         json.dump(summary, f, indent=2)
@@ -641,19 +1262,18 @@ def main():
     arrays, metadata, latent_path = load_latents(args.latent_dir)
     written = []
 
-    for latent_key in LATENT_KEYS:
-        written.append(plot_projection_scatter(arrays, metadata, latent_key, "pca", args, out_dir))
-        written.append(plot_projection_scatter(arrays, metadata, latent_key, "umap", args, out_dir))
+    written.extend(plot_shared_projection_scatter(arrays, metadata, "pca", args, out_dir))
+    written.extend(plot_shared_projection_scatter(arrays, metadata, "umap", args, out_dir))
 
-    trajectory = plot_trajectories(arrays, metadata, args, out_dir)
-    if trajectory:
-        written.append(trajectory)
+    written.extend(plot_target_pred_alignment(arrays, metadata, args, out_dir))
+    written.extend(plot_delta_z_action_analysis(arrays, metadata, args, out_dir))
+    written.extend(plot_action_ablation(arrays, args, out_dir))
 
     retrieval = write_retrieval_html(arrays, metadata, args, out_dir)
     if retrieval:
         written.append(retrieval)
 
-    written.extend(plot_collapse_diagnostics(arrays, args, out_dir))
+    written.extend(plot_collapse_diagnostics(arrays, metadata, args, out_dir))
     write_summary(out_dir, latent_path, arrays, metadata, written, args.color_by)
 
     print(json.dumps({"out": str(out_dir), "files": written}, indent=2))
