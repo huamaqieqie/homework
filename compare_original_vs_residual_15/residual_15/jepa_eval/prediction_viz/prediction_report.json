@@ -15,11 +15,11 @@
     "action_2_bin_vs_cosine_boxplot.png",
     "action_2_bin_vs_mse_boxplot.png",
     "action_3_bin_vs_cosine_boxplot.png",
-    "action_3_bin_vs_mse_boxplot.png"
+    "action_3_bin_vs_mse_boxplot.png",
+    "condition_ablation.png"
   ],
   "skipped": {
     "rollout_drift": "No rollout prediction/target arrays found. Expected one of ('z_rollout_pred', 'rollout_pred', 'z_pred_rollout', 'multi_step_z_pred') and one of ('z_rollout_target', 'rollout_target', 'z_target_rollout', 'multi_step_z_target').",
-    "condition_ablation": "Only normal z_pred is available. Export ablation prediction arrays such as z_pred_condition_removed, z_pred_condition_shuffled, or z_pred_condition_replaced to enable this plot.",
     "goal_distance": "No goal latent array found. Expected z_goal, goal_latent, or goal_emb. Goal images alone cannot be used unless their latents are exported."
   },
   "warnings": [
@@ -85,9 +85,9 @@
     "diagonal_mean": 0.9925407767295837,
     "off_diagonal_mean": 0.827293872833252,
     "diagonal_gap": 0.1652469038963318,
-    "top1_horizon_matching_accuracy": 0.9661458333333334,
+    "top1_horizon_matching_accuracy": 0.9664713541666666,
     "vmin_quantile": 0.05,
-    "vmin": 0.7080917358398438,
+    "vmin": 0.7080917954444885,
     "vmax": 1.0,
     "z_pred_layout": {
       "layout": "[N,H,D]",
@@ -128,7 +128,21 @@
       }
     }
   },
-  "latent_path": "/data1/Johnny/challenge/wrf/homework/compare_original_vs_residual_15/residual_15/jepa_eval/latents/latents.npz",
+  "condition_ablation": {
+    "normal": {
+      "mse": 0.013114179484546185,
+      "cosine": 0.9925408959388733
+    },
+    "condition_removed": {
+      "mse": 0.1894000917673111,
+      "cosine": 0.8959624767303467
+    },
+    "condition_shuffled": {
+      "mse": 0.2874261140823364,
+      "cosine": 0.843545138835907
+    }
+  },
+  "latent_path": "/Users/gabengcui/study/lewm/homework/compare_original_vs_residual_15/residual_15/jepa_eval/latents/latents.npz",
   "arrays": {
     "z_context": [
       1024,

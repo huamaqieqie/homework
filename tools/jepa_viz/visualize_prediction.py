@@ -50,8 +50,8 @@ ROLL_OUT_PRED_KEYS = ("z_rollout_pred", "rollout_pred", "z_pred_rollout", "multi
 ROLL_OUT_TARGET_KEYS = ("z_rollout_target", "rollout_target", "z_target_rollout", "multi_step_z_target")
 GOAL_KEYS = ("z_goal", "goal_latent", "goal_emb")
 ABLATION_KEYS = {
-    "condition_removed": ("z_pred_condition_removed", "z_pred_no_condition", "z_pred_without_condition"),
-    "condition_shuffled": ("z_pred_condition_shuffled", "z_pred_shuffled_condition"),
+    "condition_removed": ("z_pred_condition_removed", "z_pred_no_condition", "z_pred_without_condition", "z_pred_action_zero", "z_pred_zero_action"),
+    "condition_shuffled": ("z_pred_condition_shuffled", "z_pred_shuffled_condition", "z_pred_action_shuffled", "z_pred_shuffled_action"),
     "condition_replaced": ("z_pred_condition_replaced", "z_pred_replaced_condition"),
 }
 

@@ -5,9 +5,9 @@
   "diagonal_mean": 0.9925407767295837,
   "off_diagonal_mean": 0.827293872833252,
   "diagonal_gap": 0.1652469038963318,
-  "top1_horizon_matching_accuracy": 0.9661458333333334,
+  "top1_horizon_matching_accuracy": 0.9664713541666666,
   "vmin_quantile": 0.05,
-  "vmin": 0.7080917358398438,
+  "vmin": 0.7080917954444885,
   "vmax": 1.0,
   "z_pred_layout": {
     "layout": "[N,H,D]",

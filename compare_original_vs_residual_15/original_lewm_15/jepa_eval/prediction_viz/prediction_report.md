@@ -1,6 +1,6 @@
 # JEPA Prediction Visualization Report
 
-Latents: `/data1/Johnny/challenge/wrf/homework/compare_original_vs_residual_15/original_lewm_15/jepa_eval/latents/latents.npz`
+Latents: `/Users/gabengcui/study/lewm/homework/compare_original_vs_residual_15/original_lewm_15/jepa_eval/latents/latents.npz`
 
 ## Shape Check
 - `z_context_shape`: `[1024, 3, 192]`
@@ -39,8 +39,8 @@ Latents: `/data1/Johnny/challenge/wrf/homework/compare_original_vs_residual_15/o
 - `action_2_bin_vs_mse_boxplot.png`
 - `action_3_bin_vs_cosine_boxplot.png`
 - `action_3_bin_vs_mse_boxplot.png`
+- `condition_ablation.png`
 
 ## Skipped
 - `rollout_drift`: No rollout prediction/target arrays found. Expected one of ('z_rollout_pred', 'rollout_pred', 'z_pred_rollout', 'multi_step_z_pred') and one of ('z_rollout_target', 'rollout_target', 'z_target_rollout', 'multi_step_z_target').
-- `condition_ablation`: Only normal z_pred is available. Export ablation prediction arrays such as z_pred_condition_removed, z_pred_condition_shuffled, or z_pred_condition_replaced to enable this plot.
 - `goal_distance`: No goal latent array found. Expected z_goal, goal_latent, or goal_emb. Goal images alone cannot be used unless their latents are exported.
