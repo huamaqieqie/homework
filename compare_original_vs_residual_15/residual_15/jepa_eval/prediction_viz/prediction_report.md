@@ -1,6 +1,6 @@
 # JEPA Prediction Visualization Report
 
-Latents: `/data1/Johnny/challenge/wrf/homework/outputs/jepa_eval/residual_15/latents/latents.npz`
+Latents: `/data1/Johnny/challenge/wrf/homework/compare_original_vs_residual_15/residual_15/jepa_eval/latents/latents.npz`
 
 ## Shape Check
 - `z_context_shape`: `[1024, 3, 192]`

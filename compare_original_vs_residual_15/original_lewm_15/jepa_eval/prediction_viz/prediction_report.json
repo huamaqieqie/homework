@@ -74,8 +74,8 @@
     "group_source": "action_norm_bin",
     "detected_horizons": [
       1,
-      1,
-      1
+      2,
+      3
     ]
   },
   "alignment_heatmap": {
@@ -128,7 +128,7 @@
       }
     }
   },
-  "latent_path": "/data1/Johnny/challenge/wrf/homework/outputs/jepa_eval/original_lewm_15/latents/latents.npz",
+  "latent_path": "/data1/Johnny/challenge/wrf/homework/compare_original_vs_residual_15/original_lewm_15/jepa_eval/latents/latents.npz",
   "arrays": {
     "z_context": [
       1024,
@@ -181,6 +181,16 @@
       1024,
       4,
       4
+    ],
+    "z_pred_action_zero": [
+      1024,
+      3,
+      192
+    ],
+    "z_pred_action_shuffled": [
+      1024,
+      3,
+      192
     ]
   }
 }
