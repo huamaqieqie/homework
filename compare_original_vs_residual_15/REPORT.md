@@ -19,7 +19,7 @@
 
 | 指标 | Original LeWM | Residual LeWM | 结果倾向 |
 |---|---:|---:|---|
-| Success rate | 88.0% | **92.0%** | Residual 更高 |
+| Success rate | 88.0% (`budget=100`) | 92.0% (`budget=300`) | **当前不公平，不能直接比较** |
 | Open-loop MSE mean | **0.01070** | 0.01311 | Original 更低 |
 | Mean cosine(z_pred, z_target) | **0.99399** | 0.99254 | Original 略高 |
 | Diagonal gap | **0.20243** | 0.16525 | Original 时间对齐更清晰 |
@@ -31,7 +31,7 @@
 | Zero-action cosine drop | **-0.12326** | -0.09658 | Original drop 更大 |
 | Shuffled-action cosine drop | **-0.19520** | -0.14899 | Original drop 更大 |
 
-说明：Residual 的最终 success rate 更高，但 Original 在 open-loop prediction、horizon alignment 和 action ablation gap 上更强。也就是说，Residual 的任务成功率提升没有表现为更低的 latent prediction MSE。
+说明：当前 Original 和 Residual 的 success eval 使用了不同 `eval_budget`，Original 为 100，Residual 为 300，因此 success rate 不能直接作为公平比较结论。Open-loop prediction、horizon alignment 和 action ablation 使用同一 latent 导出设置，可以作为当前主要可比指标。
 
 ---
 
@@ -39,15 +39,19 @@
 
 | 指标 | Original LeWM | Residual LeWM |
 |---|---:|---:|
-| Success rate | 88.0% | **92.0%** |
+| Success rate | 88.0% | 92.0% |
 | eval episodes | 50 | 50 |
-| 成功数 | 44 / 50 | **46 / 50** |
+| eval_budget | 100 | 300 |
+| 成功数 | 44 / 50 | 46 / 50 |
+| evaluation_time | 187.96s | 217.61s |
+| evaluation_time / episode | 3.76s | 4.35s |
 | CEM solve time 记录条数 | 4 | 12 |
 | 日志中 CEM solve time 总和 | 143.45s | 112.48s |
 | 日志中 CEM solve time 均值 | 35.86s | 9.37s |
+| 结果文件 | `original_lewm_15/pusht_lewm15_eval_quick.txt` | `residual_15/pusht_residual15_eval_seed0.txt` |
 | 日志文件 | `logs/pusht_lewm15_eval_seed0.log` | `logs/pusht_residual15_eval_seed0.log` |
 
-说明：`CEM solve time` 只来自日志中实际打印的行，两个模型记录条数不同，不能作为严格 planning time。正式 planning time 应使用 `eval.py` 输出的完整 `evaluation_time / eval.num_eval`。当前可可靠比较的是 success rate：Residual 高 4 个百分点。
+说明：这组 success rate 不能作为公平结论，因为 Original 使用 `eval_budget=100`，Residual 使用 `eval_budget=300`。`CEM solve time` 只来自日志中实际打印的行，两个模型记录条数不同，也不能作为严格 planning time。正式 planning time 应使用 `eval.py` 输出的完整 `evaluation_time / eval.num_eval`。下一步必须补跑同 budget、同 seed、同 episode 数的 success eval。
 
 ---
 
@@ -67,7 +71,7 @@
 | z_pred 与 z_target exact equal | false | false | 无直接泄漏证据 |
 | z_pred 与 z_target allclose | false | false | 无直接泄漏证据 |
 
-说明：修正 horizon label 后，三个 horizon 都能正确显示。Original 在每个 horizon 的 MSE / cosine 都优于 Residual。Residual 的 success rate 更高，因此不能只用 open-loop MSE 解释最终任务表现。
+说明：修正 horizon label 后，三个 horizon 都能正确显示。Original 在每个 horizon 的 MSE / cosine 都优于 Residual。由于 success eval 的 `eval_budget` 不一致，当前不能用 success rate 反推最终任务表现；需要补跑公平 success eval 后再综合判断。
 
 ---
 
@@ -201,7 +205,7 @@
 | ![](original_lewm_15/jepa_eval/latent_viz/target_pred_latent_alignment_global.png) | ![](residual_15/jepa_eval/latent_viz/target_pred_latent_alignment_global.png) |
 | ![](original_lewm_15/jepa_eval/latent_viz/target_pred_latent_alignment.png) | ![](residual_15/jepa_eval/latent_viz/target_pred_latent_alignment.png) |
 
-说明：全局 target-pred PCA alignment 直观看预测点和目标点在同一个 PCA 空间中的偏差。结合 MSE 表格看，Original 的点对整体更接近；Residual 虽然 open-loop 更差，但在环境成功率上更高。
+说明：全局 target-pred PCA alignment 直观看预测点和目标点在同一个 PCA 空间中的偏差。结合 MSE 表格看，Original 的点对整体更接近；Residual 当前 open-loop 更差。由于 success eval 的 `eval_budget` 不一致，暂时不能判断 Residual 在环境成功率上是否更优。
 
 ---
 
@@ -209,7 +213,7 @@
 
 | 结论项 | 判断 |
 |---|---|
-| Success rate | Residual 15 epoch 为 92%，Original 15 epoch 为 88%，Residual 更好 |
+| Success rate | 当前不能直接比较：Original 使用 `eval_budget=100`，Residual 使用 `eval_budget=300` |
 | Open-loop MSE | Original 更低，说明原版 latent prediction 更贴近 target |
 | Prediction cosine | Original 在三个 horizon 上均略高 |
 | Horizon alignment | Original 的 diagonal gap 和 top-1 matching 更高，时间对齐更清楚 |
@@ -217,17 +221,16 @@
 | Latent collapse | 二者均无明显 collapse，active dims 均为 192/192 |
 | Latent diversity | 二者 pairwise cosine 都健康，差距较小 |
 
-综合判断：**Residual LeWM 在最终任务成功率上优于 Original LeWM，但在 open-loop latent prediction、horizon alignment 和 action sensitivity 上不如 Original。** 这说明 Residual 的收益可能来自更平滑、对 planner 更友好的 latent rollout，而不是更精确的 one-step / short-horizon latent prediction。
-
-需要谨慎的是：当前 success rate 只有一个 seed，92% vs 88% 的差距对应 2 个 episode。这个提升有价值，但还不能证明稳定显著。
+综合判断：**当前不能证明 Residual 的最终成功率优于 Original，因为两者 success eval 的 `eval_budget` 不一致。** 在可比的 open-loop latent prediction、horizon alignment 和 action sensitivity 上，Original 更好；Residual 的 open-loop MSE 更高、diagonal gap 更低、action ablation gap 更小。Residual 是否能在相同 planning budget 下提高 success rate，需要补跑公平的 success eval 后再判断。
 
 ---
 
 ## 10. 后续建议
 
-1. 补跑至少 3 个 seed 的 success eval，报告 mean / std。
-2. 正式 planning time 使用 `evaluation_time / eval.num_eval`，不要用不完整 CEM 日志行替代。
-3. 进一步分析 residual 是否过度 identity：重点看 delta_norm、target_delta_norm、delta_cos。
-4. 保留 action ablation：后续模型都应报告 normal / zero action / shuffled action。
-5. 如果 residual 多 seed 仍提升 success rate，可以继续推进 Factored Latent。
-6. 如果 residual 多 seed 不稳定，应优先检查 action sensitivity 下降是否影响泛化。
+1. 先补跑公平 success eval：Original 和 Residual 必须使用相同 `eval_budget`、`eval.num_eval`、`seed`。建议先补 Original 的 `eval_budget=300`，或补 Residual 的 `eval_budget=100`。
+2. 补跑至少 3 个 seed 的 success eval，报告 mean / std。
+3. 正式 planning time 使用 `evaluation_time / eval.num_eval`，不要用不完整 CEM 日志行替代。
+4. 进一步分析 residual 是否过度 identity：重点看 delta_norm、target_delta_norm、delta_cos。
+5. 保留 action ablation：后续模型都应报告 normal / zero action / shuffled action。
+6. 如果 residual 多 seed 仍提升 success rate，可以继续推进 Factored Latent。
+7. 如果 residual 多 seed 不稳定，应优先检查 action sensitivity 下降是否影响泛化。
