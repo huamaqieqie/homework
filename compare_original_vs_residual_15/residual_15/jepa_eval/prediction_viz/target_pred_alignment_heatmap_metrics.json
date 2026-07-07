@@ -1,0 +1,22 @@
+{
+  "axis": "horizon",
+  "num_horizons": 3,
+  "num_tokens_aggregated": 1,
+  "diagonal_mean": 0.9925407767295837,
+  "off_diagonal_mean": 0.827293872833252,
+  "diagonal_gap": 0.1652469038963318,
+  "top1_horizon_matching_accuracy": 0.9661458333333334,
+  "vmin_quantile": 0.05,
+  "vmin": 0.7080917358398438,
+  "vmax": 1.0,
+  "z_pred_layout": {
+    "layout": "[N,H,D]",
+    "token_axis": null,
+    "horizon_axis": 1
+  },
+  "z_target_layout": {
+    "layout": "[N,H,D]",
+    "token_axis": null,
+    "horizon_axis": 1
+  }
+}

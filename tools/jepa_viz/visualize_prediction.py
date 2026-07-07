@@ -197,14 +197,26 @@ def horizon_values(arrays, n_steps):
     for key in ("future_horizon_index", "target_horizon", "pred_horizon", "horizon", "target_time_index"):
         if key in arrays:
             values = np.asarray(arrays[key])
+            extracted = None
             if values.ndim == 3 and values.shape[2] == n_steps:
-                return values[0, 0].astype(int)
-            if values.ndim == 2 and values.shape[0] == arrays["z_pred"].shape[0] and values.shape[1] == n_steps:
-                return values[0].astype(int)
-            if values.ndim == 2 and values.shape[1] == n_steps:
-                return values[0].astype(int)
-            if values.ndim == 1 and values.shape[0] == n_steps:
-                return values.astype(int)
+                extracted = values[0, 0].astype(int)
+            elif values.ndim == 2 and values.shape[0] == arrays["z_pred"].shape[0] and values.shape[1] == n_steps:
+                extracted = values[0].astype(int)
+            elif values.ndim == 2 and values.shape[1] == n_steps:
+                extracted = values[0].astype(int)
+            elif values.ndim == 1 and values.shape[0] == n_steps:
+                extracted = values.astype(int)
+
+            if extracted is None:
+                continue
+
+            # Some exporters store the fixed prediction offset in every column,
+            # e.g. [1, 1, 1] for a three-step context window. That is not a valid
+            # x-axis for a per-horizon curve; fall through to target_time_index or
+            # the canonical 1..H labels instead of silently collapsing the plot.
+            if n_steps > 1 and np.unique(extracted).size == 1:
+                continue
+            return extracted
     return np.arange(1, n_steps + 1)
 
 

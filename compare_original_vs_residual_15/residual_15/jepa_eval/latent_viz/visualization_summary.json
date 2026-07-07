@@ -1,0 +1,87 @@
+{
+  "latent_path": "/data1/Johnny/challenge/wrf/homework/outputs/jepa_eval/residual_15/latents/latents.npz",
+  "num_samples": 1024,
+  "arrays": {
+    "z_context": [
+      1024,
+      3,
+      192
+    ],
+    "z_target": [
+      1024,
+      3,
+      192
+    ],
+    "z_pred": [
+      1024,
+      3,
+      192
+    ],
+    "z_all": [
+      1024,
+      4,
+      192
+    ],
+    "action_condition": [
+      1024,
+      3,
+      192
+    ],
+    "future_horizon_index": [
+      1024,
+      3
+    ],
+    "context_time_index": [
+      1024,
+      3
+    ],
+    "target_time_index": [
+      1024,
+      3
+    ],
+    "action": [
+      1024,
+      4,
+      10
+    ],
+    "state": [
+      1024,
+      4,
+      7
+    ],
+    "proprio": [
+      1024,
+      4,
+      4
+    ]
+  },
+  "color_by": "action",
+  "files": [
+    "pca_z_context_shared_by_action_norm.png",
+    "pca_z_target_shared_by_action_norm.png",
+    "pca_z_pred_shared_by_action_norm.png",
+    "target_pred_latent_alignment.png",
+    "target_pred_latent_alignment_global.png",
+    "target_pred_latent_alignment_global_future_horizon_index_1.png",
+    "target_pred_latent_alignment_future_horizon_index_1.png",
+    "delta_z_pca_by_action_norm.png",
+    "delta_z_pca_by_action_0.png",
+    "delta_z_pca_by_action_1.png",
+    "delta_z_pca_by_action_2.png",
+    "delta_z_pca_by_action_3.png",
+    "delta_z_pca_by_action_4.png",
+    "delta_z_pca_by_action_5.png",
+    "delta_z_pca_by_action_6.png",
+    "delta_z_pca_by_action_7.png",
+    "nearest_neighbors.html",
+    "covariance_eigenvalue_spectrum.png",
+    "cumulative_explained_variance.png",
+    "pairwise_cosine_histogram.png",
+    "pairwise_cosine_same_vs_different_action_norm_bin_z_context.png",
+    "pairwise_cosine_same_vs_different_action_norm_bin_z_target.png",
+    "pairwise_cosine_same_vs_different_action_norm_bin_z_pred.png",
+    "feature_std_distribution.png",
+    "active_dimension_count.png",
+    "collapse_diagnostics_summary.json"
+  ]
+}

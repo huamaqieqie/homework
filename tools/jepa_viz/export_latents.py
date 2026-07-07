@@ -21,7 +21,7 @@ from omegaconf import OmegaConf, open_dict
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-LEWM_DIR = REPO_ROOT / "le-wm"
+LEWM_DIR = Path(os.environ.get("JEPA_VIZ_LEWM_DIR", REPO_ROOT / "le-wm")).expanduser().resolve()
 TOOL_DIR = Path(__file__).resolve().parent
 RUN_NAME = os.environ.get("JEPA_VIZ_RUN_NAME") or datetime.now().strftime("%Y%m%d_%H%M%S")
 DEFAULT_OUTPUT_ROOT = Path(os.environ.get("JEPA_VIZ_OUTPUT_ROOT", TOOL_DIR / "output" / RUN_NAME))
@@ -130,6 +130,12 @@ def parse_args():
     parser.add_argument("--num-workers", type=int, default=None, help="Optional dataloader worker override.")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--strict", action="store_true", help="Use strict checkpoint loading.")
+    parser.add_argument(
+        "--export-action-ablations",
+        action="store_true",
+        help="Also export z_pred_action_shuffled and z_pred_action_zero for condition ablation plots.",
+    )
+    parser.add_argument("--action-ablation-seed", type=int, default=0, help="Random seed for shuffled action ablation.")
     args, overrides = parser.parse_known_args()
     return args, overrides
 
@@ -376,6 +382,33 @@ def concatenate(items):
     return np.concatenate(items, axis=0) if items else None
 
 
+def action_ablation_predictions(model, batch, latents, cfg, generator):
+    if "action" not in batch:
+        return {}
+
+    action = batch["action"]
+    if not torch.is_tensor(action) or action.ndim < 2:
+        return {}
+
+    ctx_len = int(cfg.wm.history_size)
+    z_context = latents["z_context"]
+    variants = {}
+
+    zero_action = torch.zeros_like(action)
+    zero_act_emb = model.action_encoder(zero_action)[:, :ctx_len]
+    variants["z_pred_action_zero"] = model.predict(z_context, zero_act_emb)
+
+    if action.size(0) > 1:
+        perm = torch.randperm(action.size(0), generator=generator, device=action.device)
+        shuffled_action = action[perm]
+    else:
+        shuffled_action = action
+    shuffled_act_emb = model.action_encoder(shuffled_action)[:, :ctx_len]
+    variants["z_pred_action_shuffled"] = model.predict(z_context, shuffled_act_emb)
+
+    return variants
+
+
 def save_outputs(args, cfg, arrays, metadata, checkpoint_path, incompatible):
     out_dir = Path(args.out).expanduser().resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -412,6 +445,12 @@ def save_outputs(args, cfg, arrays, metadata, checkpoint_path, incompatible):
     for key, values in arrays["optional"].items():
         payload[key] = concatenate(values)
 
+    for key, values in arrays.items():
+        if key in payload or key == "optional":
+            continue
+        if isinstance(values, list) and values:
+            payload[key] = concatenate(values)
+
     latent_path = out_dir / f"latents.{args.format}"
     if args.format == "npz":
         np.savez_compressed(latent_path, **payload)
@@ -433,6 +472,7 @@ def save_outputs(args, cfg, arrays, metadata, checkpoint_path, incompatible):
         "z_pred_shape": list(z_pred.shape),
         "history_size": int(cfg.wm.history_size),
         "num_preds": int(cfg.wm.num_preds),
+        "export_action_ablations": bool(args.export_action_ablations),
         "missing_keys": list(getattr(incompatible, "missing_keys", [])),
         "unexpected_keys": list(getattr(incompatible, "unexpected_keys", [])),
     }
@@ -468,6 +508,8 @@ def main():
         "optional": {},
     }
     metadata = []
+    action_ablation_generator = torch.Generator(device=device)
+    action_ablation_generator.manual_seed(int(args.action_ablation_seed))
 
     with torch.inference_mode():
         for batch in loader:
@@ -484,6 +526,15 @@ def main():
 
             for key in ("z_context", "z_target", "z_pred", "z_all", "action_condition"):
                 arrays[key].append(tensor_to_numpy(latents[key]))
+            if args.export_action_ablations:
+                for key, value in action_ablation_predictions(
+                    model,
+                    batch,
+                    latents,
+                    cfg,
+                    action_ablation_generator,
+                ).items():
+                    arrays.setdefault(key, []).append(tensor_to_numpy(value))
             append_optional_arrays(arrays["optional"], batch)
             metadata.extend(rows)
 

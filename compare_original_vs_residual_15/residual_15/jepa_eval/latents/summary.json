@@ -1,0 +1,25 @@
+{
+  "checkpoint": "/data1/Johnny/challenge/wrf/homework/outputs/stable-wm/checkpoints/lewm_residual_15/weights_epoch_15.pt",
+  "latent_path": "/data1/Johnny/challenge/wrf/homework/outputs/jepa_eval/residual_15/latents/latents.npz",
+  "metadata_path": "/data1/Johnny/challenge/wrf/homework/outputs/jepa_eval/residual_15/latents/metadata.jsonl",
+  "num_samples": 1024,
+  "z_context_shape": [
+    1024,
+    3,
+    192
+  ],
+  "z_target_shape": [
+    1024,
+    3,
+    192
+  ],
+  "z_pred_shape": [
+    1024,
+    3,
+    192
+  ],
+  "history_size": 3,
+  "num_preds": 1,
+  "missing_keys": [],
+  "unexpected_keys": []
+}
