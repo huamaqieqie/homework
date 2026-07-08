@@ -1,0 +1,38 @@
+19:57:53 | INFO  | atomic_chec~| [atomic_save] installed crash-safe checkpoint plugin (write to sibling .tmp + fsync + atomic rename)
+[2026-07-08 19:57:53,902][root][INFO] - Cached 'action' from '/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5'
+[2026-07-08 19:57:53,962][root][INFO] - Cached 'proprio' from '/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5'
+[2026-07-08 19:57:54,050][root][INFO] - Cached 'state' from '/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5'
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/wm/utils.py:80: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(checkpoint_path, map_location='cpu')
+19:57:55 | INFO  | utils.py    | Created ViT-tiny from scratch with config: {'hidden_size': 192, 'num_hidden_layers': 12, 'num_attention_heads': 3, 'intermediate_size': 768, 'image_size': 224, 'patch_size': 14}
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/gymnasium/spaces/box.py:423: UserWarning: [33mWARN: Casting input x to numpy array.[0m
+  gym.logger.warn("Casting input x to numpy array.")
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lance/__init__.py:298: UserWarning: lance is not fork-safe. If you are using multiprocessing, use spawn or forkserver instead.
+  warnings.warn(
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lancedb/__init__.py:294: UserWarning: lance is not fork-safe. If you are using multiprocessing, use spawn instead.
+  warnings.warn(
+1869611 valid starting points found for evaluation.
+[   3610   78188   93684  101759  180553  200976  221430  268843  331673
+  375994  406325  421525  426273  555307  619441  661965  681970  695317
+  734280  748049  775649  916308  985839 1010146 1015661 1058462 1123221
+ 1214214 1363766 1374221 1450530 1515421 1519590 1555595 1614032 1625044
+ 1712399 1720154 1765196 1833074 1867860 1894582 2028563 2028636 2069812
+ 2079526 2190582 2203239 2231529 2269760]
+CEM solve time: 116.3785 seconds
+CEM solve time: 30.2823 seconds
+CEM solve time: 21.0504 seconds
+CEM solve time: 16.3560 seconds
+CEM solve time: 13.6759 seconds
+CEM solve time: 14.0882 seconds
+CEM solve time: 13.9201 seconds
+CEM solve time: 14.0425 seconds
+CEM solve time: 14.1275 seconds
+CEM solve time: 14.2538 seconds
+CEM solve time: 14.2008 seconds
+CEM solve time: 14.0257 seconds
+{'success_rate': 88.0, 'episode_successes': array([ True, False,  True,  True,  True,  True,  True,  True,  True,
+        True, False,  True,  True,  True,  True,  True,  True, False,
+        True,  True, False,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True, False, False,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True]), 'seeds': None}

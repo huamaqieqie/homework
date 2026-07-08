@@ -1,0 +1,40 @@
+20:05:34 | INFO  | atomic_chec~| [atomic_save] installed crash-safe checkpoint plugin (write to sibling .tmp + fsync + atomic rename)
+[2026-07-08 20:05:34,753][root][INFO] - Cached 'action' from '/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5'
+[2026-07-08 20:05:34,803][root][INFO] - Cached 'proprio' from '/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5'
+[2026-07-08 20:05:34,878][root][INFO] - Cached 'state' from '/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5'
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/wm/utils.py:80: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(checkpoint_path, map_location='cpu')
+20:05:36 | INFO  | utils.py    | Created ViT-tiny from scratch with config: {'hidden_size': 192, 'num_hidden_layers': 12, 'num_attention_heads': 3, 'intermediate_size': 768, 'image_size': 224, 'patch_size': 14}
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/gymnasium/spaces/box.py:423: UserWarning: [33mWARN: Casting input x to numpy array.[0m
+  gym.logger.warn("Casting input x to numpy array.")
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: [33mWARN: The obs returned by the `step()` method is not within the observation space.[0m
+  logger.warn(f"{pre} is not within the observation space.")
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lance/__init__.py:298: UserWarning: lance is not fork-safe. If you are using multiprocessing, use spawn or forkserver instead.
+  warnings.warn(
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lancedb/__init__.py:294: UserWarning: lance is not fork-safe. If you are using multiprocessing, use spawn instead.
+  warnings.warn(
+1869611 valid starting points found for evaluation.
+[ 142173  189978  211480  317422  332078  410218  417463  486404  513286
+  659557  710204  789623  865286  881743  955817 1009849 1061867 1087921
+ 1117678 1169543 1201684 1224426 1275791 1343821 1360841 1380086 1419769
+ 1423008 1464014 1554067 1578066 1645666 1693454 1707896 1839280 1869588
+ 2033690 2054175 2093719 2104390 2169154 2170931 2194685 2200569 2201151
+ 2249338 2259236 2262314 2276952 2296837]
+CEM solve time: 116.5365 seconds
+CEM solve time: 30.3020 seconds
+CEM solve time: 23.3138 seconds
+CEM solve time: 7.2423 seconds
+CEM solve time: 6.1282 seconds
+CEM solve time: 6.1258 seconds
+CEM solve time: 4.3700 seconds
+CEM solve time: 4.3957 seconds
+CEM solve time: 4.3490 seconds
+CEM solve time: 4.4039 seconds
+CEM solve time: 4.3306 seconds
+CEM solve time: 4.3439 seconds
+{'success_rate': 94.0, 'episode_successes': array([ True,  True, False,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True, False,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True, False,  True,  True,  True,  True,
+        True,  True,  True,  True,  True]), 'seeds': None}

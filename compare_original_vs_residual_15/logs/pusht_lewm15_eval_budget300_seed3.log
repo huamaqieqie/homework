@@ -1,0 +1,83 @@
+15:56:24 | INFO  | atomic_chec~| [atomic_save] installed crash-safe checkpoint plugin (write to sibling .tmp + fsync + atomic rename)
+Error executing job with overrides: ['policy=lewm_15/weights_epoch_15.pt', 'seed=3', 'eval.num_eval=50', 'eval.eval_budget=300', 'output.filename=/data1/Johnny/challenge/wrf/homework/compare_original_vs_residual_15/original_lewm_15/pusht_lewm15_eval_budget300_seed3.txt']
+15:56:24 | ERROR | richuru.py  | Exception:
+Traceback (most recent call last):
+
+> File "/data1/Johnny/challenge/wrf/homework/le-wm/eval.py", line 176, in <module>
+    run()
+    └ <function run at 0x7fecf2aa7760>
+
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+    └ <function _run_hydra at 0x7fedecd70160>
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+    └ <function _run_app at 0x7fedecd701f0>
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+    └ <function run_and_report at 0x7fedecd700d0>
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+    raise ex
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+           └ <function _run_app.<locals>.<lambda> at 0x7fecef917f40>
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+            │     └ <function Hydra.run at 0x7fedecc3e5f0>
+            └ <hydra._internal.hydra.Hydra object at 0x7fecef9479d0>
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+    _ = ret.return_value
+        │   └ <property object at 0x7fedecf44ea0>
+        └ JobReturn(overrides=['policy=lewm_15/weights_epoch_15.pt', 'seed=3', 'eval.num_eval=50', 'eval.eval_budget=300', 'output.file...
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+    raise self._return_value
+          │    └ FileNotFoundError(2, "Unable to synchronously open file (unable to open file: name = '/data1/Johnny/challenge/wrf/homework/ou...
+          └ JobReturn(overrides=['policy=lewm_15/weights_epoch_15.pt', 'seed=3', 'eval.num_eval=50', 'eval.eval_budget=300', 'output.file...
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+    │   │              │             └ {'cache_dir': None, 'solver': {'_target_': 'stable_worldmodel.solver.CEMSolver', 'model': '???', 'batch_size': 1, 'num_sample...
+    │   │              └ <function run at 0x7fecf2aa6cb0>
+    │   └ <property object at 0x7fedecf44ea0>
+    └ JobReturn(overrides=['policy=lewm_15/weights_epoch_15.pt', 'seed=3', 'eval.num_eval=50', 'eval.eval_budget=300', 'output.file...
+
+  File "/data1/Johnny/challenge/wrf/homework/le-wm/eval.py", line 69, in run
+    dataset = get_dataset(cfg, cfg.eval.dataset_name)
+              │           │    └ {'cache_dir': None, 'solver': {'_target_': 'stable_worldmodel.solver.CEMSolver', 'model': '???', 'batch_size': 1, 'num_sample...
+              │           └ {'cache_dir': None, 'solver': {'_target_': 'stable_worldmodel.solver.CEMSolver', 'model': '???', 'batch_size': 1, 'num_sample...
+              └ <function get_dataset at 0x7fed07f0ab90>
+
+  File "/data1/Johnny/challenge/wrf/homework/le-wm/eval.py", line 45, in get_dataset
+    dataset = swm.data.HDF5Dataset(
+              │   │    └ <class 'stable_worldmodel.data.formats.hdf5.HDF5Dataset'>
+              │   └ <module 'stable_worldmodel.data' from '/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/data/...
+              └ <module 'stable_worldmodel' from '/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/__init__.py'>
+
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/data/formats/hdf5.py", line 61, in __init__
+    with self._open_h5() as f:
+         │    └ <function HDF5Dataset._open_h5 at 0x7fecfdf9ae60>
+         └ <stable_worldmodel.data.formats.hdf5.HDF5Dataset object at 0x7feccd9dd600>
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/data/formats/hdf5.py", line 98, in _open_h5
+    return h5py.File(
+           │    └ <class 'h5py._hl.files.File'>
+           └ <module 'h5py' from '/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/h5py/__init__.py'>
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/h5py/_hl/files.py", line 555, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+          │        │     │     │               │     │          └ True
+          │        │     │     │               │     └ <h5py.h5p.PropFCID object at 0x7fecef91ad40>
+          │        │     │     │               └ <h5py.h5p.PropFAID object at 0x7fecef91b920>
+          │        │     │     └ None
+          │        │     └ 'r'
+          │        └ b'/data1/Johnny/challenge/wrf/homework/outputs/stable-wm/datasets/pusht_expert_train.h5'
+          └ <function make_fid at 0x7fecfdf97250>
+  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/h5py/_hl/files.py", line 232, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+          │   │    │     │           └ <h5py.h5p.PropFAID object at 0x7fecef91b920>
+          │   │    │     └ 64
+          │   │    └ b'/data1/Johnny/challenge/wrf/homework/outputs/stable-wm/datasets/pusht_expert_train.h5'
+          │   └ <cyfunction open at 0x7fecfeba2ec0>
+          └ <module 'h5py.h5f' from '/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/h5py/h5f.cpython-310-x86_64-linux-gnu...
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 106, in h5py.h5f.open
+
+FileNotFoundError: [Errno 2] Unable to synchronously open file (unable to open file: name = '/data1/Johnny/challenge/wrf/homework/outputs/stable-wm/datasets/pusht_expert_train.h5', errno = 2, error message = 'No such file or directory', flags = 40, o_flags = 0)
