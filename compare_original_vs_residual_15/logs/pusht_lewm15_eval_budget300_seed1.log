@@ -1,83 +1,38 @@
-15:56:02 | INFO  | atomic_chec~| [atomic_save] installed crash-safe checkpoint plugin (write to sibling .tmp + fsync + atomic rename)
-Error executing job with overrides: ['policy=lewm_15/weights_epoch_15.pt', 'seed=1', 'eval.num_eval=50', 'eval.eval_budget=300', 'output.filename=/data1/Johnny/challenge/wrf/homework/compare_original_vs_residual_15/original_lewm_15/pusht_lewm15_eval_budget300_seed1.txt']
-15:56:02 | ERROR | richuru.py  | Exception:
-Traceback (most recent call last):
-
-> File "/data1/Johnny/challenge/wrf/homework/le-wm/eval.py", line 176, in <module>
-    run()
-    └ <function run at 0x7fa7891ff760>
-
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
-    _run_hydra(
-    └ <function _run_hydra at 0x7fa886410160>
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
-    _run_app(
-    └ <function _run_app at 0x7fa8864101f0>
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
-    run_and_report(
-    └ <function run_and_report at 0x7fa8864100d0>
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
-    raise ex
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
-    return func()
-           └ <function _run_app.<locals>.<lambda> at 0x7fa789027f40>
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
-    lambda: hydra.run(
-            │     └ <function Hydra.run at 0x7fa8862de5f0>
-            └ <hydra._internal.hydra.Hydra object at 0x7fa78904b9d0>
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
-    _ = ret.return_value
-        │   └ <property object at 0x7fa8865e4ea0>
-        └ JobReturn(overrides=['policy=lewm_15/weights_epoch_15.pt', 'seed=1', 'eval.num_eval=50', 'eval.eval_budget=300', 'output.file...
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
-    raise self._return_value
-          │    └ FileNotFoundError(2, "Unable to synchronously open file (unable to open file: name = '/data1/Johnny/challenge/wrf/homework/ou...
-          └ JobReturn(overrides=['policy=lewm_15/weights_epoch_15.pt', 'seed=1', 'eval.num_eval=50', 'eval.eval_budget=300', 'output.file...
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
-    ret.return_value = task_function(task_cfg)
-    │   │              │             └ {'cache_dir': None, 'solver': {'_target_': 'stable_worldmodel.solver.CEMSolver', 'model': '???', 'batch_size': 1, 'num_sample...
-    │   │              └ <function run at 0x7fa7891fecb0>
-    │   └ <property object at 0x7fa8865e4ea0>
-    └ JobReturn(overrides=['policy=lewm_15/weights_epoch_15.pt', 'seed=1', 'eval.num_eval=50', 'eval.eval_budget=300', 'output.file...
-
-  File "/data1/Johnny/challenge/wrf/homework/le-wm/eval.py", line 69, in run
-    dataset = get_dataset(cfg, cfg.eval.dataset_name)
-              │           │    └ {'cache_dir': None, 'solver': {'_target_': 'stable_worldmodel.solver.CEMSolver', 'model': '???', 'batch_size': 1, 'num_sample...
-              │           └ {'cache_dir': None, 'solver': {'_target_': 'stable_worldmodel.solver.CEMSolver', 'model': '???', 'batch_size': 1, 'num_sample...
-              └ <function get_dataset at 0x7fa7a160ab90>
-
-  File "/data1/Johnny/challenge/wrf/homework/le-wm/eval.py", line 45, in get_dataset
-    dataset = swm.data.HDF5Dataset(
-              │   │    └ <class 'stable_worldmodel.data.formats.hdf5.HDF5Dataset'>
-              │   └ <module 'stable_worldmodel.data' from '/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/data/...
-              └ <module 'stable_worldmodel' from '/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/__init__.py'>
-
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/data/formats/hdf5.py", line 61, in __init__
-    with self._open_h5() as f:
-         │    └ <function HDF5Dataset._open_h5 at 0x7fa7936a6e60>
-         └ <stable_worldmodel.data.formats.hdf5.HDF5Dataset object at 0x7fa767080220>
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/data/formats/hdf5.py", line 98, in _open_h5
-    return h5py.File(
-           │    └ <class 'h5py._hl.files.File'>
-           └ <module 'h5py' from '/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/h5py/__init__.py'>
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/h5py/_hl/files.py", line 555, in __init__
-    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
-          │        │     │     │               │     │          └ True
-          │        │     │     │               │     └ <h5py.h5p.PropFCID object at 0x7fa7719b3e70>
-          │        │     │     │               └ <h5py.h5p.PropFAID object at 0x7fa7890eb920>
-          │        │     │     └ None
-          │        │     └ 'r'
-          │        └ b'/data1/Johnny/challenge/wrf/homework/outputs/stable-wm/datasets/pusht_expert_train.h5'
-          └ <function make_fid at 0x7fa7936a3250>
-  File "/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/h5py/_hl/files.py", line 232, in make_fid
-    fid = h5f.open(name, flags, fapl=fapl)
-          │   │    │     │           └ <h5py.h5p.PropFAID object at 0x7fa7890eb920>
-          │   │    │     └ 64
-          │   │    └ b'/data1/Johnny/challenge/wrf/homework/outputs/stable-wm/datasets/pusht_expert_train.h5'
-          │   └ <cyfunction open at 0x7fa79363aec0>
-          └ <module 'h5py.h5f' from '/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/h5py/h5f.cpython-310-x86_64-linux-gnu...
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5f.pyx", line 106, in h5py.h5f.open
-
-FileNotFoundError: [Errno 2] Unable to synchronously open file (unable to open file: name = '/data1/Johnny/challenge/wrf/homework/outputs/stable-wm/datasets/pusht_expert_train.h5', errno = 2, error message = 'No such file or directory', flags = 40, o_flags = 0)
+21:08:27 | INFO  | atomic_chec~| [atomic_save] installed crash-safe checkpoint plugin (write to sibling .tmp + fsync + atomic rename)
+[2026-07-08 21:08:27,940][root][INFO] - Cached 'action' from '/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5'
+[2026-07-08 21:08:27,987][root][INFO] - Cached 'proprio' from '/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5'
+[2026-07-08 21:08:28,058][root][INFO] - Cached 'state' from '/manifoldai-training/johnny/challenge/lewm-pusht/datasets/pusht_expert_train.h5'
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/stable_worldmodel/wm/utils.py:80: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(checkpoint_path, map_location='cpu')
+21:08:29 | INFO  | utils.py    | Created ViT-tiny from scratch with config: {'hidden_size': 192, 'num_hidden_layers': 12, 'num_attention_heads': 3, 'intermediate_size': 768, 'image_size': 224, 'patch_size': 14}
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/gymnasium/spaces/box.py:423: UserWarning: [33mWARN: Casting input x to numpy array.[0m
+  gym.logger.warn("Casting input x to numpy array.")
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lance/__init__.py:298: UserWarning: lance is not fork-safe. If you are using multiprocessing, use spawn or forkserver instead.
+  warnings.warn(
+/data1/Johnny/challenge/wrf/.venv/lib/python3.10/site-packages/lancedb/__init__.py:294: UserWarning: lance is not fork-safe. If you are using multiprocessing, use spawn instead.
+  warnings.warn(
+1869611 valid starting points found for evaluation.
+[  47660   66798   83059  145829  201171  276278  294050  295266  318953
+  342740  476979  584500  601940  613971  637760  653478  708450  729390
+  770136  897962  943308  958128  993164 1059824 1061831 1108130 1137940
+ 1170396 1179821 1202832 1262729 1288308 1504862 1748304 1751308 1758154
+ 1761758 1838061 1908219 1920598 1933376 1958519 2020762 2028129 2108151
+ 2214214 2218302 2243348 2278691 2288394]
+CEM solve time: 74.9423 seconds
+CEM solve time: 19.3897 seconds
+CEM solve time: 10.4949 seconds
+CEM solve time: 10.4807 seconds
+CEM solve time: 8.9885 seconds
+CEM solve time: 9.1944 seconds
+CEM solve time: 9.2453 seconds
+CEM solve time: 9.0996 seconds
+CEM solve time: 9.0628 seconds
+CEM solve time: 9.0511 seconds
+CEM solve time: 9.1194 seconds
+CEM solve time: 9.0232 seconds
+{'success_rate': 88.0, 'episode_successes': array([False,  True,  True,  True, False,  True,  True,  True, False,
+        True,  True,  True,  True,  True,  True,  True,  True, False,
+        True, False,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True, False,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True]), 'seeds': None}
