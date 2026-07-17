@@ -12,6 +12,7 @@ predictor:
   _target_: module.ARPredictor
   num_frames: ${wm.history_size}
   input_dim: ${wm.dynamic_dim}
+  condition_dim: ${wm.embed_dim}
   hidden_dim: ${wm.embed_dim}
   output_dim: ${wm.dynamic_dim}
   depth: 6
@@ -24,7 +25,7 @@ predictor:
 action_encoder:
   _target_: module.Embedder
   input_dim: ???
-  emb_dim: ${wm.dynamic_dim}
+  emb_dim: ${wm.embed_dim}
 
 projector:
   _target_: module.MLP

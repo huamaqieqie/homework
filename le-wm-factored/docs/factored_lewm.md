@@ -21,6 +21,11 @@ z_hat_{t+1} = concat(s_hat_{t+1}, d_hat_{t+1})
 `JEPA.predict()` owns this behavior, so training, offline latent export, and CEM
 rollout all use the same factored transition rule.
 
+The predictor exposes separate latent-input and action-condition dimensions.
+This keeps the original 192-dimensional action embedding while reducing only
+the predicted state branch to `dynamic_dim`, avoiding an action-capacity change
+as an experimental confound.
+
 The default dimensions are:
 
 ```yaml

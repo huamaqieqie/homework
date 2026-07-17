@@ -142,6 +142,7 @@ class Transformer(nn.Module):
         mlp_dim,
         dropout=0.0,
         block_class=Block,
+        condition_dim=None,
     ):
         super().__init__()
         self.norm = nn.LayerNorm(hidden_dim)
@@ -153,9 +154,10 @@ class Transformer(nn.Module):
             else nn.Identity()
         )
 
+        condition_dim = condition_dim or input_dim
         self.cond_proj = (
-            nn.Linear(input_dim, hidden_dim)
-            if input_dim != hidden_dim
+            nn.Linear(condition_dim, hidden_dim)
+            if condition_dim != hidden_dim
             else nn.Identity()
         )
 
@@ -257,6 +259,7 @@ class ARPredictor(nn.Module):
         dim_head=64,
         dropout=0.0,
         emb_dropout=0.0,
+        condition_dim=None,
     ):
         super().__init__()
         self.pos_embedding = nn.Parameter(torch.randn(1, num_frames, input_dim))
@@ -271,6 +274,7 @@ class ARPredictor(nn.Module):
             mlp_dim,
             dropout,
             block_class=ConditionalBlock,
+            condition_dim=condition_dim,
         )
 
     def forward(self, x, c):
