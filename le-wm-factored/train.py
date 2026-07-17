@@ -94,25 +94,65 @@ def _log_jepa_viz_metrics(module, batch, stage, emb, tgt_emb, pred_emb, loss_tot
         module.log_dict(metrics, on_step=True, sync_dist=True)
 
 
-def _log_residual_predictor_metrics(module, stage, ctx_emb, tgt_emb, pred_emb, pred_raw):
+def _static_variance_loss(static_emb, target_std, eps):
+    flat_static = static_emb.reshape(-1, static_emb.size(-1))
+    feature_std = torch.sqrt(flat_static.var(dim=0, unbiased=False) + eps)
+    return F.relu(target_std - feature_std).mean()
+
+
+def _static_dynamic_decorrelation_loss(static_emb, dynamic_emb):
+    flat_static = static_emb.reshape(-1, static_emb.size(-1))
+    flat_dynamic = dynamic_emb.reshape(-1, dynamic_emb.size(-1))
+    flat_static = flat_static - flat_static.mean(dim=0, keepdim=True)
+    flat_dynamic = flat_dynamic - flat_dynamic.mean(dim=0, keepdim=True)
+    flat_static = flat_static / flat_static.std(dim=0, unbiased=False, keepdim=True).clamp_min(1e-4)
+    flat_dynamic = flat_dynamic / flat_dynamic.std(dim=0, unbiased=False, keepdim=True).clamp_min(1e-4)
+    cross_correlation = flat_static.transpose(0, 1) @ flat_dynamic
+    cross_correlation = cross_correlation / max(flat_static.size(0), 1)
+    return cross_correlation.pow(2).mean()
+
+
+def _log_factored_predictor_metrics(module, stage, ctx_emb, tgt_emb, pred_emb, pred_raw, cfg):
     with torch.no_grad():
-        target_delta = tgt_emb.detach() - ctx_emb.detach()
-        pred_delta = pred_emb.detach() - ctx_emb.detach()
-        is_residual = getattr(module.model, "predictor_mode", "direct") == "residual"
-        effective_delta = pred_raw.detach() if is_residual else pred_delta
+        ctx_static, ctx_dynamic = module.model.split_latent(ctx_emb.detach())
+        tgt_static, tgt_dynamic = module.model.split_latent(tgt_emb.detach())
+        pred_static, pred_dynamic = module.model.split_latent(pred_emb.detach())
+
+        target_static_delta = tgt_static - ctx_static
+        target_dynamic_delta = tgt_dynamic - ctx_dynamic
+        pred_dynamic_delta = pred_dynamic - ctx_dynamic
+
+        static_flat = ctx_static.reshape(-1, ctx_static.size(-1)).float()
+        dynamic_flat = ctx_dynamic.reshape(-1, ctx_dynamic.size(-1)).float()
+        active_threshold = float(_get_eval_metric_cfg(cfg, "active_dim_std_threshold", 1e-2))
+        static_delta_norm = target_static_delta.norm(dim=-1).mean()
+        dynamic_delta_norm = target_dynamic_delta.norm(dim=-1).mean()
 
         metrics = {
             f"{stage}/pred_latent_mse": (pred_emb.detach() - tgt_emb.detach()).pow(2).mean(),
-            f"{stage}/delta_norm": effective_delta.norm(dim=-1).mean(),
-            f"{stage}/target_delta_norm": target_delta.norm(dim=-1).mean(),
-            f"{stage}/delta_cos": F.cosine_similarity(
-                effective_delta.reshape(-1, effective_delta.size(-1)),
-                target_delta.reshape(-1, target_delta.size(-1)),
+            f"{stage}/static_consistency_mse": target_static_delta.pow(2).mean(),
+            f"{stage}/static_copy_mse": (pred_static - ctx_static).pow(2).mean(),
+            f"{stage}/static_target_delta_norm": static_delta_norm,
+            f"{stage}/dynamic_delta_norm": pred_raw.detach().norm(dim=-1).mean(),
+            f"{stage}/dynamic_effective_delta_norm": pred_dynamic_delta.norm(dim=-1).mean(),
+            f"{stage}/dynamic_target_delta_norm": dynamic_delta_norm,
+            f"{stage}/dynamic_delta_cos": F.cosine_similarity(
+                pred_dynamic_delta.reshape(-1, pred_dynamic_delta.size(-1)),
+                target_dynamic_delta.reshape(-1, target_dynamic_delta.size(-1)),
                 dim=-1,
             ).mean(),
-            f"{stage}/predictor_mode_is_residual": torch.tensor(
-                float(is_residual),
-                device=pred_emb.device,
+            f"{stage}/dynamic_to_static_delta_ratio": dynamic_delta_norm
+            / static_delta_norm.clamp_min(1e-8),
+            f"{stage}/static_latent_std": static_flat.std(unbiased=False),
+            f"{stage}/dynamic_latent_std": dynamic_flat.std(unbiased=False),
+            f"{stage}/static_active_dim_count": (
+                static_flat.std(dim=0, unbiased=False) > active_threshold
+            ).float().sum(),
+            f"{stage}/dynamic_active_dim_count": (
+                dynamic_flat.std(dim=0, unbiased=False) > active_threshold
+            ).float().sum(),
+            f"{stage}/static_dynamic_decorrelation": _static_dynamic_decorrelation_loss(
+                ctx_static, ctx_dynamic
             ),
         }
 
@@ -125,6 +165,9 @@ def lejepa_forward(self, batch, stage, cfg):
     ctx_len = cfg.wm.history_size
     n_preds = cfg.wm.num_preds
     lambd = cfg.loss.sigreg.weight
+    static_consistency_weight = cfg.loss.static_consistency.weight
+    static_variance_weight = cfg.loss.static_variance.weight
+    decorrelation_weight = cfg.loss.static_dynamic_decorrelation.weight
 
     # Replace NaN values with 0 (occurs at sequence boundaries)
     batch["action"] = torch.nan_to_num(batch["action"], 0.0)
@@ -140,15 +183,36 @@ def lejepa_forward(self, batch, stage, cfg):
     tgt_emb = emb[:, n_preds:] # label
     pred_emb, pred_raw = self.model.predict(ctx_emb, ctx_act, return_raw=True) # pred
 
-    # LeWM loss
+    ctx_static, _ = self.model.split_latent(ctx_emb)
+    tgt_static, _ = self.model.split_latent(tgt_emb)
+    _, dynamic_emb = self.model.split_latent(emb)
+
+    # Factored LeWM loss: full prediction + dynamic SIGReg + static consistency.
     output["pred_loss"] = (pred_emb - tgt_emb).pow(2).mean()
-    output["sigreg_loss"]= self.sigreg(emb.transpose(0, 1))
-    output["loss"] = output["pred_loss"] + lambd * output["sigreg_loss"]  
+    output["sigreg_loss"] = self.sigreg(dynamic_emb.transpose(0, 1))
+    output["static_consistency_loss"] = (tgt_static - ctx_static).pow(2).mean()
+    output["static_variance_loss"] = _static_variance_loss(
+        ctx_static,
+        target_std=float(cfg.loss.static_variance.target_std),
+        eps=float(cfg.loss.static_variance.eps),
+    )
+    output["static_dynamic_decorrelation_loss"] = _static_dynamic_decorrelation_loss(
+        ctx_static, dynamic_emb[:, :ctx_len]
+    )
+    output["loss"] = (
+        output["pred_loss"]
+        + lambd * output["sigreg_loss"]
+        + static_consistency_weight * output["static_consistency_loss"]
+        + static_variance_weight * output["static_variance_loss"]
+        + decorrelation_weight * output["static_dynamic_decorrelation_loss"]
+    )
 
     losses_dict = {f"{stage}/{k}": v.detach() for k, v in output.items() if "loss" in k}
     self.log_dict(losses_dict, on_step=True, sync_dist=True)
     _log_jepa_viz_metrics(self, batch, stage, emb, tgt_emb, pred_emb, output["loss"], cfg)
-    _log_residual_predictor_metrics(self, stage, ctx_emb, tgt_emb, pred_emb, pred_raw)
+    _log_factored_predictor_metrics(
+        self, stage, ctx_emb, tgt_emb, pred_emb, pred_raw, cfg
+    )
     return output
 
 @hydra.main(version_base=None, config_path="./config/train", config_name="lewm")
@@ -156,6 +220,12 @@ def run(cfg):
     #########################
     ##       dataset       ##
     #########################
+
+    if cfg.wm.static_dim + cfg.wm.dynamic_dim != cfg.wm.embed_dim:
+        raise ValueError(
+            "wm.static_dim + wm.dynamic_dim must equal wm.embed_dim, got "
+            f"{cfg.wm.static_dim} + {cfg.wm.dynamic_dim} != {cfg.wm.embed_dim}."
+        )
 
     dataset_cfg = OmegaConf.to_container(cfg.data.dataset, resolve=True)
     dataset_name = dataset_cfg.pop("name")

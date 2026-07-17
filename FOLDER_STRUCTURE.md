@@ -1,6 +1,8 @@
 # Folder Structure
 
 - `le-wm/`: source code, configs, assets, and project README.
+- `le-wm-residual/`: Residual Latent implementation derived from LeWM.
+- `le-wm-factored/`: Factored Latent implementation with static and dynamic branches.
 - `report_materials/`: report figures, metrics, summary text, and main experiment logs.
 - `report_materials_heads8/`: heads8-specific report figures, metrics, summaries, and logs.
 - `logs/`: root-level run logs collected by type.

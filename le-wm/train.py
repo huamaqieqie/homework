@@ -211,7 +211,13 @@ def run(cfg):
         enable_checkpointing=True,
     )
 
-    ckpt_path = run_dir / f"{cfg.output_model_name}_weights.ckpt"
+    resume_ckpt_path = cfg.get("resume_ckpt_path")
+    if resume_ckpt_path:
+        ckpt_path = Path(resume_ckpt_path)
+        if not ckpt_path.exists():
+            raise FileNotFoundError(f"resume_ckpt_path does not exist: {ckpt_path}")
+    else:
+        ckpt_path = run_dir / f"{cfg.output_model_name}_weights.ckpt"
     manager = spt.Manager(
         trainer=trainer,
         module=world_model,
