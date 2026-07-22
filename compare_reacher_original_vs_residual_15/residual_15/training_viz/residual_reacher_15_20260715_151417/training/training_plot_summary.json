@@ -1,0 +1,110 @@
+{
+  "log_path": "/data1/Johnny/challenge/wrf/homework/outputs/home/.cache/stable-pretraining/runs/20260715/145800/ee58f199d257/metrics.csv",
+  "warnings": [
+    "fit/loss_total and fit/loss are identical; plotted fit/loss_total only.",
+    "Throughput jump detected for fit/samples_per_sec; see training_plot_summary.json."
+  ],
+  "latent_norm.png": {
+    "fit/latent_norm": {
+      "final_step": 1349.0,
+      "final": 13.316736221313477,
+      "best": 7.813235282897949,
+      "best_step": 49.0,
+      "last_1k_mean": 13.219278108505975,
+      "last_1k_std": 0.17990645440556266
+    }
+  },
+  "latent_std.png": {
+    "fit/latent_std": {
+      "final_step": 1349.0,
+      "final": 0.9685124158859253,
+      "best": 0.587659478187561,
+      "best_step": 49.0,
+      "last_1k_mean": 0.9648108539127168,
+      "last_1k_std": 0.010881346739333334
+    }
+  },
+  "pairwise_cosine": {
+    "mean_last_1k": {
+      "fit/pairwise_cos_mean": {
+        "final_step": 1349.0,
+        "final": -0.0014772415161132812,
+        "best": -0.0015273094177246094,
+        "best_step": 299.0,
+        "last_1k_mean": -0.0014145033700125559,
+        "last_1k_std": 6.409625472522112e-05
+      }
+    },
+    "std_last_1k": {
+      "fit/pairwise_cos_std": {
+        "final_step": 1349.0,
+        "final": 0.2264404296875,
+        "best": 0.2264404296875,
+        "best_step": 1349.0,
+        "last_1k_mean": 0.26846168154761907,
+        "last_1k_std": 0.04021432167437075
+      }
+    }
+  },
+  "pairwise_cosine_histogram": {
+    "source_prefix": "fit/pairwise_cos_hist_bin_",
+    "mean": -0.0016253754046889933,
+    "median": -0.04999999999999999,
+    "q05": -0.24999999999999994,
+    "q95": 0.45000000000000007
+  },
+  "per_horizon_mse": {
+    "train": {
+      "fit/loss_mse_horizon_01": {
+        "final_step": 1349.0,
+        "final": 0.08110462874174118,
+        "best": 0.08110462874174118,
+        "best_step": 1349.0,
+        "last_1k_mean": 0.09572488885550272,
+        "last_1k_std": 0.014120358113759363
+      },
+      "fit/loss_mse_horizon_02": {
+        "final_step": 1349.0,
+        "final": 0.03354522958397865,
+        "best": 0.03354522958397865,
+        "best_step": 1349.0,
+        "last_1k_mean": 0.06015085304776827,
+        "last_1k_std": 0.029771680466532894
+      },
+      "fit/loss_mse_horizon_03": {
+        "final_step": 1349.0,
+        "final": 0.032137297093868256,
+        "best": 0.032137297093868256,
+        "best_step": 1349.0,
+        "last_1k_mean": 0.059644711159524466,
+        "last_1k_std": 0.030665421254365728
+      }
+    }
+  },
+  "throughput_jumps": {
+    "fit/samples_per_sec": [
+      {
+        "step": 699.0,
+        "prev": 3005.85986328125,
+        "current": 963.719970703125,
+        "ratio": 0.32061373934149784
+      }
+    ]
+  },
+  "files": [
+    "train_total_loss.png",
+    "total_loss.png",
+    "total_loss_log.png",
+    "l1_mse_loss.png",
+    "cosine_loss.png",
+    "active_dimensions.png",
+    "latent_norm.png",
+    "latent_std.png",
+    "pairwise_cosine_mean.png",
+    "pairwise_cosine_std.png",
+    "pairwise_cosine_histogram.png",
+    "train_per_horizon_mse.png",
+    "samples_per_sec.png",
+    "learning_rate.png"
+  ]
+}
