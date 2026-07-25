@@ -296,7 +296,44 @@ prediction_report.json
 
 如果 latent 文件中没有 rollout、ablation 或 goal latent 对应数组，脚本会跳过这些图，并在 `prediction_report.md` 中说明原因。
 
-## 5. 一步导出并可视化
+## 5. 多模型 / 多 seed eval 结果汇总
+
+如果你已经有若干 `eval.py` 生成的 `.txt` 或终端 `tee` 保存的 `.log`，可以用
+`plot_eval_summary.py` 汇总成功率、评估耗时和每 seed 结果。
+
+每个 `--group` 的格式是：
+
+```text
+显示名称=文件glob
+```
+
+示例：
+
+```bash
+python $JEPA_VIZ_DIR/plot_eval_summary.py \
+  --root $PROJECT_ROOT \
+  --out $JEPA_VIZ_OUTPUT_ROOT/eval_summary \
+  --title "JEPA Eval Summary" \
+  --group "Original=outputs/stable-wm/model_a/*eval*seed*.txt" \
+  --group "Residual=outputs/stable-wm/model_b/*eval*seed*.txt"
+```
+
+输出内容：
+
+```text
+$JEPA_VIZ_OUTPUT_ROOT/eval_summary/
+  eval_rows.csv
+  eval_summary.csv
+  eval_summary.json
+  eval_summary_report.md
+  success_rate_summary.png
+  success_rate_by_seed.png
+  time_per_episode.png
+  evaluation_time.png
+  cem_solve_time.png，如果日志中有 CEM solve time
+```
+
+## 6. 一步导出并可视化
 
 适用于当前导出适配器可以直接工作的项目：
 
@@ -330,7 +367,7 @@ BATCH_SIZE=128 \
 bash $JEPA_VIZ_DIR/run_jepa_viz_template.sh
 ```
 
-## 6. 常见输出
+## 7. 常见输出
 
 训练曲线：
 
