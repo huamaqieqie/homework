@@ -35,9 +35,12 @@ wm:
   type: lewm
   history_size: 3
   num_preds: 1
+  autoregressive_rollout: false
   embed_dim: 192
 
 loss:
+  rollout:
+    discount: 0.5
   sigreg:
     weight: 0.09
     kwargs:
