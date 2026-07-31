@@ -1,0 +1,44 @@
+[
+  {
+    "group": "Original 15",
+    "n_files": 5,
+    "n_success": 5,
+    "success_rate_mean": 62.0,
+    "success_rate_std": 8.0,
+    "success_rate_min": 52.0,
+    "success_rate_max": 72.0,
+    "evaluation_time_mean_sec": 207.8776261806488,
+    "time_per_episode_mean_sec": 4.157552523612976,
+    "cem_solve_time_mean_sec": null,
+    "eval_budget_values": [
+      50
+    ],
+    "num_eval_values": [
+      50
+    ],
+    "policies": [
+      "lewm_reacher_15/weights_epoch_15.pt"
+    ]
+  },
+  {
+    "group": "Residual 15",
+    "n_files": 5,
+    "n_success": 5,
+    "success_rate_mean": 57.6,
+    "success_rate_std": 10.13903348450926,
+    "success_rate_min": 48.0,
+    "success_rate_max": 72.0,
+    "evaluation_time_mean_sec": 206.17157125473022,
+    "time_per_episode_mean_sec": 4.123431425094604,
+    "cem_solve_time_mean_sec": null,
+    "eval_budget_values": [
+      50
+    ],
+    "num_eval_values": [
+      50
+    ],
+    "policies": [
+      "lewm_residual_reacher_15/weights_epoch_15.pt"
+    ]
+  }
+]

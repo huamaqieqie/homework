@@ -1,0 +1,5 @@
+group,n_files,n_success,success_rate_mean,success_rate_std,success_rate_min,success_rate_max,evaluation_time_mean_sec,time_per_episode_mean_sec,cem_solve_time_mean_sec,eval_budget_values,num_eval_values,policies
+Original 15,5,5,88.8,3.03315017762062,86.0,94.0,320.75952191352843,6.415190438270568,,[300],[50],['lewm_15/weights_epoch_15.pt']
+Residual 15,5,5,90.0,3.7416573867739413,86.0,94.0,375.21610283851624,7.504322056770325,,[300],[50],['lewm_residual_15/weights_epoch_15.pt']
+Factored 96-96 15,5,5,79.6,4.774934554525329,74.0,86.0,282.3125690937042,5.646251381874085,,[300],[50],['/data1/Johnny/challenge/wrf/homework/outputs/stable-wm/checkpoints/factored_pusht_15_seed3072_restart_20260718/weights_epoch_15.pt']
+Factored 64-128 15,5,5,68.4,8.648699324175858,56.00000000000001,80.0,381.48460779190066,7.629692155838013,,[300],[50],['/data1/Johnny/challenge/wrf/homework/outputs/stable-wm/checkpoints/checkpoints/factored64_128_pusht_15_seed3072/weights_epoch_15.pt']

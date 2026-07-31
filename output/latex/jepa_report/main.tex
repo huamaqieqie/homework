@@ -1,0 +1,296 @@
+\documentclass[UTF8,a4paper,11pt,fontset=none]{ctexart}
+
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{caption}
+
+\setCJKmainfont[Path=fonts/]{STHeitiMedium.ttc}
+\setmainfont[Path=fonts/]{ArialUnicode.ttf}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue
+}
+
+\definecolor{GoodGreen}{RGB}{35,120,75}
+\definecolor{BadRed}{RGB}{170,60,60}
+\definecolor{HeaderBlue}{RGB}{30,96,180}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\renewcommand{\arraystretch}{1.18}
+\captionsetup{font=small,labelfont=bf}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\newcommand{\pos}[1]{\textcolor{GoodGreen}{#1}}
+\newcommand{\bad}[1]{\textcolor{BadRed}{#1}}
+
+\newcommand{\figsingle}[3]{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=#2\linewidth]{#1}
+    \caption{#3}
+  \end{figure}
+}
+
+\newcommand{\figpair}[4]{
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+      \centering
+      \includegraphics[width=\linewidth]{#1}
+      \caption{#2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\linewidth}
+      \centering
+      \includegraphics[width=\linewidth]{#3}
+      \caption{#4}
+    \end{subfigure}
+  \end{figure}
+}
+
+\title{\textbf{JEPA 实验报告}\\
+\large PushT / Reacher / Factored 结果汇总}
+\author{}
+\date{2026-07-25}
+
+\begin{document}
+\maketitle
+
+本报告使用本地图片目录 \texttt{output/latex/jepa\_report/assets/} 编译生成。数据来自
+\texttt{outputs/jepa\_viz/experiment\_summary\_20260724/} 中的 eval 日志、训练
+\texttt{metrics.csv}、latent 导出结果和 \texttt{tools/jepa\_viz} 生成的可视化文件。
+
+\section{PushT：Original / Residual / Factored 对比}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{YCCC}
+\toprule
+模型 & 成功率 mean $\pm$ std & $\Delta$ vs Original & time/episode \\
+\midrule
+Original 15 & 88.80 $\pm$ 3.03 & 0.00 & 6.42s \\
+Residual 15 & 90.00 $\pm$ 3.74 & \pos{+1.20} & 7.50s \\
+Factored 96-96 15 & 79.60 $\pm$ 4.77 & \bad{-9.20} & 5.65s \\
+Factored 64-128 15 & 68.40 $\pm$ 8.65 & \bad{-20.40} & 7.63s \\
+\bottomrule
+\end{tabularx}
+\caption{PushT 多 seed 成功率。Factored 只与 PushT Original/Residual 比较，不与 Reacher 结果混比。}
+\end{table}
+
+\figsingle{assets/eval_summary_pusht/success_rate_summary.png}{0.82}{PushT success rate mean $\pm$ std}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+指标 & 含义 \\
+\midrule
+success rate & 多 seed 平均成功率，PushT 内横向比较。 \\
+$\Delta$ vs Original & 相对 PushT Original 15 的成功率变化。 \\
+std & seed 间波动，越小越稳定。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\figsingle{assets/eval_summary_pusht/success_rate_by_seed.png}{0.82}{PushT per-seed success rate}
+\figsingle{assets/eval_summary_pusht/time_per_episode.png}{0.82}{PushT time per episode}
+
+\section{Reacher：Original / Residual 对比}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{YCCC}
+\toprule
+模型 & 成功率 mean $\pm$ std & $\Delta$ vs Reacher Original & time/episode \\
+\midrule
+Original 15 & 62.00 $\pm$ 8.00 & 0.00 & 4.16s \\
+Residual 15 & 57.60 $\pm$ 10.14 & \bad{-4.40} & 4.12s \\
+\bottomrule
+\end{tabularx}
+\caption{Reacher 多 seed 成功率。Reacher 是独立实验，只比较 Reacher Original 与 Reacher Residual。}
+\end{table}
+
+\figsingle{assets/eval_summary_reacher/success_rate_summary.png}{0.78}{Reacher success rate mean $\pm$ std}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+指标 & 含义 \\
+\midrule
+success rate & Reacher 多 seed 平均成功率，只在 Reacher Original 与 Residual 之间比较。 \\
+eval\_budget & Reacher 使用 budget=50，不和 PushT budget=300 的耗时直接比较。 \\
+std & Reacher seed 间波动较大，需要关注每个 seed。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\figsingle{assets/eval_summary_reacher/success_rate_by_seed.png}{0.78}{Reacher per-seed success rate}
+\figsingle{assets/eval_summary_reacher/time_per_episode.png}{0.78}{Reacher time per episode}
+
+\section{PushT Prediction 指标}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{YCC}
+\toprule
+指标 & Original & Residual \\
+\midrule
+mean cosine & \textbf{0.99399} & 0.99254 \\
+diagonal gap & \textbf{0.20243} & 0.16525 \\
+top-1 horizon matching & \textbf{98.70\%} & 96.61\% \\
+normal MSE & \textbf{0.01070} & 0.01311 \\
+shuffled-action MSE & 0.37885 & \textbf{0.28743} \\
+\bottomrule
+\end{tabularx}
+\caption{PushT latent prediction 关键指标。Original 的 normal MSE 和 diagonal gap 更好。}
+\end{table}
+
+\subsection{Horizon Cosine}
+\figpair
+{assets/original_lewm_15/prediction_viz/target_pred_cosine_vs_horizon_by_action_norm_bin.png}{Original}
+{assets/residual_15/prediction_viz/target_pred_cosine_vs_horizon_by_action_norm_bin.png}{Residual}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+指标 & 含义 \\
+\midrule
+horizon cosine & $\cos(z_{pred}, z_{target})$，越高表示预测 latent 越接近目标 latent。 \\
+action\_norm\_bin & 按 action 范数分桶，用于观察动作强度对预测质量的影响。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Alignment Heatmap}
+\figpair
+{assets/original_lewm_15/prediction_viz/target_pred_alignment_heatmap.png}{Original}
+{assets/residual_15/prediction_viz/target_pred_alignment_heatmap.png}{Residual}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+指标 & 含义 \\
+\midrule
+diagonal gap & 对角线平均值减去非对角线平均值，越大说明模型越能区分 future horizon。 \\
+top-1 matching & 预测 horizon 匹配正确 target horizon 的比例。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Action Condition Ablation}
+\figpair
+{assets/original_lewm_15/prediction_viz/condition_ablation.png}{Original}
+{assets/residual_15/prediction_viz/condition_ablation.png}{Residual}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+指标 & 含义 \\
+\midrule
+normal & 使用正常 action condition 的预测结果。 \\
+condition shuffled & 打乱 action 后的预测结果；退化越明显，说明模型越依赖正确 action。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{PushT Latent 表征诊断}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{YCC}
+\toprule
+指标 & Original z\_pred & Residual z\_pred \\
+\midrule
+active dims & 192/192 & 192/192 \\
+effective rank & \textbf{59.59} & 58.32 \\
+participation ratio & \textbf{54.41} & 52.93 \\
+top10 explained var & \textbf{0.257} & 0.266 \\
+pairwise cosine q95 & 0.2357 & \textbf{0.2302} \\
+\bottomrule
+\end{tabularx}
+\caption{PushT z\_pred 表征诊断。两者 active dims 均为 192/192，没有明显维度塌缩。}
+\end{table}
+
+\subsection{Active Dimension Count}
+\figpair
+{assets/original_lewm_15/latent_viz/active_dimension_count.png}{Original}
+{assets/residual_15/latent_viz/active_dimension_count.png}{Residual}
+
+\subsection{Pairwise Cosine Histogram}
+\figpair
+{assets/original_lewm_15/latent_viz/pairwise_cosine_histogram.png}{Original}
+{assets/residual_15/latent_viz/pairwise_cosine_histogram.png}{Residual}
+
+\subsection{Covariance Spectrum}
+\figpair
+{assets/original_lewm_15/latent_viz/covariance_eigenvalue_spectrum.png}{Original}
+{assets/residual_15/latent_viz/covariance_eigenvalue_spectrum.png}{Residual}
+
+\subsection{Target-Pred Latent Alignment}
+\figpair
+{assets/original_lewm_15/latent_viz/target_pred_latent_alignment_global.png}{Original}
+{assets/residual_15/latent_viz/target_pred_latent_alignment_global.png}{Residual}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+指标 & 含义 \\
+\midrule
+active dims & std 超过阈值的 latent 维度数；过低表示 latent collapse。 \\
+pairwise cosine & batch 内不同样本 latent 的两两余弦相似度；集中在 0 附近通常表示样本分布较分散。 \\
+covariance spectrum & latent 协方差矩阵特征值分布；前几个特征值过大表示信息集中在少数方向。 \\
+target-pred alignment & PCA 空间中 target 与 pred 的对应关系；连线越短表示预测越准。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{训练曲线索引}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+模型 & 本地图片目录 \\
+\midrule
+Reacher Original 15 & \texttt{assets/training/reacher\_original\_15/} \\
+Reacher Residual 15 & \texttt{assets/training/reacher\_residual\_15/} \\
+Factored 96/96 15 & \texttt{assets/training/factored\_96\_96\_15/} \\
+Factored 64/128 15 & \texttt{assets/training/factored\_64\_128\_15/} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\figpair
+{assets/training/reacher_original_15/val_loss.png}{Reacher Original val loss}
+{assets/training/reacher_residual_15/val_loss.png}{Reacher Residual val loss}
+
+\figpair
+{assets/training/factored_96_96_15/val_loss.png}{Factored 96/96 val loss}
+{assets/training/factored_64_128_15/val_loss.png}{Factored 64/128 val loss}
+
+\section{结果说明}
+
+PushT 上 Residual 15 的成功率均值为 90.0\%，Original 15 为 88.8\%，差距为 +1.2 个百分点。Factored 两个版本均低于 PushT Original/Residual，其中 96/96 明显优于 64/128。
+
+Reacher 是独立实验，只比较 Reacher Original 与 Reacher Residual。当前 Reacher Residual 15 为 57.6\%，Reacher Original 15 为 62.0\%，Residual 未带来改善。
+
+PushT latent prediction 中，Original 的 normal MSE 更低、diagonal gap 更大，说明 horizon alignment 更清晰。两个 prediction report 都提示 mean cosine $>$ 0.99，虽然 z\_pred 与 z\_target 不是完全相同，但后续仍应持续检查 target leakage 或 latent 读取路径。
+
+\end{document}

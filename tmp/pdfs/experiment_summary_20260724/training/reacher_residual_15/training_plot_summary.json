@@ -1,0 +1,294 @@
+{
+  "log_path": "/data1/Johnny/challenge/wrf/homework/outputs/home/.cache/stable-pretraining/runs/20260715/145800/ee58f199d257/metrics.csv",
+  "warnings": [
+    "fit/loss_total and fit/loss are identical; plotted fit/loss_total only.",
+    "Throughput jump detected for fit/samples_per_sec; see training_plot_summary.json."
+  ],
+  "total_loss": {
+    "best_val": {
+      "validate/loss_epoch": {
+        "best": 0.19962310791015625,
+        "best_step": 23984.0
+      }
+    }
+  },
+  "latent_norm.png": {
+    "fit/latent_norm": {
+      "final_step": 23949.0,
+      "final": 13.561701774597168,
+      "best": 7.813235282897949,
+      "best_step": 49.0,
+      "last_1k_mean": 13.545231909978957,
+      "last_1k_std": 0.01175536499204882
+    },
+    "validate/latent_norm_step": {
+      "final_step": 2669.0,
+      "final": 13.633822441101074,
+      "best": 13.582135200500488,
+      "best_step": 2363.0,
+      "last_1k_mean": 13.816688932977119,
+      "last_1k_std": 0.1685913003407063
+    },
+    "validate/latent_norm_epoch": {
+      "final_step": 23984.0,
+      "final": 13.670239448547363,
+      "best": 13.653678894042969,
+      "best_step": 22385.0,
+      "last_1k_mean": 13.670239448547363,
+      "last_1k_std": 0.0
+    }
+  },
+  "latent_std.png": {
+    "fit/latent_std": {
+      "final_step": 23949.0,
+      "final": 0.9811537861824036,
+      "best": 0.587659478187561,
+      "best_step": 49.0,
+      "last_1k_mean": 0.9801152234985715,
+      "last_1k_std": 0.0007423222564337577
+    },
+    "validate/latent_std_step": {
+      "final_step": 2669.0,
+      "final": 0.9858695864677429,
+      "best": 0.982119083404541,
+      "best_step": 2363.0,
+      "last_1k_mean": 1.0021654463909961,
+      "last_1k_std": 0.014597123485460202
+    },
+    "validate/latent_std_epoch": {
+      "final_step": 23984.0,
+      "final": 0.9885612726211548,
+      "best": 0.9875032901763916,
+      "best_step": 22385.0,
+      "last_1k_mean": 0.9885612726211548,
+      "last_1k_std": 0.0
+    }
+  },
+  "pairwise_cosine": {
+    "mean_last_1k": {
+      "fit/pairwise_cos_mean": {
+        "final_step": 23949.0,
+        "final": -0.0018310546875,
+        "best": -0.0018596649169921875,
+        "best_step": 23749.0,
+        "last_1k_mean": -0.0018226078578404018,
+        "last_1k_std": 1.587717570479052e-05
+      },
+      "validate/pairwise_cos_mean_epoch": {
+        "final_step": 23984.0,
+        "final": 0.004390320274978876,
+        "best": 0.004390320274978876,
+        "best_step": 23984.0,
+        "last_1k_mean": 0.004390320274978876,
+        "last_1k_std": 0.0
+      },
+      "validate/pairwise_cos_mean_step": {
+        "final_step": 2669.0,
+        "final": 0.005817413330078125,
+        "best": 0.0028772354125976562,
+        "best_step": 2587.0,
+        "last_1k_mean": 0.016933698396939974,
+        "last_1k_std": 0.013005058832548242
+      }
+    },
+    "std_last_1k": {
+      "fit/pairwise_cos_std": {
+        "final_step": 23949.0,
+        "final": 0.1585693359375,
+        "best": 0.1563720703125,
+        "best_step": 22299.0,
+        "last_1k_mean": 0.15849376860119047,
+        "last_1k_std": 0.0008757974779877792
+      },
+      "validate/pairwise_cos_std_epoch": {
+        "final_step": 23984.0,
+        "final": 0.15895356237888336,
+        "best": 0.11340952664613724,
+        "best_step": 6395.0,
+        "last_1k_mean": 0.15895356237888336,
+        "last_1k_std": 0.0
+      },
+      "validate/pairwise_cos_std_step": {
+        "final_step": 2669.0,
+        "final": 0.1629638671875,
+        "best": 0.1102294921875,
+        "best_step": 708.0,
+        "last_1k_mean": 0.16309252271166333,
+        "last_1k_std": 0.004227229686238879
+      }
+    }
+  },
+  "pairwise_cosine_histogram": {
+    "source_prefix": "fit/pairwise_cos_hist_bin_",
+    "mean": -0.001986091260554025,
+    "median": -0.04999999999999999,
+    "q05": -0.14999999999999997,
+    "q95": 0.2500000000000001
+  },
+  "per_horizon_mse": {
+    "train": {
+      "fit/loss_mse_horizon_01": {
+        "final_step": 23949.0,
+        "final": 0.07581424713134766,
+        "best": 0.06918466091156006,
+        "best_step": 6949.0,
+        "last_1k_mean": 0.07377681490920839,
+        "last_1k_std": 0.0021424522771192893
+      },
+      "fit/loss_mse_horizon_02": {
+        "final_step": 23949.0,
+        "final": 0.009205612353980541,
+        "best": 0.008087162859737873,
+        "best_step": 22849.0,
+        "last_1k_mean": 0.008644738678066503,
+        "last_1k_std": 0.0002947195283456409
+      },
+      "fit/loss_mse_horizon_03": {
+        "final_step": 23949.0,
+        "final": 0.008915379643440247,
+        "best": 0.008054297417402267,
+        "best_step": 23649.0,
+        "last_1k_mean": 0.00858971064112016,
+        "last_1k_std": 0.0002454122717473315
+      }
+    },
+    "val_epoch": {
+      "validate/loss_mse_horizon_01_epoch": {
+        "final_step": 23984.0,
+        "final": 0.07098238915205002,
+        "best": 0.07098238915205002,
+        "best_step": 23984.0,
+        "last_1k_mean": 0.07098238915205002,
+        "last_1k_std": 0.0
+      },
+      "validate/loss_mse_horizon_02_epoch": {
+        "final_step": 23984.0,
+        "final": 0.003749801777303219,
+        "best": 0.003749801777303219,
+        "best_step": 23984.0,
+        "last_1k_mean": 0.003749801777303219,
+        "last_1k_std": 0.0
+      },
+      "validate/loss_mse_horizon_03_epoch": {
+        "final_step": 23984.0,
+        "final": 0.00369982048869133,
+        "best": 0.00369982048869133,
+        "best_step": 23984.0,
+        "last_1k_mean": 0.00369982048869133,
+        "last_1k_std": 0.0
+      }
+    },
+    "val_step": {
+      "validate/loss_mse_horizon_01_step": {
+        "final_step": 2669.0,
+        "final": 0.07242889702320099,
+        "best": 0.06560114771127701,
+        "best_step": 2522.0,
+        "last_1k_mean": 0.07947917783504481,
+        "last_1k_std": 0.008187414246429813
+      },
+      "validate/loss_mse_horizon_02_step": {
+        "final_step": 2669.0,
+        "final": 0.003595178946852684,
+        "best": 0.003483027685433626,
+        "best_step": 2601.0,
+        "last_1k_mean": 0.014468832314572671,
+        "last_1k_std": 0.010098114690139213
+      },
+      "validate/loss_mse_horizon_03_step": {
+        "final_step": 2669.0,
+        "final": 0.0036696046590805054,
+        "best": 0.003439828520640731,
+        "best_step": 2524.0,
+        "last_1k_mean": 0.014352141044006778,
+        "last_1k_std": 0.010019726491886823
+      }
+    }
+  },
+  "throughput_jumps": {
+    "fit/samples_per_sec": [
+      {
+        "step": 699.0,
+        "prev": 3005.85986328125,
+        "current": 963.719970703125,
+        "ratio": 0.32061373934149784
+      },
+      {
+        "step": 1599.0,
+        "prev": 1145.64794921875,
+        "current": 413.7370300292969,
+        "ratio": 0.361138018281651
+      },
+      {
+        "step": 1649.0,
+        "prev": 413.7370300292969,
+        "current": 1113.457763671875,
+        "ratio": 2.6912209516103274
+      },
+      {
+        "step": 5599.0,
+        "prev": 2295.212890625,
+        "current": 817.0527954101562,
+        "ratio": 0.35598126812004266
+      },
+      {
+        "step": 7249.0,
+        "prev": 859.3213500976562,
+        "current": 2326.81640625,
+        "ratio": 2.7077372230837424
+      },
+      {
+        "step": 13399.0,
+        "prev": 2017.18017578125,
+        "current": 769.0719604492188,
+        "ratio": 0.38126091545161983
+      },
+      {
+        "step": 13499.0,
+        "prev": 722.8275756835938,
+        "current": 2305.306640625,
+        "ratio": 3.1892898364382702
+      },
+      {
+        "step": 13549.0,
+        "prev": 2305.306640625,
+        "current": 741.5843505859375,
+        "ratio": 0.3216857738217784
+      },
+      {
+        "step": 15049.0,
+        "prev": 909.09765625,
+        "current": 2401.12890625,
+        "ratio": 2.6412221940540284
+      },
+      {
+        "step": 16599.0,
+        "prev": 779.5338745117188,
+        "current": 2238.75830078125,
+        "ratio": 2.8719191993850868
+      }
+    ]
+  },
+  "files": [
+    "train_total_loss.png",
+    "val_loss.png",
+    "total_loss.png",
+    "total_loss_log.png",
+    "total_loss_zoom_step_ge_10000.png",
+    "l1_mse_loss.png",
+    "cosine_loss.png",
+    "active_dimensions.png",
+    "latent_norm.png",
+    "latent_std.png",
+    "pairwise_cosine_mean.png",
+    "pairwise_cosine_std.png",
+    "pairwise_cosine_histogram.png",
+    "train_per_horizon_mse.png",
+    "train_per_horizon_mse_zoom_step_ge_10000.png",
+    "val_epoch_per_horizon_mse.png",
+    "val_epoch_per_horizon_mse_zoom_step_ge_10000.png",
+    "val_step_per_horizon_mse.png",
+    "samples_per_sec.png",
+    "learning_rate.png"
+  ]
+}
